@@ -16,6 +16,10 @@
     <div ng-if="textarea && hasDraftFiles" class="item item-text-wrap">
         <p><mm-format-text watch="true" class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{textarea.text}}</mm-format-text></p>
     </div>
+	<div class="item">
+                <button>{{ 'mm.fileuploader.file' | translate }}</button>
+              <input class="mm-fileuploader-picker" type="file" mm-file-uploader-on-change="uploadFile"><!-- Hidden input, intercepts clicks on button-->
+            </div>
     <div class="item item-text-wrap" ng-if="allowsAttachments">
         <p class="mm-question-warning">{{ 'mm.question.errorattachmentsnotsupported' | translate }}</p>
     </div>
@@ -25,4 +29,5 @@
     <div class="item" ng-if="!textarea && attachments && attachments.length">
     	<mm-file ng-repeat="attachment in attachments" file="attachment" component="{{component}}" component-id="{{componentId}}"></mm-file>
     </div>
+	PEDROOO
 </section>
