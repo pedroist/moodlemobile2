@@ -11,6 +11,5 @@
   "watchPatterns": [
     "www/**/*",
     "!www/lib/**/*"
-  ],
-  "defaultBrowser": "chrome"
+  ]
 }
