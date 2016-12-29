@@ -17,6 +17,7 @@
         <p><mm-format-text watch="true" class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{textarea.text}}</mm-format-text></p>
     </div>
     <div class="item item-text-wrap" ng-if="allowsAttachments">
+		<ion-content ng-controller="mmaCameraCtrl"></ion-content>
         <p class="mm-question-warning">{{ 'mm.question.errorattachmentsnotsupported' | translate }}</p>
     </div>
     <div class="item item-text-wrap" ng-if="!textarea && (answer || (!attachments.length && !allowsAttachments))">
