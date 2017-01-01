@@ -5,21 +5,19 @@
   <author href="http://moodle.com" email="juan@moodle.com">Juan Leyva</author>
   <content src="index.html"/>
   <access origin="*"/>
-
-  <allow-navigation href="cdvfile:*" />
-  <allow-navigation href="content:*" />
-  <allow-navigation href="data:*" />
-  <allow-navigation href="*" />
-
-  <allow-intent href="*" />
-
+  <allow-navigation href="cdvfile:*"/>
+  <allow-navigation href="content:*"/>
+  <allow-navigation href="data:*"/>
+  <allow-navigation href="*"/>
+  <allow-navigation href="http://192.168.56.1:8100"/>
+  <allow-intent href="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
-  <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+  <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
