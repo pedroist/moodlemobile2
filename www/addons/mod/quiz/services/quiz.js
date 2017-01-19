@@ -68,6 +68,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                  Promise resolved when the preflight data is validated.
      */
     self.checkPreflightData = function(scope, quiz, quizAccessInfo, attempt, offline, fromModal, prefetch, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js checkPreflightData()");
         var promise,
             rules = quizAccessInfo.activerulenames;
 
@@ -158,6 +159,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String|Float}    Grade to display.
      */
     self.formatGrade = function(grade, decimals) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js formatGrade()");
         if (typeof grade == 'undefined' || grade == -1 || grade === null) {
             return $translate.instant('mma.mod_quiz.notyetgraded');
         }
@@ -180,6 +182,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved with the questions.
      */
     self.getAllQuestionsData = function(quiz, attempt, preflightData, pages, offline, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAllQuestionsData()");
         var promises = [],
             questions = {},
             isSequential = self.isNavigationSequential(quiz);
@@ -214,6 +217,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptAccessInformationCacheKey(quizId, attemptId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptAccessInformationCacheKey()");
         return getAttemptAccessInformationCommonCacheKey(quizId) + ':' + attemptId;
     }
 
@@ -224,6 +228,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getAttemptAccessInformationCommonCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptAccessInformationCommonCacheKey()");
         return 'mmaModQuiz:attemptAccessInformation:' + quizId;
     }
 
@@ -241,6 +246,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the access information.
      */
     self.getAttemptAccessInformation = function(quizId, attemptId, offline, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptAccessInformation()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -271,6 +277,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptDataCacheKey(attemptId, page) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptDataCacheKey()");
         return getAttemptDataCommonCacheKey(attemptId) + ':' + page;
     }
 
@@ -281,6 +288,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptDataCommonCacheKey(attemptId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptDataCommonCacheKey()");
         return 'mmaModQuiz:attemptData:' + attemptId;
     }
 
@@ -299,6 +307,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}             Promise resolved with the attempt data.
      */
     self.getAttemptData = function(attemptId, page, preflightData, offline, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptData()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -333,6 +342,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Number}         Attempt's due date, 0 if no due date or invalid data.
      */
     self.getAttemptDueDate = function(quiz, attempt) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptDueDate()");
         var deadlines = [],
             dueDate;
 
@@ -377,6 +387,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}         Attempt's warning, undefined if no due date.
      */
     self.getAttemptDueDateWarning = function(quiz, attempt) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptDueDateWarning()");
         var dueDate = self.getAttemptDueDate(quiz, attempt);
         if (attempt.state === self.ATTEMPT_OVERDUE) {
             return $translate.instant('mma.mod_quiz.overduemustbesubmittedby', {$a: moment(dueDate).format('LLL')});
@@ -396,6 +407,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String[]}       List of state sentences.
      */
     self.getAttemptReadableState = function(quiz, attempt) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptReadableState()");
         if (attempt.finishedOffline) {
             return [$translate.instant('mma.mod_quiz.finishnotsynced')];
         }
@@ -436,6 +448,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Readable state name.
      */
     self.getAttemptReadableStateName = function(state) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptReadableStateName()");
         switch (state) {
             case self.ATTEMPT_IN_PROGRESS:
                 return $translate.instant('mma.mod_quiz.stateinprogress');
@@ -460,6 +473,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptReviewCacheKey(attemptId, page) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptReviewCacheKey()");
         return getAttemptReviewCommonCacheKey(attemptId) + ':' + page;
     }
 
@@ -470,6 +484,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptReviewCommonCacheKey(attemptId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptReviewCommonCacheKey()");
         return 'mmaModQuiz:attemptReview:' + attemptId;
     }
 
@@ -486,6 +501,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the attempt review.
      */
     self.getAttemptReview = function(attemptId, page, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptReview()");
         siteId = siteId || $mmSite.getId();
         if (typeof page == 'undefined') {
             page = -1;
@@ -516,6 +532,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getAttemptSummaryCacheKey(attemptId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummaryCacheKey()");
         return 'mmaModQuiz:attemptSummary:' + attemptId;
     }
 
@@ -534,6 +551,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}             Promise resolved with the attempt summary.
      */
     self.getAttemptSummary = function(attemptId, preflightData, offline, ignoreCache, loadLocal, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -572,6 +590,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getCombinedReviewOptionsCacheKey(quizId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getCombinedReviewOptionsCacheKey()");
         return getCombinedReviewOptionsCommonCacheKey(quizId) + ':' + userId;
     }
 
@@ -582,6 +601,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getCombinedReviewOptionsCommonCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getCombinedReviewOptionsCommonCacheKey()");
         return 'mmaModQuiz:combinedReviewOptions:' + quizId;
     }
 
@@ -598,6 +618,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the combined review options.
      */
     self.getCombinedReviewOptions = function(quizId, ignoreCache, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getCombinedReviewOptions()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -644,6 +665,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getFeedbackForGradeCacheKey(quizId, grade) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getFeedbackForGradeCacheKey()");
         return getFeedbackForGradeCommonCacheKey(quizId) + ':' + grade;
     }
 
@@ -654,6 +676,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getFeedbackForGradeCommonCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getFeedbackForGradeCommonCacheKey()");
         return 'mmaModQuiz:feedbackForGrade:' + quizId;
     }
 
@@ -670,6 +693,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the feedback.
      */
     self.getFeedbackForGrade = function(quizId, grade, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getFeedbackForGrade()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -702,6 +726,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Number}      Number of decimals.
      */
     self.getGradeDecimals = function(quiz) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getGradeDecimals()");
         if (typeof quiz.questiondecimalpoints == 'undefined') {
             quiz.questiondecimalpoints = -1;
         }
@@ -721,6 +746,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getGradeFromGradebookCacheKey(courseId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getGradeFromGradebookCacheKey()");
         return 'mmaModQuiz:gradeFromGradebook:' + courseId + ':' + userId;
     }
 
@@ -738,6 +764,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with an object containing the grade and the feedback.
      */
     self.getGradeFromGradebook = function(courseId, moduleId, ignoreCache, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getGradeFromGradebook()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -808,6 +835,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Object}            Last finished attempt.
      */
     self.getLastFinishedAttemptFromList = function(attempts) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getLastFinishedAttemptFromList()");
         if (attempts && attempts.length) {
             for (var i = attempts.length - 1; i >= 0; i--) {
                 var attempt = attempts[i];
@@ -829,6 +857,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String[]}           List of prevent submit messages. Empty array if quiz can be submitted.
      */
     self.getPreventSubmitMessages = function(questions) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getPreventSubmitMessages()");
         var messages = [];
         angular.forEach(questions, function(question) {
             var message = $mmQuestionDelegate.getPreventSubmitMessage(question);
@@ -847,6 +876,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}         Cache key.
      */
     function getQuizDataCacheKey(courseId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizDataCacheKey()");
         return 'mmaModQuiz:quiz:' + courseId;
     }
 
@@ -861,6 +891,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                    Promise resolved when the Quiz is retrieved.
      */
     function getQuiz(siteId, courseId, key, value, forceCache) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuiz()");
         return $mmSitesManager.getSite(siteId).then(function(site) {
             var params = {
                     courseids: [courseId]
@@ -903,6 +934,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                Promise resolved when the Quiz is retrieved.
      */
     self.getQuiz = function(courseId, cmid, siteId, forceCache) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuiz() line 937");
         siteId = siteId || $mmSite.getId();
         return getQuiz(siteId, courseId, 'coursemodule', cmid, forceCache);
     };
@@ -920,6 +952,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                Promise resolved when the Quiz is retrieved.
      */
     self.getQuizById = function(courseId, id, siteId, forceCache) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizById()");
         siteId = siteId || $mmSite.getId();
         return getQuiz(siteId, courseId, 'id', id, forceCache);
     };
@@ -931,6 +964,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getQuizAccessInformationCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizAccessInformationCacheKey()");
         return 'mmaModQuiz:quizAccessInformation:' + quizId;
     }
 
@@ -947,6 +981,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the access information.
      */
     self.getQuizAccessInformation = function(quizId, offline, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizAccessInformation()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -980,6 +1015,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the Quiz is retrieved.
      */
     self.getQuizIdFromModule = function(module, courseId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizIdFromModule()");
         if (module.instance) {
             return $q.when(module.instance);
         } else {
@@ -999,6 +1035,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Readable grading method.
      */
     self.getQuizGradeMethod = function(method) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizGradeMethod()");
         switch (parseInt(method, 10)) {
             case self.GRADEHIGHEST:
                 return $translate.instant('mma.mod_quiz.gradehighest');
@@ -1019,6 +1056,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}          Cache key.
      */
     function getQuizRequiredQtypesCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizRequiredQtypesCacheKey()");
         return 'mmaModQuiz:quizRequiredQtypes:' + quizId;
     }
 
@@ -1034,6 +1072,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the access information.
      */
     self.getQuizRequiredQtypes = function(quizId, ignoreCache, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getQuizRequiredQtypes()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -1074,6 +1113,7 @@ angular.module('mm.addons.mod_quiz')
      * This function returns a list of pages.
      */
     self.getPagesFromLayout = function(layout) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getPagesFromLayout()");
         var split = layout.split(','),
             page = 0,
             pages = [];
@@ -1106,6 +1146,7 @@ angular.module('mm.addons.mod_quiz')
      * This function returns a list of pages.
      */
     self.getPagesFromLayoutAndQuestions = function(layout, questions) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getPagesFromLayoutAndQuestions()");
         var split = layout.split(','),
             page = 0,
             pageAdded = false,
@@ -1135,6 +1176,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String[]}               Not supported question types.
      */
     self.getUnsupportedQuestions = function(questionTypes) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUnsupportedQuestions()");
         var notSupported = [];
         angular.forEach(questionTypes, function(type) {
             if (type != 'random' && !$mmQuestionDelegate.isQuestionSupported(type)) {
@@ -1154,6 +1196,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String[]}            Not supported rules names.
      */
     self.getUnsupportedRules = function(rulesNames) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUnsupportedRules()");
         var notSupported = [];
         angular.forEach(rulesNames, function(name) {
             if (!$mmaModQuizAccessRulesDelegate.isAccessRuleSupported(name)) {
@@ -1171,6 +1214,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getUserAttemptsCacheKey(quizId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserAttemptsCacheKey()");
         return getUserAttemptsCommonCacheKey(quizId) + ':' + userId;
     }
 
@@ -1181,6 +1225,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getUserAttemptsCommonCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserAttemptsCommonCacheKey()");
         return 'mmaModQuiz:userAttempts:' + quizId;
     }
 
@@ -1200,6 +1245,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                  Promise resolved with the attempts.
      */
     self.getUserAttempts = function(quizId, status, includePreviews, offline, ignoreCache, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserAttempts()");
         siteId = siteId || $mmSite.getId();
         status = status || 'all';
         if (typeof includePreviews == 'undefined') {
@@ -1243,6 +1289,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getUserBestGradeCacheKey(quizId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserBestGradeCacheKey()");
         return getUserBestGradeCommonCacheKey(quizId) + ':' + userId;
     }
 
@@ -1253,6 +1300,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}       Cache key.
      */
     function getUserBestGradeCommonCacheKey(quizId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserBestGradeCommonCacheKey()");
         return 'mmaModQuiz:userBestGrade:' + quizId;
     }
 
@@ -1269,6 +1317,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}            Promise resolved with the attempts.
      */
     self.getUserBestGrade = function(quizId, ignoreCache, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js getUserBestGrade()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -1306,6 +1355,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}               Promise resolved when the modal is initialized.
      */
     self.initPreflightModal = function(scope, quiz, quizAccessInfo, attempt, prefetch, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js initPreflightModal()");
         var promises = [],
             notSupported = [],
             directives = [],
@@ -1380,6 +1430,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}           Promise resolved when the data is invalidated.
      */
     self.invalidateAllQuizData = function(quizId, courseId, attemptId, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAllQuizData()");
         siteId = siteId || $mmSite.getId();
         var promises = [];
 
@@ -1415,6 +1466,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptAccessInformation = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptAccessInformation()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getAttemptAccessInformationCommonCacheKey(quizId));
@@ -1433,6 +1485,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptAccessInformationForAttempt = function(quizId, attemptId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptAccessInformationForAttempt()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getAttemptAccessInformationCacheKey(quizId, attemptId));
@@ -1450,6 +1503,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptData = function(attemptId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptData()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getAttemptDataCommonCacheKey(attemptId));
@@ -1468,6 +1522,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptDataForPage = function(attemptId, page, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptDataForPage()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getAttemptDataCacheKey(attemptId, page));
@@ -1485,6 +1540,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptReview = function(attemptId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptReview()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getAttemptReviewCommonCacheKey(attemptId));
@@ -1503,6 +1559,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptReviewForPage = function(attemptId, page, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptReviewForPage()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getAttemptReviewCacheKey(attemptId, page));
@@ -1520,6 +1577,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateAttemptSummary = function(attemptId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateAttemptSummary()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getAttemptSummaryCacheKey(attemptId));
@@ -1537,6 +1595,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateCombinedReviewOptions = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateCombinedReviewOptions()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getCombinedReviewOptionsCommonCacheKey(quizId));
@@ -1555,6 +1614,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateCombinedReviewOptionsForUser = function(quizId, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateCombinedReviewOptionsForUser()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             userId = userId || site.getUserId();
@@ -1575,6 +1635,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}
      */
     self.invalidateContent = function(moduleId, courseId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateContent()");
         siteId = siteId || $mmSite.getId();
 
         // Get required data to call the invalidate functions.
@@ -1598,6 +1659,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateFeedback = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateFeedback()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getFeedbackForGradeCommonCacheKey(quizId));
@@ -1616,6 +1678,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateFeedbackForGrade = function(quizId, grade, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateFeedbackForGrade()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getFeedbackForGradeCacheKey(quizId, grade));
@@ -1632,6 +1695,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the files are invalidated.
      */
      self.invalidateFiles = function(moduleId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateFiles()");
          return $mmFilepool.invalidateFilesByComponent($mmSite.getId(), mmaModQuizComponent, moduleId);
      };
 
@@ -1647,6 +1711,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateGradeFromGradebook = function(courseId, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateGradeFromGradebook()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             userId = userId || site.getUserId();
@@ -1665,6 +1730,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateQuizAccessInformation = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateQuizAccessInformation()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getQuizAccessInformationCacheKey(quizId));
@@ -1682,6 +1748,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the data is invalidated.
      */
     self.invalidateQuizRequiredQtypes = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateQuizRequiredQtypes()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getQuizRequiredQtypesCacheKey(quizId));
@@ -1699,6 +1766,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateUserAttempts = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateUserAttempts()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getUserAttemptsCommonCacheKey(quizId));
@@ -1717,6 +1785,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateUserAttemptsForUser = function(quizId, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateUserAttemptsForUser()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             userId = userId || site.getUserId();
@@ -1735,6 +1804,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateUserBestGrade = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateUserBestGrade()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKeyStartingWith(getUserBestGradeCommonCacheKey(quizId));
@@ -1753,6 +1823,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateUserBestGradeForUser = function(quizId, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateUserBestGradeForUser()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             userId = userId || site.getUserId();
@@ -1771,6 +1842,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the data is invalidated.
      */
     self.invalidateQuizData = function(courseId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js invalidateQuizData()");
         siteId = siteId || $mmSite.getId();
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.invalidateWsCacheForKey(getQuizDataCacheKey(courseId));
@@ -1787,6 +1859,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}       True if finished, false otherwise.
      */
     self.isAttemptFinished = function(state) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isAttemptFinished()");
         return state == self.ATTEMPT_FINISHED || state == self.ATTEMPT_ABANDONED;
     };
 
@@ -1801,6 +1874,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}          Promise resolved with boolean: true if finished in offline but not synced, false otherwise.
      */
     self.isAttemptFinishedOffline = function(attemptId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isAttemptFinishedOffline()");
         return $mmaModQuizOffline.getAttemptById(attemptId, siteId).then(function(attempt) {
             return !!attempt.finished;
         }).catch(function() {
@@ -1822,6 +1896,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}        True if nearly over or over, false otherwise.
      */
     self.isAttemptTimeNearlyOver = function(quiz, attempt) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isAttemptTimeNearlyOver()");
         if (attempt.state != self.ATTEMPT_IN_PROGRESS) {
             // Attempt not in progress, return true.
             return true;
@@ -1848,6 +1923,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}          Promise resolved with boolean: true if last offline attempt is unfinished, false otherwise.
      */
     self.isLastAttemptOfflineUnfinished = function(quiz, siteId, userId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isLastAttemptOfflineUnfinished()");
         return $mmaModQuizOffline.getQuizAttempts(quiz.id, siteId, userId).then(function(attempts) {
             var last = attempts.pop();
             return last && !last.finished;
@@ -1866,6 +1942,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}      True if navigation is sequential, false otherwise.
      */
     self.isNavigationSequential = function(quiz) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isNavigationSequential()");
         return quiz.navmethod == "sequential";
     };
 
@@ -1879,6 +1956,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved with true if plugin is enabled, rejected or resolved with false otherwise.
      */
     self.isPluginEnabled = function(siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isPluginEnabled()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -1897,6 +1975,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}         True if blocked, false otherwise.
      */
     self.isQuestionBlocked = function(question) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isQuestionBlocked()");
         var div = document.createElement('div');
         div.innerHTML = question.html;
         return !!div.querySelector('.mod_quiz-blocked_question_warning');
@@ -1912,6 +1991,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}      True offline is enabled, false otherwise.
      */
     self.isQuizOffline = function(quiz) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js isQuizOffline()");
         return !!quiz.allowofflineattempts;
     };
 
@@ -1926,6 +2006,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}           Promise resolved when done.
      */
     self.loadFinishedOfflineData = function(attempts, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js loadFinishedOfflineData()");
         if (attempts.length) {
             // We only need to check the last attempt because you can only have 1 local attempt.
             var lastAttempt = attempts[attempts.length - 1];
@@ -1949,6 +2030,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}             Promise resolved when the WS call is successful.
      */
     self.logViewAttempt = function(attemptId, page, preflightData, offline) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js $logViewAttempt()");
         if (typeof page == 'undefined') {
             page = 0;
         }
@@ -1978,6 +2060,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved when the WS call is successful.
      */
     self.logViewAttemptReview = function(attemptId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js $logViewAttemptReview()");
         var params = {
             attemptid: attemptId
         };
@@ -1995,6 +2078,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}             Promise resolved when the WS call is successful.
      */
     self.logViewAttemptSummary = function(attemptId, preflightData) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js $logViewAttemptSummary()");
         var params = {
             attemptid: attemptId,
             preflightdata: $mmUtil.objectToArrayOfObjects(preflightData, 'name', 'value', true)
@@ -2012,6 +2096,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}  Promise resolved when the WS call is successful.
      */
     self.logViewQuiz = function(id) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js $logViewQuiz()");
         if (id) {
             var params = {
                 quizid: id
@@ -2038,6 +2123,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     self.processAttempt = function(quiz, attempt, data, preflightData, finish, timeup, offline, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js processAttempt() line 2126");
         try {
             if (offline) {
                 return processOfflineAttempt(quiz, attempt, data, preflightData, finish, siteId);
@@ -2062,6 +2148,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     function processOfflineAttempt(quiz, attempt, data, preflightData, finish, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js processOfflineAttempt()");
         // Get attempt summary to have the list of questions.
         return self.getAttemptSummary(attempt.id, preflightData, true, false, siteId).then(function(questionArray) {
             // Convert the question array to an object.
@@ -2083,6 +2170,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}    True if quiz is graded, false otherwise.
      */
     self.quizHasGrades = function(quiz) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js quizHasGrades()");
         return quiz.grade >= 0.000005 && quiz.sumgrades >= 0.000005;
     };
 
@@ -2100,6 +2188,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String|Float}          Grade to display.
      */
     self.rescaleGrade = function(rawGrade, quiz, format) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js rescaleGrade()");
         var grade;
         if (typeof format == 'undefined') {
             format = true;
@@ -2137,6 +2226,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     self.saveAttempt = function(quiz, attempt, data, preflightData, offline, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js saveAttempt()");
         try {
             if (offline) {
                 return processOfflineAttempt(quiz, attempt, data, preflightData, false, siteId);
@@ -2160,6 +2250,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Boolean}         True if should be displayed, false otherwise.
      */
     self.shouldShowTimeLeft = function(rules, attempt, endTime) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js shouldShowTimeLeft()");
         var timeNow = $mmUtil.timestamp();
         if (attempt.state != self.ATTEMPT_IN_PROGRESS) {
             return false;
@@ -2180,6 +2271,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved with the attempt data.
      */
     self.startAttempt = function(quizId, preflightData, forceNew, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js startAttempt()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {

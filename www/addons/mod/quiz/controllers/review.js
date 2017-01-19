@@ -41,6 +41,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Convenience function to get the quiz data.
     function fetchData() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js fetchData()");
         return $mmaModQuiz.getQuizById(courseId, quizId).then(function(quizData) {
             quiz = quizData;
             $scope.componentId = quiz.coursemodule;
@@ -61,6 +62,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Load TOC to navigate to questions.
     function loadToc() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js loadToc()");
         return $mmaModQuiz.getAttemptReview(attemptId, -1).then(function(reviewData) {
             var lastQuestion = reviewData.questions[reviewData.questions.length - 1];
             angular.forEach(reviewData.questions, function(question) {
@@ -73,6 +75,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Load a review page.
     function loadPage(page) {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js loadPage()");
         return $mmaModQuiz.getAttemptReview(attemptId, page).then(function(reviewData) {
             currentPage = page;
             attempt = reviewData.attempt;
@@ -99,6 +102,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Calculate review summary data.
     function setSummaryCalculatedData(reviewData) {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js setSummaryCalculatedData()");
         var timeTaken,
             grade = reviewData.grade,
             gradeObject;
@@ -159,6 +163,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Refreshes data.
     function refreshData() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js refreshData()");
         var promises = [];
         promises.push($mmaModQuiz.invalidateQuizData(courseId));
         promises.push($mmaModQuiz.invalidateCombinedReviewOptionsForUser(quizId));
@@ -171,6 +176,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Scroll to a certain question.
     function scrollToQuestion(slot) {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js scrollToQuestion()");
         $mmUtil.scrollToElement(document, '#mma-mod_quiz-question-' + slot, scrollView);
     }
 
@@ -183,6 +189,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Load a certain page.
     $scope.loadPage = function(page, fromToc, slot) {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js loadPage()");
         if (typeof slot != 'undefined' && (attempt.currentpage == -1 || page == currentPage)) {
             scrollToQuestion(slot);
             return;
@@ -211,6 +218,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Switch mode: all questions in same page OR one page at a time.
     $scope.switchMode = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js switchMode()");
         $scope.showAll = !$scope.showAll;
         // Load all questions or first page, depending on the mode.
         $scope.loadPage($scope.showAll ? -1 : 0);
@@ -218,6 +226,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Pull to refresh.
     $scope.refreshData = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js refreshData()");
         refreshData().finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
         });
@@ -225,6 +234,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Function to call when an error parsing the questions occur.
     $scope.abortQuiz = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/review.js abortQuiz()");
         if (!errorPasing) {
             errorPasing = true;
             $mmUtil.showErrorModal('mma.mod_quiz.errorparsequestions', true);

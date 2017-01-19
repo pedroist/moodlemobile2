@@ -21,7 +21,7 @@ angular.module('mm.addons.mod_quiz')
  * @ngdoc controller
  * @name mmaModQuizAttemptCtrl
  */
-.controller('mmaModQuizAttemptCtrl', function($scope, $stateParams, $mmaModQuiz, $q, $mmaModQuizHelper, mmaModQuizComponent) {
+.controller('mmaModQuizAttemptCtrl', function($log, $scope, $stateParams, $mmaModQuiz, $q, $mmaModQuizHelper, mmaModQuizComponent) {
     var attemptId = $stateParams.attemptid,
         quizId = $stateParams.quizid,
         courseId = $stateParams.courseid,
@@ -32,6 +32,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Convenience function to get the quiz data.
     function fetchData() {
+        $log.debug("PTC: addons/mod/quiz/controllers/attempt.js ()");
         return $mmaModQuiz.getQuizById(courseId, quizId).then(function(quizData) {
             quiz = quizData;
             $scope.quiz = quiz;
@@ -46,6 +47,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Convenience function to get the attempt.
     function fetchAttempt() {
+        $log.debug("PTC: addons/mod/quiz/controllers/attempt.js fetchAttempt()");
         var promises = [],
             options,
             accessInfo;
@@ -104,6 +106,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Refreshes data.
     function refreshData() {
+        $log.debug("PTC: addons/mod/quiz/controllers/attempt.js refreshData()");
         var promises = [];
         promises.push($mmaModQuiz.invalidateQuizData(courseId));
         promises.push($mmaModQuiz.invalidateUserAttemptsForUser(quizId));
@@ -126,6 +129,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Pull to refresh.
     $scope.refreshAttempt = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/attempt.js refreshAttempt()");
         refreshData().finally(function() {
             $scope.$broadcast('scroll.refreshComplete');
         });

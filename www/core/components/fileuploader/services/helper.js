@@ -16,7 +16,7 @@ angular.module('mm.core.fileuploader')
 
 .constant('mmFileUploaderFileSizeWarning', 5242880)
 
-.factory('$mmFileUploaderHelper', function($q, $mmUtil, $mmApp, $log, $translate, $window, $state, $rootScope,
+.factory('$mmFileUploaderHelper', function($q, $ionicHistory, $mmUtil, $mmApp, $log, $translate, $window, $state, $rootScope,
         $mmFileUploader, $cordovaCamera, $cordovaCapture, $mmLang, $mmFS, $mmText, mmFileUploaderFileSizeWarning) {
 
     $log = $log.getInstance('$mmFileUploaderHelper');
@@ -36,6 +36,7 @@ angular.module('mm.core.fileuploader')
      * @return {Promise}               Promise resolved when the user confirms or if there's no need to show a modal.
      */
     self.confirmUploadFile = function(size, alwaysConfirm, allowOffline) {
+		$log.debug('PTC fileuploader helper: inside confirmUploadFile()');
         if (!allowOffline && !$mmApp.isOnline()) {
             return $mmLang.translateAndReject('mm.fileuploader.errormustbeonlinetoupload');
         }
@@ -43,10 +44,13 @@ angular.module('mm.core.fileuploader')
         if (size < 0) {
             return $mmUtil.showConfirm($translate('mm.fileuploader.confirmuploadunknownsize'));
         } else if ($mmApp.isNetworkAccessLimited() || size >= mmFileUploaderFileSizeWarning) {
+			$log.debug('PTC fileuploader helper: if isNetworkAccessLimited()');
             size = $mmText.bytesToSize(size, 2);
             return $mmUtil.showConfirm($translate('mm.fileuploader.confirmuploadfile', {size: size}));
         } else {
+			$log.debug('PTC fileuploader helper: else isNetworkAccessLimited()');
             if (alwaysConfirm) {
+				$log.debug('PTC fileuploader helper: if alwaysConfirm');
                 return $mmUtil.showConfirm($translate('mm.core.areyousure'));
             } else {
                 return $q.when();
@@ -156,8 +160,10 @@ angular.module('mm.core.fileuploader')
      *                   The resolve value should be the response of the upload request.
      */
     self.selectAndUploadFile = function(maxSize) {
+        $log.debug("PTC: core/components/fileuploader/services/helper.js selectAndUploadFile()");
         filePickerDeferred = $q.defer();
         $state.go('site.fileuploader-picker', {maxsize: maxSize, upload: true});
+        $log.debug("PTC: core/components/fileuploader/services/helper.js selectAndUploadFile() return filePickerDeferred.promise");
         return filePickerDeferred.promise;
     };
 
@@ -276,21 +282,34 @@ angular.module('mm.core.fileuploader')
             quality: 50,
             destinationType: navigator.camera.DestinationType.FILE_URI
         };
+        $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.backView: "
+            + JSON.stringify($ionicHistory.backView(),null,4));
+        $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.currentView: "
+            + JSON.stringify($ionicHistory.currentView(),null,4));
+        $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.forwardView: "
+            + JSON.stringify($ionicHistory.forwardView(),null,4));
 
         if (fromAlbum) {
+			$log.debug('PTC fileuploader helper: if fromAlbum' );
             options.sourceType = navigator.camera.PictureSourceType.PHOTOLIBRARY;
             options.popoverOptions = new CameraPopoverOptions(10, 10, $window.innerWidth  - 200, $window.innerHeight - 200,
                                             Camera.PopoverArrowDirection.ARROW_ANY);
         }
 
         return $cordovaCamera.getPicture(options).then(function(path) {
+			$log.debug('PTC fileuploader helper: inside return $cordovaCamera.getPicture(options).then(function(path){}' );
+			$log.debug('PTC fileuploader helper: path param: ' + path );
             if (upload) {
-                return uploadFile(!fromAlbum, path, maxSize, true, $mmFileUploader.uploadImage, path, fromAlbum);
+				$log.debug('PTC fileuploader helper: if upload');
+                $log.debug('PTC fileuploader helper: if upload2');
+                uploadFile(!fromAlbum, path, maxSize, true, $mmFileUploader.uploadImage, path, fromAlbum);
             } else {
+				$log.debug('PTC fileuploader helper: else upload');
                 // Copy or move the file to our temporary folder.
                 return copyToTmpFolder(path, !fromAlbum, maxSize, 'jpg');
             }
         }, function(error) {
+			$log.debug('PTC fileuploader helper: function error');
             var defaultError = fromAlbum ? 'mm.fileuploader.errorgettingimagealbum' : 'mm.fileuploader.errorcapturingimage';
             return treatImageError(error, defaultError);
         });
@@ -414,7 +433,8 @@ angular.module('mm.core.fileuploader')
      * myFunction(param1, param2)
      */
     function uploadFile(deleteAfterUpload, path, maxSize, checkSize, uploadFn) {
-
+		
+		$log.debug('PTC fileuploader helper: inside uploadFile()');
         var errorStr = $translate.instant('mm.core.error'),
             retryStr = $translate.instant('mm.core.retry'),
             args = arguments,
@@ -431,6 +451,7 @@ angular.module('mm.core.fileuploader')
         }
 
         if (checkSize) {
+			$log.debug('PTC fileuploader helper: if checkSize');
             // Check that file size is the right one.
             promise = $mmFS.getExternalFile(path).then(function(fileEntry) {
                 return $mmFS.getFileObjectFromFileEntry(fileEntry).then(function(f) {
@@ -450,13 +471,20 @@ angular.module('mm.core.fileuploader')
             }
 
             if (size > 0) {
+				$log.debug('PTC fileuploader helper: if size > 0');
                 return self.confirmUploadFile(size);
             }
         }).then(function() {
             // File isn't too large and user confirmed, let's upload.
             scope = $rootScope.$new();
             modal = $mmUtil.showModalLoadingWithTemplate(progressTemplate, {scope: scope});
-
+			$log.debug('PTC fileuploader helper: File isnt too large and user confirmed, lets upload.');
+			var mArray = Array.prototype.slice.call(args, 5);
+			for(var i = 0; i < mArray.length; i++){
+				console.log(i + " = " + mArray[i]);
+			}
+			//$log.debug('PTC fileuploader helper: arg[0] path: ' mArray);
+			//$log.debug('PTC fileuploader helper: arg[1] fromAlbum: ' mArray[1]);
             return uploadFn.apply(undefined, Array.prototype.slice.call(args, 5)).then(undefined, undefined, function(progress) {
                 // Progress uploading.
                 if (progress && progress.lengthComputable) {

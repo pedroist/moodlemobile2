@@ -1,0 +1,1401 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"online",
+				"onlineObserver"
+			],
+			[
+				"expand",
+				"expandDescription"
+			],
+			[
+				"attempt",
+				"attemptQuiz"
+			],
+			[
+				"open",
+				"openQuiz"
+			],
+			[
+				"refres",
+				"refreshData"
+			],
+			[
+				"finish",
+				"finishSync"
+			],
+			[
+				"syncQ",
+				"syncQuiz"
+			],
+			[
+				"syncQui",
+				"syncQuizIfNeeded"
+			],
+			[
+				"has",
+				"hasDataToSync"
+			],
+			[
+				"should",
+				"shouldShowTimeLeft"
+			],
+			[
+				"process",
+				"processOfflineAttempt"
+			],
+			[
+				"PROCE",
+				"processAttempt"
+			],
+			[
+				"LOG",
+				"logViewQuiz"
+			],
+			[
+				"logViewA",
+				"logViewAttemptSummary"
+			],
+			[
+				"logView",
+				"logViewAttemptReview"
+			],
+			[
+				"isAttemp",
+				"isAttemptTimeNearlyOver"
+			],
+			[
+				"invalidateUserBes",
+				"invalidateUserBestGradeForUser"
+			],
+			[
+				"invalidateUserAttempts",
+				"invalidateUserAttemptsForUser"
+			],
+			[
+				"invalidateCombin",
+				"invalidateCombinedReviewOptionsForUser"
+			],
+			[
+				"invalidateAttemptR",
+				"invalidateAttemptReviewForPage"
+			],
+			[
+				"invalidateAttemptData",
+				"invalidateAttemptDataForPage"
+			],
+			[
+				"invalidateAttemptAcc",
+				"invalidateAttemptAccessInformationForAttempt"
+			],
+			[
+				"getUserBe",
+				"getUserBestGrade"
+			],
+			[
+				"getUserBest",
+				"getUserBestGradeCommonCacheKey"
+			],
+			[
+				"getUserBestGrade",
+				"getUserBestGradeCacheKey"
+			],
+			[
+				"getUser",
+				"getUserAttemptsCacheKey"
+			],
+			[
+				"getPagesFromLayou",
+				"getPagesFromLayoutAndQuestions"
+			],
+			[
+				"getQuizRe",
+				"getQuizRequiredQtypesCacheKey"
+			],
+			[
+				"getQuizA",
+				"getQuizAccessInformationCacheKey"
+			],
+			[
+				"getQuiz",
+				"getQuizById"
+			],
+			[
+				"getGrade",
+				"getGradeFromGradebookCacheKey"
+			],
+			[
+				"getFeed",
+				"getFeedbackForGrade"
+			],
+			[
+				"getCombine",
+				"getCombinedReviewOptionsCommonCacheKey"
+			],
+			[
+				"getCombin",
+				"getCombinedReviewOptionsCacheKey"
+			],
+			[
+				"getAttemptSu",
+				"getAttemptSummaryCacheKey"
+			],
+			[
+				"getAttemptRe",
+				"getAttemptReadableStateName"
+			],
+			[
+				"getAttempte",
+				"getAttemptReadableState"
+			],
+			[
+				"getAttemptDue",
+				"getAttemptDueDateWarning"
+			],
+			[
+				"getAttempt",
+				"getAttemptDueDate"
+			],
+			[
+				"forma",
+				"formatGrade"
+			],
+			[
+				"show",
+				"showError"
+			],
+			[
+				"loa",
+				"loadToc"
+			],
+			[
+				"ref",
+				"refreshAttempt"
+			],
+			[
+				"refre",
+				"refreshData"
+			],
+			[
+				"time",
+				"timeUp"
+			],
+			[
+				"load",
+				"loadPage"
+			],
+			[
+				"beha",
+				"behaviourButtonClicked"
+			],
+			[
+				"scroll",
+				"scrollToQuestion"
+			],
+			[
+				"init",
+				"initTimer"
+			],
+			[
+				"finis",
+				"finishAttempt"
+			],
+			[
+				"leave",
+				"leavePlayer"
+			],
+			[
+				"json",
+				"json_encode"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "www/addons/qtype/essay/directive.js",
+			"settings":
+			{
+				"buffer_size": 3455,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/essay/handlers.js",
+			"settings":
+			{
+				"buffer_size": 4767,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/fileuploader/services/helper.js",
+			"settings":
+			{
+				"buffer_size": 23721,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+			"settings":
+			{
+				"buffer_size": 5656,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/core/components/fileuploader/templates/picker.html",
+			"settings":
+			{
+				"buffer_size": 1345,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/fileuploader/directives/onchange.js",
+			"settings":
+			{
+				"buffer_size": 1085,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/fileuploader/controllers/picker.js",
+			"settings":
+			{
+				"buffer_size": 7046,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/fileuploader/main.js",
+			"settings":
+			{
+				"buffer_size": 1732,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/controllers/index.js",
+			"settings":
+			{
+				"buffer_size": 24356,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/controllers/attempt.js",
+			"settings":
+			{
+				"buffer_size": 5031,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/controllers/player.js",
+			"settings":
+			{
+				"buffer_size": 20080,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/controllers/review.js",
+			"settings":
+			{
+				"buffer_size": 10104,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/helper.js",
+			"settings":
+			{
+				"buffer_size": 6347,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz.js",
+			"settings":
+			{
+				"buffer_size": 92625,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz_online.js",
+			"settings":
+			{
+				"buffer_size": 4197,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Context",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Watch",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Xdebug Stack",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "=> C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons\\qtype\\essay\\directive.js\n\t|+| 32\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\question.php\n\t|+| 74\n",
+			"settings":
+			{
+				"buffer_size": 160,
+				"line_ending": "Windows",
+				"name": "Xdebug Breakpoint",
+				"read_only": true,
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 446.0,
+		"last_filter": "pac",
+		"selected_items":
+		[
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"start db",
+				"Xdebug: Start Debugging"
+			],
+			[
+				"vmen",
+				"View: Toggle Menu"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 549.0
+	},
+	"console":
+	{
+		"height": 162.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/directives",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/templates"
+	],
+	"file_history":
+	[
+		"/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/main.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ydn.db/test/core/index_3_idb_test.html",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/moment/locale/eu.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ionic/gulpfile.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ckeditor/plugins/codesnippet/lib/highlight/README.ru.md",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/angular/index.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ydn.db/test/websql/key_encoding_websql_test.html",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/calendar/controllers/list.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/calendar/main.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/fileuploader.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/main.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers/picker.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz_sync.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/prefetch_handler.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/handlers.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/autosave.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/directives/arrows.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/question.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/directives/question.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/directives/behaviour.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/mooodlemobile.sublime-project",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/template.html",
+		"/C/xampp2/htdocs/moodle/config.php",
+		"/C/xampp2/htdocs/moodle/webservice/upload.php",
+		"/C/xampp2/htdocs/moodle/question/engine/questionusage.php",
+		"/C/xampp2/htdocs/moodle/mod/quiz/classes/external.php",
+		"/C/xampp2/htdocs/moodle/question/engine/questionattemptstep.php",
+		"/C/xampp2/htdocs/moodle/question/engine/questionattempt.php",
+		"/C/xampp2/htdocs/moodle/question/behaviour/behaviourbase.php",
+		"/C/xampp2/htdocs/moodle/question/behaviour/manualgraded/behaviour.php",
+		"/C/xampp2/htdocs/moodle/question/type/questionbase.php",
+		"/C/xampp2/htdocs/moodle/question/engine/bank.php",
+		"/C/xampp2/htdocs/moodle/question/engine/datalib.php",
+		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
+		"/C/xampp2/htdocs/rascunho/distancia.php",
+		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/User/View In Browser.sublime-settings",
+		"/C/xampp/htdocs/moodle/question/engine/questionusage.php",
+		"/C/xampp/htdocs/moodle/lib/dml/mysqli_native_moodle_database.php",
+		"/C/xampp/htdocs/moodle/lib/dml/moodle_temptables.php",
+		"/C/xampp/htdocs/moodle/question/type/essay/question.php",
+		"/C/xampp/htdocs/moodle/question/engine/datalib.php",
+		"/C/xampp/htdocs/moodle/mod/quiz/attemptlib.php",
+		"/C/xampp/htdocs/moodle/question/engine/questionattempt.php",
+		"/C/xampp/htdocs/moodle/question/behaviour/manualgraded/behaviour.php",
+		"/C/xampp/htdocs/moodle/question/behaviour/behaviourbase.php",
+		"/C/xampp/htdocs/moodle/question/engine/questionattemptstep.php",
+		"/C/xampp/htdocs/moodle/lib/moodlelib.php",
+		"/C/xampp/htdocs/moodle/question/engine/states.php",
+		"/C/xampp/htdocs/moodle/lib/setuplib.php",
+		"/C/xampp/htdocs/moodle/index.php",
+		"/C/xampp/htdocs/moodle/config.php",
+		"/C/xampp/htdocs/moodle/question/engine/bank.php",
+		"/C/xampp/htdocs/moodle/question/engine/renderer.php",
+		"/C/xampp/htdocs/rascunho/distancia.php",
+		"/C/xampp/htdocs/rascunho/rascunho.sublime-project",
+		"/C/xampp/htdocs/rascunho/rascunho.html",
+		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/Xdebug Client/Xdebug.sublime-settings",
+		"/C/xampp/htdocs/rascunho/teste2.php",
+		"/C/xampp/htdocs/rascunho/teste3.php"
+	],
+	"find":
+	{
+		"height": 43.0
+	},
+	"find_in_files":
+	{
+		"height": 117.0,
+		"where_history":
+		[
+			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"loadPage",
+			"getAnswers",
+			"mma-qtype-essay",
+			"require(",
+			"require",
+			"ionicHistory",
+			"stateP",
+			"$ionicHistory",
+			"$state.go",
+			"mmFileUploaderPickerCtrl",
+			"file",
+			"$stateProvider.state",
+			"mmFileUploaderPickerCtrl",
+			"$stateProvider",
+			"$stateParams",
+			"tryin",
+			"upload",
+			"fileUploaded",
+			"filePickerDeferred",
+			"camera",
+			"$log.",
+			"filePickerDeferred",
+			"fileUploaded",
+			"log",
+			"successUploading",
+			"uploadImage",
+			"log.de",
+			"ionicView.enter",
+			"invalidateQuizData",
+			" log",
+			"log",
+			" log",
+			"PTC",
+			" log",
+			"log",
+			"mmaModQuiz.",
+			"mmaModQuiz",
+			"mmaModQuizPrefetchHandler",
+			"mmaModQuizHelper",
+			"mmaModQuizHandler",
+			"mmaModQuizHandlers",
+			"debug",
+			"html",
+			"uploadFile",
+			"log.debug",
+			"error_log",
+			"successUploading",
+			"param_f",
+			"process_a",
+			"process_ac",
+			"discard",
+			"load_from_Re",
+			"load_from_rec",
+			"process_att",
+			"this->data",
+			"save(",
+			"get_qt_d",
+			"is_same_response",
+			"DISCARD",
+			"DISCATD",
+			"}\n",
+			"process ",
+			"process_actio ",
+			"class ",
+			" class ",
+			"KEEP",
+			"process_a",
+			"porcess_a",
+			"process_att",
+			"stepsadded",
+			"save(",
+			"question_usage_by_activi",
+			"question_usage",
+			"process_all",
+			"process_action(",
+			"stepsadded",
+			"save(",
+			"get_columns",
+			"update_record",
+			"save("
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" $log"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "www/addons/qtype/essay/directive.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								780,
+								793
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 501.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "www/addons/qtype/essay/handlers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2136.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "www/core/components/fileuploader/services/helper.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23721,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14034,
+								14034
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7149.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5656,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2645,
+								2645
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1497.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "www/core/components/fileuploader/templates/picker.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1345,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "www/core/components/fileuploader/directives/onchange.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1085,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 255.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "www/core/components/fileuploader/controllers/picker.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3089,
+								3089
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 13.0,
+						"translation.y": 1124.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "www/core/components/fileuploader/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								682,
+								668
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 392.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "www/addons/mod/quiz/controllers/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24356,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21249,
+								21249
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 11577.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "www/addons/mod/quiz/controllers/attempt.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5031,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1165,
+								1168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 590.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "www/addons/mod/quiz/controllers/player.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20080,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7843,
+								7851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4572.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "www/addons/mod/quiz/controllers/review.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10104,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1581,
+								1584
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 806.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "www/addons/mod/quiz/services/helper.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6347,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1273,
+								1277
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1158.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "www/addons/mod/quiz/services/quiz.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 92625,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1020,
+								1020
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 3.0,
+						"translation.y": 6111.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "www/addons/mod/quiz/services/quiz_online.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4197,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1627,
+								1631
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 956.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 15,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 17,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 160,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								160,
+								160
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				2,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			],
+			[
+				1,
+				1,
+				2,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.7,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.xdebug":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": "mooodlemobile.sublime-project",
+	"replace":
+	{
+		"height": 80.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false,
+			"restore_index":
+			{
+				"16":
+				{
+					"group": 0,
+					"index": 0
+				},
+				"17":
+				{
+					"group": 0,
+					"index": 1
+				},
+				"18":
+				{
+					"group": 0,
+					"index": 2
+				},
+				"19":
+				{
+					"group": 0,
+					"index": 3
+				},
+				"20":
+				{
+					"group": 0,
+					"index": 4
+				},
+				"23":
+				{
+					"group": 2,
+					"index": 1
+				},
+				"24":
+				{
+					"group": 1,
+					"index": 0
+				},
+				"25":
+				{
+					"group": 2,
+					"index": 0
+				},
+				"26":
+				{
+					"group": 1,
+					"index": 1
+				}
+			},
+			"restore_layout":
+			{
+				"cells":
+				[
+					[
+						0,
+						0,
+						2,
+						1
+					],
+					[
+						0,
+						1,
+						1,
+						2
+					],
+					[
+						1,
+						1,
+						2,
+						2
+					]
+				],
+				"cols":
+				[
+					0.0,
+					0.5,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					0.867686658507,
+					1.0
+				]
+			}
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 282.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

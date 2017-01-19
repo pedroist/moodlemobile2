@@ -21,8 +21,8 @@ angular.module('mm.core.fileuploader')
  * @ngdoc controller
  * @name mmFileUploaderPickerCtrl
  */
-.controller('mmFileUploaderPickerCtrl', function($scope, $mmUtil, $mmFileUploaderHelper, $ionicHistory, $mmApp, $mmFS, $q,
-            $mmFileUploaderDelegate, $stateParams, $translate) {
+.controller('mmFileUploaderPickerCtrl', function($log, $scope, $mmUtil, $mmFileUploaderHelper, $ionicHistory, $mmApp, $mmFS, $q,
+            $mmFileUploaderDelegate, $stateParams, $state, $translate) {
 
     var maxSize = $stateParams.maxsize,
         upload = $stateParams.upload,
@@ -33,19 +33,35 @@ angular.module('mm.core.fileuploader')
             audio: $mmFileUploaderHelper.uploadAudioOrVideo,
             video: $mmFileUploaderHelper.uploadAudioOrVideo
         };
-
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js after vars definition");
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js object $stateParams: "
+            +JSON.stringify($stateParams,null,4));
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js object $state.params: "
+            +JSON.stringify($state.params,null,4));
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js object $stateParams.params: "
+            +JSON.stringify($stateParams.params,null,4));
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js $ionicHistory.backView: "
+            + JSON.stringify($ionicHistory.backView(),null,4));
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js $ionicHistory.currentView: "
+            + JSON.stringify($ionicHistory.currentView(),null,4));
+    $log.debug("PTC: core/components/fileuploader/controllers/picker.js $ionicHistory.forwardView: "
+            + JSON.stringify($ionicHistory.forwardView(),null,4));
     $scope.isAndroid = ionic.Platform.isAndroid();
     $scope.handlers = $mmFileUploaderDelegate.getHandlers();
     $scope.title = $translate.instant(upload ? 'mm.fileuploader.uploadafile' : 'mm.fileuploader.selectafile');
 
     // Function called when a file is uploaded.
     function successUploading(result) {
+        $log.debug("PTC: core/components/fileuploader/controllers/picker.js successUploading()");
         $mmFileUploaderHelper.fileUploaded(result);
+        $log.debug("PTC: core/components/fileuploader/controllers/picker.js successUploading() viewHistory(): "
+                +JSON.stringify($ionicHistory.viewHistory(),null,4));
         $ionicHistory.goBack();
     }
 
     // Function called when a file upload fails.
     function errorUploading(err) {
+        $log.debug("PTC: core/components/fileuploader/controllers/picker.js errorUploading()");
         if (err) {
             $mmUtil.showErrorModal(err);
         }
@@ -85,6 +101,7 @@ angular.module('mm.core.fileuploader')
             $mmUtil.showErrorModal('mm.fileuploader.errormustbeonlinetoupload', true);
         } else {
             if (typeof(uploadMethods[type]) !== 'undefined') {
+                $log.debug("PTC: core/components/fileuploader/controllers/picker.js upload() line 88");
                 uploadMethods[type](param, maxSize, upload).then(successUploading, errorUploading);
             }
         }

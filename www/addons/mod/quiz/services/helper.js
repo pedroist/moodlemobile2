@@ -21,7 +21,7 @@ angular.module('mm.addons.mod_quiz')
  * @ngdoc service
  * @name $mmaModQuizHelper
  */
-.factory('$mmaModQuizHelper', function($mmaModQuiz, $mmUtil, $q, $translate, $mmaModQuizSync) {
+.factory('$mmaModQuizHelper', function($log, $mmaModQuiz, $mmUtil, $q, $translate, $mmaModQuizSync) {
 
     var self = {};
 
@@ -36,6 +36,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}      Question's mark.
      */
     self.getQuestionMarkFromHtml = function(html) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js getQuestionMarkFromHtml()");
         return $mmUtil.getContentsOfElement(angular.element(html), '.grade');
     };
 
@@ -50,6 +51,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved with the readable time.
      */
     self.getQuizReadableSyncTime = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js getQuizReadableSyncTime()");
         return $mmaModQuizSync.getSyncTime(quizId, siteId).then(function(time) {
             return self.getReadableTimeFromTimestamp(time);
         });
@@ -65,6 +67,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {String}           Human readable time.
      */
     self.getReadableTimeFromTimestamp = function(timestamp) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js getReadableTimeFromTimestamp()");
         if (!timestamp) {
             return $translate.instant('mm.core.never');
         } else {
@@ -86,6 +89,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Void}
      */
     self.setAttemptCalculatedData = function(quiz, attempt, highlight, bestGrade) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js setAttemptCalculatedData()");
 
         attempt.rescaledGrade = $mmaModQuiz.rescaleGrade(attempt.sumgrades, quiz, false);
         attempt.finished = $mmaModQuiz.isAttemptFinished(attempt.state);
@@ -118,6 +122,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Void}
      */
     self.setQuizCalculatedData = function(quiz, options) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js setQuizCalculatedData()");
         quiz.sumGradesFormatted = $mmaModQuiz.formatGrade(quiz.sumgrades, quiz.decimalpoints);
         quiz.gradeFormatted = $mmaModQuiz.formatGrade(quiz.grade, quiz.decimalpoints);
 
@@ -139,6 +144,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}                 Rejected promise.
      */
     self.showError = function(message, defaultMessage) {
+        $log.debug("PTC: addons/mod/quiz/services/helper.js showError()");
         defaultMessage = defaultMessage || 'mma.mod_quiz.errorgetquiz';
         if (message) {
             $mmUtil.showErrorModal(message);

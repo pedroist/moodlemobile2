@@ -41,6 +41,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}         Promise resolved with boolean: true if has data to sync, false otherwise.
      */
     self.hasDataToSync = function(quizId, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js hasDataToSync()");
         return $mmaModQuizOffline.getQuizAttempts(quizId, siteId).then(function(attempts) {
             return !!attempts.length;
         }).catch(function() {
@@ -58,6 +59,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}        Promise resolved when the sync is done.
      */
     self.syncAllQuizzes = function(siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js syncAllQuizzes()");
         if (!$mmApp.isOnline()) {
             $log.debug('Cannot sync all quizzes because device is offline.');
             return $q.reject();
@@ -140,6 +142,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}             Promise resolved when the quiz is synced or if it doesn't need to be synced.
      */
     self.syncQuizIfNeeded = function(quiz, askPreflight, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js syncQuizIfNeeded()");
         return self.isSyncNeeded(quiz.id, siteId).then(function(needed) {
             if (needed) {
                 return self.syncQuiz(quiz, askPreflight, siteId);
@@ -162,6 +165,7 @@ angular.module('mm.addons.mod_quiz')
      *                                       -attemptFinished True if an attempt was finished in Moodle due to this sync.
      */
     self.syncQuiz = function(quiz, askPreflight, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js syncQuiz()");
         siteId = siteId || $mmSite.getId();
 
         var warnings = [],
@@ -187,6 +191,7 @@ angular.module('mm.addons.mod_quiz')
 
         // Remove offline data if needed, prefetch quiz data, set sync time and return warnings.
         function finishSync(attemptId, removeAttempt) {
+            $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js finishSync()");
             return $mmaModQuiz.invalidateAllQuizData(quiz.id, courseId, attemptId, siteId).catch(function() {}).then(function() {
                 if (removeAttempt && offlineAttempt) {
                     return $mmaModQuizOffline.removeAttemptAndAnswers(offlineAttempt.id, siteId);
@@ -320,6 +325,7 @@ angular.module('mm.addons.mod_quiz')
      *                                   The promise is rejected if an offline question isn't found in online questions.
      */
     self.validateQuestions = function(attemptId, onlineQuestions, offlineQuestions, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_sync.js validateQuestions()");
         var discardedData = false,
             promises = [];
 

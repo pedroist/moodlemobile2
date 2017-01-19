@@ -29,10 +29,13 @@ angular.module('mm.addons.qtype_essay')
         priority: 100,
         templateUrl: 'addons/qtype/essay/template.html',
         link: function(scope) {
+			$log.debug('PTC Essay directive: Inside Essay directive');
             var questionEl = $mmQuestionHelper.directiveInit(scope, $log),
                 textarea;
 
             if (questionEl) {
+				
+				$log.debug('PTC Essay directive: if questionEL');
                 questionEl = questionEl[0] || questionEl; // Convert from jqLite to plain JS if needed.
 
                 // First search the textarea.
@@ -43,11 +46,14 @@ angular.module('mm.addons.qtype_essay')
                 scope.hasDraftFiles = $mmQuestionHelper.hasDraftFileUrls(questionEl.innerHTML);
 
                 if (!textarea) {
+					$log.debug('PTC Essay directive: if !textarea');
                     // Textarea not found, we might be in review. Search the answer and the attachments.
                     scope.answer = $mmUtil.getContentsOfElement(angular.element(questionEl), '.qtype_essay_response');
                     scope.attachments = $mmQuestionHelper.getQuestionAttachmentsFromHtml(
                                             $mmUtil.getContentsOfElement(angular.element(questionEl), '.attachments'));
                 } else {
+					$log.debug('PTC Essay directive: else !textarea');
+					$log.debug('PTC Essay directive: else !textarea json textarea:' + JSON.stringify(textarea,null,4) );
                     // Textarea found.
                     var input = questionEl.querySelector('input[type="hidden"][name*=answerformat]'),
                         content = textarea.innerHTML;
@@ -59,6 +65,8 @@ angular.module('mm.addons.qtype_essay')
                     };
 
                     if (input) {
+						$log.debug('PTC Essay directive: if input');
+						$log.debug('PTC Essay directive:  json input:' + JSON.stringify(input,null,4) );
                         scope.formatInput = {
                             name: input.name,
                             value: input.value

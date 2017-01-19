@@ -21,9 +21,11 @@ angular.module('mm.addons.qtype_essay')
  * @ngdoc service
  * @name $mmaQtypeEssayHandler
  */
-.factory('$mmaQtypeEssayHandler', function($mmUtil, $mmQuestionHelper) {
+.factory('$mmaQtypeEssayHandler', function($log, $mmUtil, $mmQuestionHelper) {
 
     var self = {};
+	$log = $log.getInstance('mmaQtypeEssay');
+    $log.debug('PTC Essay handler: inside essay handler');
 
     /**
      * Get the behaviour for this question.
@@ -33,6 +35,9 @@ angular.module('mm.addons.qtype_essay')
      * @return {String}           Behaviour name.
      */
     self.getBehaviour = function(question, behaviour) {
+		
+		$log.debug('PTC Essay handler: getBehaviour');
+
         return 'manualgraded';
     };
 
@@ -47,15 +52,16 @@ angular.module('mm.addons.qtype_essay')
      * @return {String}          Prevent submit message. Undefined or empty if cannot be submitted.
      */
     self.getPreventSubmitMessage = function(question) {
+		$log.debug('PTC Essay handler: getPreventSubmitMessage');
         var questionEl = angular.element(question.html)[0];
 
         if (questionEl.querySelector('div[id*=filemanager]')) {
             // The question allows attachments. Since the app cannot attach files yet we will prevent submitting the question.
-            return 'mm.question.errorattachmentsnotsupported';
+            return '';//'mm.question.errorattachmentsnotsupported';
         }
 
         if ($mmQuestionHelper.hasDraftFileUrls(questionEl.innerHTML)) {
-            return 'mm.question.errorinlinefilesnotsupported';
+            return '';//'mm.question.errorinlinefilesnotsupported';
         }
     };
 
@@ -67,6 +73,7 @@ angular.module('mm.addons.qtype_essay')
      * @return {Mixed}           True if complete, false if not complete, -1 if cannot determine.
      */
     self.isCompleteResponse = function(question, answers) {
+		$log.debug('PTC Essay handler: isCompleteResponse');
         var hasInlineText = answers['answer'] && answers['answer'] !== '',
             questionEl = angular.element(question.html)[0],
             allowsAttachments = !!questionEl.querySelector('div[id*=filemanager]');
@@ -76,7 +83,7 @@ angular.module('mm.addons.qtype_essay')
         }
 
         // We can't know if the attachments are required or if the user added any in web.
-        return -1;
+        return true;//-1;
     };
 
     /**
@@ -85,6 +92,7 @@ angular.module('mm.addons.qtype_essay')
      * @return {Boolean}
      */
     self.isEnabled = function() {
+		$log.debug('PTC Essay handler: isEnabled');
         return true;
     };
 
@@ -97,6 +105,7 @@ angular.module('mm.addons.qtype_essay')
      * @return {Mixed}           True if gradable, false if not gradable, -1 if cannot determine.
      */
     self.isGradableResponse = function(question, answers) {
+		$log.debug('PTC Essay handler: isGradableResponse');
         return false;
     };
 
@@ -109,6 +118,7 @@ angular.module('mm.addons.qtype_essay')
      * @return {Boolean}            True if same, false otherwise.
      */
     self.isSameResponse = function(question, prevAnswers, newAnswers) {
+		$log.debug('PTC Essay handler: isSameResponse');
         // For now we don't support attachments so we only compare the answer.
         return $mmUtil.sameAtKeyMissingIsBlank(prevAnswers, newAnswers, 'answer');
     };

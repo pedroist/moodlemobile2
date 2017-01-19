@@ -72,7 +72,8 @@ angular.module('mm.core.fileuploader')
     self.uploadImage = function(uri, isFromAlbum) {
         $log.debug('Uploading an image');
         var options = {};
-
+		$log.debug('PTC fileuploader.js uri: ' + uri);
+		$log.debug('PTC fileuploader.js isFromAlbum: ' + isFromAlbum);
         if (typeof uri == 'undefined' || uri === ''){
             // In Node-Webkit, if you successfully upload a picture and then you open the file picker again
             // and cancel, this function is called with an empty uri. Let's filter it.

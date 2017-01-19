@@ -42,6 +42,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     self.processAttempt = function(attemptId, data, preflightData, finish, timeup, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_online.js processAttempt() line 45");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -78,6 +79,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     self.saveAttempt = function(attemptId, data, preflightData, siteId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz_online.js saveAttempt() line 82");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {

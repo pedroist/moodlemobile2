@@ -21,7 +21,7 @@ angular.module('mm.addons.mod_quiz')
  * @ngdoc controller
  * @name mmaModQuizIndexCtrl
  */
-.controller('mmaModQuizIndexCtrl', function($scope, $stateParams, $mmaModQuiz, $mmCourse, $ionicPlatform, $q, $translate,
+.controller('mmaModQuizIndexCtrl', function($log, $scope, $stateParams, $mmaModQuiz, $mmCourse, $ionicPlatform, $q, $translate,
             $mmaModQuizHelper, $ionicHistory, $ionicScrollDelegate, $mmEvents, mmaModQuizEventAttemptFinished, $state,
             $mmQuestionBehaviourDelegate, $mmaModQuizSync, $mmText, $mmUtil, mmaModQuizEventAutomSynced, $mmSite,
             $mmCoursePrefetchDelegate, mmCoreDownloaded, mmCoreDownloading, mmCoreEventPackageStatusChanged,
@@ -55,6 +55,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Convenience function to get Quiz data.
     function fetchQuizData(refresh, showErrors) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js fetchQuizData()");
         $scope.isOnline = $mmApp.isOnline();
         return $mmaModQuiz.getQuiz(courseId, module.id).then(function(quizData) {
             quiz = quizData;
@@ -126,6 +127,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Convenience function to get Quiz attempts.
     function getAttempts() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js getAttempts()");
 
         // Get access information of last attempt (it also works if no attempts made).
         return $mmaModQuiz.getAttemptAccessInformation(quiz.id, 0).then(function(info) {
@@ -161,6 +163,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Treat user attempts.
     function treatAttempts() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js treatAttempts()");
         if (!attempts || !attempts.length) {
             return $q.when();
         }
@@ -220,6 +223,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Get result info to show.
     function getResultInfo() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js getResultInfo()");
         if (attempts.length && quiz.showGradeColumn && bestGrade.hasgrade && typeof gradebookData.grade != 'undefined') {
 
             var formattedGradebookGrade = $mmaModQuiz.formatGrade(gradebookData.grade, quiz.decimalpoints),
@@ -267,6 +271,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Get the text to show in the button. It also sets restriction messages if needed.
     function getButtonText() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js getButtonText()");
         $scope.buttonText = '';
 
         if (quiz.hasquestions !== 0) {
@@ -309,6 +314,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Refreshes data.
     function refreshData(dontForceSync) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js refreshData()");
         var promises = [];
         promises.push($mmaModQuiz.invalidateQuizData(courseId));
         if (quiz) {
@@ -328,6 +334,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Tries to synchronize the current quiz.
     function syncQuiz(showErrors) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js syncQuiz()");
         return $mmaModQuizSync.syncQuiz(quiz, true).then(function(data) {
             if (data) {
                 var message = $mmText.buildMessage(data.warnings);
@@ -350,6 +357,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Go to review an attempt that has just been finished.
     function goToAutoReview() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js goToAutoReview()");
         // If we go to auto review it means an attempt was finished. Check completion status.
         $mmCourse.checkModuleCompletion(courseId, module.completionstatus);
 
@@ -368,6 +376,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Open a quiz to attempt it.
     function openQuiz() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js openQuiz()");
         $state.go('site.mod_quiz-player', {
             courseid: courseId,
             quizid: quiz.id,
@@ -377,6 +386,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Get status of the quiz.
     function getStatus() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js getStatus()");
         var revision = $mmaModQuizPrefetchHandler.getRevisionFromAttempts(attempts),
             timemodified = $mmaModQuizPrefetchHandler.getTimemodifiedFromAttempts(attempts);
 
@@ -385,6 +395,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Set a listener to monitor changes on this SCORM status to show a message to the user.
     function setStatusListener() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js setStatusListener()");
         if (typeof statusObserver !== 'undefined') {
             return; // Already set.
         }
@@ -400,6 +411,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Showing or hide a status message depending on the SCORM status.
     function showStatus(status) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js showStatus()");
         currentStatus = status;
 
         if (status == mmCoreDownloading) {
@@ -409,6 +421,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Fetch the Quiz data.
     fetchQuizData().then(function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js fetchQuizData() line 424");
         $mmaModQuiz.logViewQuiz(quiz.id).then(function() {
             $mmCourse.checkModuleCompletion(courseId, module.completionstatus);
         });
@@ -420,6 +433,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Pull to refresh.
     $scope.refreshQuiz = function(showErrors) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js refreshQuiz()");
         if ($scope.quizLoaded) {
             $scope.refreshIcon = 'spinner';
             $scope.syncIcon = 'spinner';
@@ -433,6 +447,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Attempt the quiz.
     $scope.attemptQuiz = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js attemptQuiz()");
         if ($scope.showSpinner) {
             // Scope is being or synchronized, abort.
             return;
@@ -462,6 +477,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Context Menu Description action.
     $scope.expandDescription = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js expandDescription()");
         $mmText.expandText($translate.instant('mm.core.description'), $scope.description, false, mmaModQuizComponent, module.id);
     };
 
@@ -470,6 +486,7 @@ angular.module('mm.addons.mod_quiz')
     // We want to skip the first $ionicView.enter event because it's when the view is created.
     var skip = true;
     $scope.$on('$ionicView.enter', function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event '$ionicView.enter' line 489");
         if (skip) {
             skip = false;
             return;
@@ -503,16 +520,19 @@ angular.module('mm.addons.mod_quiz')
     });
 
     $scope.$on('$ionicView.leave', function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event'$ionicView.leave' line 523");
         autoReview = undefined;
     });
 
     // Refresh online status when changes.
     onlineObserver = $mmEvents.on(mmCoreEventOnlineStatusChanged, function(online) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event onlineObserver mmCoreEventOnlineStatusChanged");
         $scope.isOnline = online;
     });
 
     // Listen for attempt finished events.
     obsFinished = $mmEvents.on(mmaModQuizEventAttemptFinished, function(data) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event obsFinished mmaModQuizEventAttemptFinished");
         // Go to review attempt if an attempt in this quiz was finished and synced.
         if (data.quizId === quiz.id) {
             autoReview = data;
@@ -521,6 +541,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Refresh data if this quiz is synchronized automatically.
     syncObserver = $mmEvents.on(mmaModQuizEventAutomSynced, function(data) {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event syncObserver mmaModQuizEventAutomSynced");
         if (data && data.siteid == $mmSite.getId() && data.quizid == quiz.id) {
             $scope.quizLoaded = false;
             $scope.refreshIcon = 'spinner';
@@ -540,6 +561,7 @@ angular.module('mm.addons.mod_quiz')
     });
 
     $scope.$on('$destroy', function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/index.js event destroy");
         obsFinished && obsFinished.off && obsFinished.off();
         syncObserver && syncObserver.off && syncObserver.off();
         statusObserver && statusObserver.off && statusObserver.off();

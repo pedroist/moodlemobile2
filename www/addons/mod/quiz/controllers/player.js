@@ -21,7 +21,7 @@ angular.module('mm.addons.mod_quiz')
  * @ngdoc controller
  * @name mmaModQuizPlayerCtrl
  */
-.controller('mmaModQuizPlayerCtrl', function($log, $scope, $stateParams, $mmaModQuiz, $mmaModQuizHelper, $q, $mmUtil, $mmSyncBlock,
+.controller('mmaModQuizPlayerCtrl', function($log, $ionicHistory, $scope, $stateParams, $mmaModQuiz, $mmaModQuizHelper, $q, $mmUtil, $mmSyncBlock,
             $ionicPopover, $ionicScrollDelegate, $rootScope, $ionicPlatform, $translate, $timeout, $mmQuestionHelper,
             $mmaModQuizAutoSave, $mmEvents, mmaModQuizEventAttemptFinished, $mmSideMenu, mmaModQuizComponent, $mmaModQuizSync) {
     $log = $log.getInstance('mmaModQuizPlayerCtrl');
@@ -40,7 +40,14 @@ angular.module('mm.addons.mod_quiz')
         timeUpCalled = false,
         scrollView = $ionicScrollDelegate.$getByHandle('mmaModQuizPlayerScroll'),
         offline;
-
+	$log.debug("PTC: addons/mod/quiz/controllers/player.js after vars definition");
+	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.backView: "
+			+ JSON.stringify($ionicHistory.backView(),null,4));
+	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.currentView: "
+			+ JSON.stringify($ionicHistory.currentView(),null,4));
+	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.forwardView: "
+			+ JSON.stringify($ionicHistory.forwardView(),null,4));
+	$log.debug("PTC: addons/mod/quiz/controllers/player.js $stateParams: "+JSON.stringify($stateParams,null,4));
     // Block the quiz so it cannot be synced.
     $mmSyncBlock.blockOperation(mmaModQuizComponent, quizId);
 
@@ -235,6 +242,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Process attempt.
     function processAttempt(finish, timeup) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js processAttempt()");
         return $mmaModQuiz.processAttempt(quiz, attempt, getAnswers(), $scope.preflightData, finish, timeup, offline)
                 .then(function() {
             // Answers saved, cancel auto save.
@@ -245,6 +253,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Function called when the user wants to leave the player. Save the attempt before leaving.
     function leavePlayer() {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js leavePlayer()");
         if (leaving) {
             return;
         }
@@ -276,6 +285,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Finish an attempt, either by timeup or because the user clicked to finish it.
     function finishAttempt(finish, timeup) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js finishAttempt()");
         var promise;
 
         // Show confirm if the user clicked the finish button and the quiz is in progress.
@@ -300,6 +310,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Initializes the timer if enabled.
     function initTimer() {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js initTimer()");
         if (attemptAccessInfo.endtime > 0) {
             if ($mmaModQuiz.shouldShowTimeLeft(quizAccessInfo.activerulenames, attempt, attemptAccessInfo.endtime)) {
                 $scope.endTime = attemptAccessInfo.endtime;
@@ -311,6 +322,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Scroll to a certain question.
     function scrollToQuestion(slot) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js scrollToQuestion()");
         $mmUtil.scrollToElement(document, '#mma-mod_quiz-question-' + slot, scrollView);
     }
 
@@ -338,6 +350,7 @@ angular.module('mm.addons.mod_quiz')
 
     // A behaviour button in a question was clicked (Check, Redo, ...).
     $scope.behaviourButtonClicked = function(name, value) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js behaviourButtonClicked()");
         $mmUtil.showConfirm($translate('mm.core.areyousure')).then(function() {
             var modal = $mmUtil.showModalLoading('mm.core.sending', true),
                 answers = getAnswers();
@@ -370,6 +383,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Load a certain page. If slot is supplied, try to scroll to that question.
     $scope.loadPage = function(page, fromToc, slot) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js loadPage()");
         if (page != -1 && (attempt.state == $mmaModQuiz.ATTEMPT_OVERDUE || attempt.finishedOffline)) {
             // We can't load a page if overdue of the local attempt is finished.
             return;
@@ -422,11 +436,13 @@ angular.module('mm.addons.mod_quiz')
 
     // User clicked to finish the attempt.
     $scope.finishAttempt = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js finishAttempt()");
         finishAttempt(true);
     };
 
     // Quiz time has finished.
     $scope.timeUp = function() {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js timeUp()");
         if (timeUpCalled) {
             return;
         }
