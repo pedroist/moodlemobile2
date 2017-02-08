@@ -243,7 +243,7 @@ angular.module('mm.addons.mod_quiz')
         if(form){
             var input = document.createElement("input");
                 input.type = "text";
-                input.name = "q182:1_attachments";
+                input.name = "q186:1_attachments";
                 input.value = "12345";
             form.appendChild(input);
         }
