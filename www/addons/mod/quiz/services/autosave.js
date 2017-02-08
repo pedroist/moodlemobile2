@@ -71,7 +71,9 @@ angular.module('mm.addons.mod_quiz')
         }
 
         answers = getAnswers();
-
+        /*$log.debug("PTC: addons/mod/quiz/services/autosave.js checkChanges() answers: "
+            + JSON.stringify(answers, null, 4));
+        */
         if (!previousAnswers) {
             // Previous answers isn't set, set it now.
             previousAnswers = answers;
@@ -112,6 +114,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Object} Answers.
      */
     function getAnswers() {
+        $log.debug("PTC: addons/mod/quiz/services/autosave.js getAnswers()");
         return $mmQuestionHelper.getAnswersFromForm(document.forms[formName]);
     }
 

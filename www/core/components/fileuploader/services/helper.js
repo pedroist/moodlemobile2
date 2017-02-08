@@ -282,13 +282,13 @@ angular.module('mm.core.fileuploader')
             quality: 50,
             destinationType: navigator.camera.DestinationType.FILE_URI
         };
-        $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.backView: "
+        /*$log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.backView: "
             + JSON.stringify($ionicHistory.backView(),null,4));
         $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.currentView: "
             + JSON.stringify($ionicHistory.currentView(),null,4));
         $log.debug("PTC: core/components/fileuploader/services/helper.js $ionicHistory.forwardView: "
             + JSON.stringify($ionicHistory.forwardView(),null,4));
-
+        */
         if (fromAlbum) {
 			$log.debug('PTC fileuploader helper: if fromAlbum' );
             options.sourceType = navigator.camera.PictureSourceType.PHOTOLIBRARY;
@@ -299,10 +299,11 @@ angular.module('mm.core.fileuploader')
         return $cordovaCamera.getPicture(options).then(function(path) {
 			$log.debug('PTC fileuploader helper: inside return $cordovaCamera.getPicture(options).then(function(path){}' );
 			$log.debug('PTC fileuploader helper: path param: ' + path );
-            if (upload) {
+            if (true/*upload*/) {
+                //GUARDAR APENAS NA DB. No process attempt aceder DB e fazer upload
 				$log.debug('PTC fileuploader helper: if upload');
                 $log.debug('PTC fileuploader helper: if upload2');
-                uploadFile(!fromAlbum, path, maxSize, true, $mmFileUploader.uploadImage, path, fromAlbum);
+                return uploadFile(!fromAlbum, path, maxSize, true, $mmFileUploader.uploadImage, path, fromAlbum);
             } else {
 				$log.debug('PTC fileuploader helper: else upload');
                 // Copy or move the file to our temporary folder.

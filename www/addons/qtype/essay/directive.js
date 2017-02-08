@@ -27,6 +27,7 @@ angular.module('mm.addons.qtype_essay')
     return {
         restrict: 'A',
         priority: 100,
+        //require: '^^mmFileUploaderOnChange',
         templateUrl: 'addons/qtype/essay/template.html',
         link: function(scope) {
 			$log.debug('PTC Essay directive: Inside Essay directive');
@@ -54,9 +55,15 @@ angular.module('mm.addons.qtype_essay')
                 } else {
 					$log.debug('PTC Essay directive: else !textarea');
 					$log.debug('PTC Essay directive: else !textarea json textarea:' + JSON.stringify(textarea,null,4) );
+                    
+                    var PTCAnswers = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+                    $log.debug('PTC Essay directive: else !textarea json PTCAnswers:' + JSON.stringify(PTCAnswers,null,4) );
+
                     // Textarea found.
                     var input = questionEl.querySelector('input[type="hidden"][name*=answerformat]'),
                         content = textarea.innerHTML;
+
+                    $log.debug('PTC Essay directive: else !textarea content:' + JSON.stringify(content,null,4) );
 
                     scope.textarea = {
                         id: textarea.id,
@@ -72,6 +79,9 @@ angular.module('mm.addons.qtype_essay')
                             value: input.value
                         };
                     }
+                    var PTCAnswers2 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+                    $log.debug('PTC Essay directive: else !textarea json PTCAnswers:' + JSON.stringify(PTCAnswers2,null,4) );
+
                 }
             }
         }

@@ -21,8 +21,8 @@ angular.module('mm.core.comments')
  * @ngdoc controller
  * @name mmCommentViewerCtrl
  */
-.controller('mmCommentViewerCtrl', function($stateParams, $scope, $translate, $mmComments, $mmUtil, $mmUser, $q) {
-
+.controller('mmCommentViewerCtrl', function($stateParams, $scope, $translate, $mmComments, $mmUtil, $mmUser, $q, $log) {
+	$log.debug('PTC components/comments/controller/viewer.js: inside mmCommentViewerCtrl controller');
     var contextLevel = $stateParams.contextLevel,
         instanceId = $stateParams.instanceId,
         component = $stateParams.component,
@@ -34,6 +34,7 @@ angular.module('mm.core.comments')
 
     function fetchComments() {
         // Get comments data.
+		$log.debug('PTC components/comments/controller/viewer.js:fetchComments()');
         return $mmComments.getComments(contextLevel, instanceId, component, itemId, area, page).then(function(comments) {
             $scope.comments = comments;
             angular.forEach(comments, function(comment) {
@@ -43,6 +44,7 @@ angular.module('mm.core.comments')
                 });
             });
         }).catch(function(error) {
+			$log.debug('PTC components/comments/controller/viewer.js: fetchComments() error catch');
             if (error) {
                 if (component == 'assignsubmission_comments') {
                     $mmUtil.showModal('mm.core.notice', 'mm.core.commentsnotworking');
@@ -60,12 +62,15 @@ angular.module('mm.core.comments')
     }
 
     fetchComments().finally(function() {
+		$log.debug('PTC components/comments/controller/viewer.js: fetchComments finally');
         $scope.commentsLoaded = true;
     });
 
     $scope.refreshComments = function() {
+		$log.debug('PTC components/comments/controller/viewer.js: refreshComments()');
         return $mmComments.invalidateCommentsData(contextLevel, instanceId, component, itemId, area, page).finally(function() {
             return fetchComments().finally(function() {
+				$log.debug('PTC components/comments/controller/viewer.js: refreshComments finally');
                 $scope.$broadcast('scroll.refreshComplete');
             });
         });

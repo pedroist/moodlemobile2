@@ -27,6 +27,7 @@ angular.module('mm.core.fileuploader')
     link: function (scope, element, attrs) {
       var onChangeHandler = scope.$eval(attrs.mmFileUploaderOnChange);
       element.bind('change', onChangeHandler);
-    }
+    }//,
+    //templateUrl: 'core/components/fileuploader/templates/picker.html'
   };
 });

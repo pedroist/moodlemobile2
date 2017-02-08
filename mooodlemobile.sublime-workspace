@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"mm",
+				"mmUtil"
+			],
+			[
+				"file",
+				"fileuploader"
+			],
+			[
+				"v",
+				"value"
+			],
+			[
+				"check",
+				"checkChanges"
+			],
+			[
+				"load",
+				"loadLocalAnswersInHtml"
+			],
+			[
+				"attach",
+				"attachments"
+			],
+			[
+				"getqUES",
+				"getQuestionAttachmentsFromHtml"
+			],
+			[
+				"getQu",
+				"getQuestionAttachmentsFromHtml"
+			],
+			[
 				"online",
 				"onlineObserver"
 			],
@@ -184,10 +216,6 @@
 				"timeUp"
 			],
 			[
-				"load",
-				"loadPage"
-			],
-			[
 				"beha",
 				"behaviourButtonClicked"
 			],
@@ -219,7 +247,16 @@
 			"file": "www/addons/qtype/essay/directive.js",
 			"settings":
 			{
-				"buffer_size": 3455,
+				"buffer_size": 4130,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/essay/template.html",
+			"settings":
+			{
+				"buffer_size": 2616,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -236,33 +273,17 @@
 			"file": "www/core/components/fileuploader/services/helper.js",
 			"settings":
 			{
-				"buffer_size": 23721,
+				"buffer_size": 23832,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+			"file": "www/core/components/fileuploader/services/fileuploader.js",
 			"settings":
 			{
-				"buffer_size": 5656,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/core/components/fileuploader/templates/picker.html",
-			"settings":
-			{
-				"buffer_size": 1345,
+				"buffer_size": 6059,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "www/core/components/fileuploader/directives/onchange.js",
-			"settings":
-			{
-				"buffer_size": 1085,
 				"line_ending": "Windows"
 			}
 		},
@@ -270,16 +291,24 @@
 			"file": "www/core/components/fileuploader/controllers/picker.js",
 			"settings":
 			{
-				"buffer_size": 7046,
+				"buffer_size": 7070,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "www/core/components/fileuploader/main.js",
+			"file": "www/core/components/fileuploader/services/delegate.js",
 			"settings":
 			{
-				"buffer_size": 1732,
+				"buffer_size": 8373,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/essay/main.js",
+			"settings":
+			{
+				"buffer_size": 834,
 				"line_ending": "Windows"
 			}
 		},
@@ -302,11 +331,55 @@
 			}
 		},
 		{
+			"file": "www/core/lib/sitesfactory.js",
+			"settings":
+			{
+				"buffer_size": 48228,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/question/services/helper.js",
+			"settings":
+			{
+				"buffer_size": 37815,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "www/addons/mod/quiz/controllers/player.js",
 			"settings":
 			{
-				"buffer_size": 20080,
+				"buffer_size": 20515,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/templates/player.html",
+			"settings":
+			{
+				"buffer_size": 6593,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/autosave.js",
+			"settings":
+			{
+				"buffer_size": 9040,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/question/services/question.js",
+			"settings":
+			{
+				"buffer_size": 24774,
 				"line_ending": "Windows"
 			}
 		},
@@ -332,8 +405,16 @@
 			"file": "www/addons/mod/quiz/services/quiz.js",
 			"settings":
 			{
-				"buffer_size": 92625,
+				"buffer_size": 93107,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/lib/db.js",
+			"settings":
+			{
+				"buffer_size": 20837,
 				"line_ending": "Windows"
 			}
 		},
@@ -341,9 +422,35 @@
 			"file": "www/addons/mod/quiz/services/quiz_online.js",
 			"settings":
 			{
-				"buffer_size": 4197,
+				"buffer_size": 4465,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz_offline.js",
+			"settings":
+			{
+				"buffer_size": 15096,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/lib/ws.js",
+			"settings":
+			{
+				"buffer_size": 27395,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp2/htdocs/moodle/lib/filestorage/file_storage.php",
+			"settings":
+			{
+				"buffer_size": 109950,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -380,10 +487,10 @@
 			}
 		},
 		{
-			"contents": "=> C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons\\qtype\\essay\\directive.js\n\t|+| 32\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\question.php\n\t|+| 74\n",
+			"contents": "=> C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons\\qtype\\essay\\directive.js\n\t|+| 32\n=> C:\\xampp2\\htdocs\\moodle\\lib\\filelib.php\n\t|+| 734\n\t|+| 736\n\t|+| 742\n\t|+| 746\n=> C:\\xampp2\\htdocs\\moodle\\lib\\filestorage\\file_storage.php\n\t|+| 1456\n\t|+| 1461\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\attempt.php\n\t|+| 29\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\attemptlib.php\n\t|+| 110\n\t|+| 1810\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\classes\\external.php\n\t|+| 1213\n=> C:\\xampp2\\htdocs\\moodle\\question\\engine\\datalib.php\n\t|+| 1578\n=> C:\\xampp2\\htdocs\\moodle\\question\\engine\\questionattempt.php\n\t|+| 1091\n\t|+| 1094\n\t|+| 1151\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\question.php\n\t|+| 74\n\t|+| 101\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\renderer.php\n\t|+| 40\n\t|+| 67\n\t|+| 119\n\t|+| 240\n\t|+| 361\n=> C:\\xampp2\\htdocs\\moodle\\repository\\repository_ajax.php\n\t|+| 1\n",
 			"settings":
 			{
-				"buffer_size": 160,
+				"buffer_size": 847,
 				"line_ending": "Windows",
 				"name": "Xdebug Breakpoint",
 				"read_only": true,
@@ -442,18 +549,36 @@
 	[
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/directives",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/templates"
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib"
 	],
 	"file_history":
 	[
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/templates/picker.html",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/directives/onchange.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/main.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/fs.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/files/controllers/index.js",
+		"/C/xampp2/htdocs/moodle/mod/quiz/classes/external.php",
+		"/C/xampp2/htdocs/moodle/mod/quiz/attemptlib.php",
+		"/C/xampp2/htdocs/moodle/question/engine/questionusage.php",
+		"/C/xampp2/htdocs/moodle/question/engine/questionattempt.php",
+		"/C/xampp2/htdocs/moodle/question/engine/datalib.php",
+		"/C/xampp2/htdocs/moodle/lib/filelib.php",
+		"/C/xampp2/htdocs/moodle/lib/moodlelib.php",
 		"/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+		"/C/xampp2/htdocs/moodle/question/behaviour/behaviourbase.php",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/util.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/files/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/calendar/services/calendar.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/files/templates/list.html",
+		"/C/xampp2/htdocs/moodle/webservice/lib.php",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ionic/scss/_items.scss",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/addons/mod/quiz/controllers/player.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/main.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/ydn.db/test/core/index_3_idb_test.html",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/lib/moment/locale/eu.js",
@@ -464,7 +589,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/calendar/controllers/list.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/calendar/main.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/fileuploader.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/main.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers/picker.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz_sync.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/prefetch_handler.js",
@@ -472,7 +596,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/autosave.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/directives/arrows.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/question.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/helper.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/helper.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/directives/question.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/directives/behaviour.js",
@@ -480,15 +603,10 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/template.html",
 		"/C/xampp2/htdocs/moodle/config.php",
 		"/C/xampp2/htdocs/moodle/webservice/upload.php",
-		"/C/xampp2/htdocs/moodle/question/engine/questionusage.php",
-		"/C/xampp2/htdocs/moodle/mod/quiz/classes/external.php",
 		"/C/xampp2/htdocs/moodle/question/engine/questionattemptstep.php",
-		"/C/xampp2/htdocs/moodle/question/engine/questionattempt.php",
-		"/C/xampp2/htdocs/moodle/question/behaviour/behaviourbase.php",
 		"/C/xampp2/htdocs/moodle/question/behaviour/manualgraded/behaviour.php",
 		"/C/xampp2/htdocs/moodle/question/type/questionbase.php",
 		"/C/xampp2/htdocs/moodle/question/engine/bank.php",
-		"/C/xampp2/htdocs/moodle/question/engine/datalib.php",
 		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/User/Xdebug.sublime-settings",
 		"/C/xampp2/htdocs/rascunho/distancia.php",
 		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
@@ -526,6 +644,8 @@
 		"height": 117.0,
 		"where_history":
 		[
+			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www",
+			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2",
 			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www"
 		]
 	},
@@ -534,6 +654,67 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"save",
+			"finish",
+			"load",
+			"getAnswersFro",
+			"getAnswersFromForm",
+			"load",
+			"document.createElement(\"input\")",
+			"uploadFile",
+			"uploadF",
+			"querySelector",
+			"uniqueArray",
+			"injector",
+			"mmFsSitesFolder",
+			"Math",
+			"math",
+			"util",
+			"item",
+			"random",
+			"uploadFile",
+			"uploadFn",
+			"uploadFile",
+			"itemid (",
+			"itemid(",
+			"draftitemid(",
+			"draftitemid()",
+			"itemid()",
+			"itemid",
+			"selectAndUploadFile",
+			"state",
+			"uploadFile",
+			"uploadFn",
+			"uploadFile",
+			"request",
+			"loadPa",
+			"getAnswers",
+			"loadP",
+			"saveAns",
+			"loadLo",
+			"load",
+			"handle",
+			"checkCh",
+			"History",
+			"getAnswers",
+			"getAnser",
+			"document.createElement",
+			"getAttemptDa",
+			"log",
+			"formName",
+			"mmaModQuizAutoSave",
+			"mma-mod_quiz-player-form",
+			"History",
+			"PTC",
+			"form",
+			"item-text-wrap",
+			"handler.controller",
+			"cache",
+			"sav",
+			"save",
+			"log",
+			"$log",
+			"mmFileUploaderPickerCtrl",
 			"loadPage",
 			"getAnswers",
 			"mma-qtype-essay",
@@ -600,20 +781,7 @@
 			"class ",
 			" class ",
 			"KEEP",
-			"process_a",
-			"porcess_a",
-			"process_att",
-			"stepsadded",
-			"save(",
-			"question_usage_by_activi",
-			"question_usage",
-			"process_all",
-			"process_action(",
-			"stepsadded",
-			"save(",
-			"get_columns",
-			"update_record",
-			"save("
+			"process_a"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -632,7 +800,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -641,15 +809,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3455,
+						"buffer_size": 4130,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								780,
-								793
+								2275,
+								2275
 							]
 						],
 						"settings":
@@ -659,19 +827,169 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 501.0,
+						"translation.y": 544.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "www/addons/qtype/essay/template.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2616,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								290,
+								290
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "www/addons/qtype/essay/handlers.js",
 					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 4767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3294,
+								3294
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 72.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "www/core/components/fileuploader/services/helper.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22236,
+								22244
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7128.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "www/core/components/fileuploader/services/fileuploader.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6059,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3456,
+								3456
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1728.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "www/core/components/fileuploader/controllers/picker.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3136,
+								3136
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "www/core/components/fileuploader/services/delegate.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8373,
 						"regions":
 						{
 						},
@@ -689,27 +1007,55 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2136.0,
+						"translation.y": 1150.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "www/core/components/fileuploader/services/helper.js",
+					"buffer": 7,
+					"file": "www/addons/qtype/essay/main.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23721,
+						"buffer_size": 834,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14034,
-								14034
+								834,
+								834
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "www/addons/mod/quiz/controllers/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24356,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21281,
+								21288
 							]
 						],
 						"settings":
@@ -719,49 +1065,139 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7149.0,
+						"translation.y": 11712.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "/C/xampp2/htdocs/moodle/question/type/essay/question.php",
+					"buffer": 9,
+					"file": "www/addons/mod/quiz/controllers/attempt.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5656,
+						"buffer_size": 5031,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2645,
-								2645
+								4237,
+								4237
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1497.0,
+						"translation.y": 2472.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "www/core/components/fileuploader/templates/picker.html",
+					"buffer": 10,
+					"file": "www/core/lib/sitesfactory.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1345,
+						"buffer_size": 48228,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7176,
+								7176
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9110.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "www/core/components/question/services/helper.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 37815,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22978,
+								22978
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 48.0,
+						"translation.y": 14558.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "www/addons/mod/quiz/controllers/player.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20515,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10861,
+								10861
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5616.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "www/addons/mod/quiz/templates/player.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6593,
 						"regions":
 						{
 						},
@@ -779,85 +1215,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 73.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "www/core/components/fileuploader/directives/onchange.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1085,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 255.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "www/core/components/fileuploader/controllers/picker.js",
+					"buffer": 14,
+					"file": "www/addons/mod/quiz/services/autosave.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7046,
+						"buffer_size": 9040,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3089,
-								3089
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 13.0,
-						"translation.y": 1124.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "www/core/components/fileuploader/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1732,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								682,
-								668
+								7844,
+								7848
 							]
 						],
 						"settings":
@@ -867,104 +1245,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 392.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "www/addons/mod/quiz/controllers/index.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24356,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								21249,
-								21249
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 11577.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "www/addons/mod/quiz/controllers/attempt.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5031,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1165,
-								1168
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 590.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "www/addons/mod/quiz/controllers/player.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20080,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7843,
-								7851
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4572.0,
+						"translation.y": 5198.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 15,
+					"file": "www/core/components/question/services/question.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24774,
+								24774
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 13085.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
 					"file": "www/addons/mod/quiz/controllers/review.js",
 					"semi_transient": false,
 					"settings":
@@ -990,11 +1308,11 @@
 						"translation.y": 806.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 17,
 					"file": "www/addons/mod/quiz/services/helper.js",
 					"semi_transient": false,
 					"settings":
@@ -1006,8 +1324,8 @@
 						"selection":
 						[
 							[
-								1273,
-								1277
+								1886,
+								1889
 							]
 						],
 						"settings":
@@ -1017,182 +1335,212 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1158.0,
+						"translation.y": 1020.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "www/addons/mod/quiz/services/quiz.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 92625,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1020,
-								1020
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 3.0,
-						"translation.y": 6111.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "www/addons/mod/quiz/services/quiz_online.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4197,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1627,
-								1631
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 956.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 15,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 17,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 18,
+					"file": "www/addons/mod/quiz/services/quiz.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 160,
+						"buffer_size": 93107,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								160,
-								160
+								92640,
+								92640
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 54965.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "www/core/lib/db.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20837,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2051,
+								2051
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10686.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "www/addons/mod/quiz/services/quiz_online.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4465,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1879,
+								1879
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 936.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "www/addons/mod/quiz/services/quiz_offline.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9204,
+								9181
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5842.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "www/core/lib/ws.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27395,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15135,
+								15135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8831.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 23,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "/C/xampp2/htdocs/moodle/lib/filestorage/file_storage.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 109950,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6547,
+								6547
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1189.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 25,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 24,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1204,7 +1552,97 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 26,
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 26,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 27,
+					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 847,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								847,
+								847
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
 					"type": "text"
 				}
 			]
@@ -1267,7 +1705,7 @@
 	"project": "mooodlemobile.sublime-project",
 	"replace":
 	{
-		"height": 80.0
+		"height": 60.0
 	},
 	"save_all_on_build": true,
 	"select_file":

@@ -21,7 +21,7 @@ angular.module('mm.core.comments')
  * @ngdoc directive
  * @name mmComments
  */
-.directive('mmComments', function($mmComments, $state) {
+.directive('mmComments', function($mmComments, $state, $log) {
     return {
         restrict: 'E',
         priority: 100,
@@ -36,6 +36,8 @@ angular.module('mm.core.comments')
         },
         templateUrl: 'core/components/comments/templates/comments.html',
         link: function(scope, el, attr) {
+			$log.debug('PTC components/comments/directives/comment.js: inside mmComments directive');
+			
             var params;
 
             scope.commentsCount = -1;
@@ -43,7 +45,9 @@ angular.module('mm.core.comments')
 
             // Shows the comments on a new State.
             scope.showComments = function() {
-                if (scope.commentsCount > 0) {
+				$log.debug('PTC components/comments/directives/comment.js: scope.showComments()');
+                if (true /*scope.commentsCount > 0*/) {
+					$log.debug('PTC components/comments/directives/comment.js: call to state.go');
                     // Open a new state with the interpolated contents.
                     $state.go('site.mm_commentviewer', params);
                 }
@@ -51,6 +55,7 @@ angular.module('mm.core.comments')
 
             $mmComments.getComments(attr.contextLevel, attr.instanceId, attr.component, attr.itemId, attr.area, attr.page)
                     .then(function(comments) {
+				$log.debug('PTC components/comments/directives/comment.js: $mmComments.getComments()');
                 params = {
                     contextLevel: attr.contextLevel,
                     instanceId: attr.instanceId,
@@ -64,6 +69,7 @@ angular.module('mm.core.comments')
                 scope.commentsLoaded = true;
             }).catch(function() {
                 // Silently fail.
+				$log.debug('PTC components/comments/directives/comment.js: Silently fail catch()');
                 scope.commentsLoaded = true;
             });
         }

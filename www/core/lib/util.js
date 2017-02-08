@@ -1836,6 +1836,35 @@ angular.module('mm.core')
             return false;
         };
 
+        /**
+         * Returns a random integer between min (inclusive) and max (inclusive)
+         * Using Math.round() would give you a non-uniform distribution!
+         *
+         * @module mm.core
+         * @ngdoc method
+         * @name $mmUtil#getRandomNumberInRange
+         * @param  {integer} min, the minimum value in the range.
+         * @param  {integer} max, the maximum value in the range.
+         * @return {integer} random number inside the given interval.
+         */
+        self.getRandomNumberInRange = function(min, max) {
+            return Math.floor(Math.random() * (max - min +1)) + min;
+        }
+
+        /**
+        * Get an id for the draft file
+        *
+        * @module mm.core
+        * @ngdoc method
+        * @name $mmFS#getItemId
+        * @return {Number}        Id of the draft file.
+        */
+        self.getItemId = function() {
+            var min = 0;
+            var max = 999999999; //The same number as in Moodle web Portal on filelib.php
+            return self.getRandomNumberInRange(min, max);
+        }
+
         return self;
     };
 });

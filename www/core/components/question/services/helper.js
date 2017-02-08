@@ -21,7 +21,7 @@ angular.module('mm.core.question')
  * @ngdoc service
  * @name $mmQuestionHelper
  */
-.factory('$mmQuestionHelper', function($mmUtil, $mmText, $ionicModal, mmQuestionComponent, $mmSitesManager, $mmFilepool, $q,
+.factory('$mmQuestionHelper', function($log, $mmUtil, $mmText, $ionicModal, mmQuestionComponent, $mmSitesManager, $mmFilepool, $q,
             $mmQuestion, $mmSite) {
 
     var self = {},
@@ -375,6 +375,7 @@ angular.module('mm.core.question')
      * @return {Object}      Object where the keys are the names.
      */
     self.getAllInputNamesFromHtml = function(html) {
+        $log.debug("PTC: core/components/question/services/helper.js getAllInputNamesFromHtml()");
         var form = document.createElement('form'),
             answers = {};
 
@@ -390,7 +391,8 @@ angular.module('mm.core.question')
 
             answers[$mmQuestion.removeQuestionPrefix(name)] = true;
         });
-
+        $log.debug("PTC: core/components/question/services/helper.js inside getAllInputNamesFromHtml() answers: "
+                + JSON.stringify(answers, null, 4));
         return answers;
     };
 
@@ -405,6 +407,7 @@ angular.module('mm.core.question')
      * @return {Object}      Object with the answers.
      */
     self.getAnswersFromForm = function(form) {
+        $log.debug("PTC: core/components/question/services/helper.js getAnswersFromForm()");
         if (!form || !form.elements) {
             return {};
         }
@@ -413,6 +416,7 @@ angular.module('mm.core.question')
 
         angular.forEach(form.elements, function(element) {
             var name = element.name || '';
+            
             // Ignore flag and submit inputs.
             if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON') {
                 return;
@@ -427,6 +431,11 @@ angular.module('mm.core.question')
                 }
             } else {
                 answers[name] = element.value;
+                $log.debug("PTC: inside getAnswersFromForm() var name: "
+                    + JSON.stringify(name, null, 4) 
+                    + "   value: "
+                    + JSON.stringify(element.value, null, 4));
+                
             }
         });
 
@@ -445,6 +454,7 @@ angular.module('mm.core.question')
      * @return {Object[]}    Attachments.
      */
     self.getQuestionAttachmentsFromHtml = function(html) {
+        $log.debug("PTC: core/components/question/services/helper.js getQuestionAttachmentsFromHtml()");
         var el = angular.element('<div></div>'),
             anchors,
             attachments = [];
@@ -469,7 +479,8 @@ angular.module('mm.core.question')
                 });
             }
         });
-
+        $log.debug("PTC: core/components/question/services/helper.js inside getQuestionAttachmentsFromHtml() attachments: "
+                + JSON.stringify(attachments, null, 4));
         return attachments;
     };
 
@@ -597,9 +608,21 @@ angular.module('mm.core.question')
      * @return {Void}
      */
     self.loadLocalAnswersInHtml = function(question) {
+        $log.debug("PTC: core/components/question/services/helper.js loadLocalAnswersInHtml()");
+        
+        //var PTCAnswers3 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+        //$log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() PTCAnswers3:' + JSON.stringify(PTCAnswers3,null,4) );
+
+
         var form = document.createElement('form');
         form.innerHTML = question.html;
 
+        /*var input = document.createElement("input");
+                input.type = "text";
+                input.name = "q_179:1_attachments";
+                input.value = "12345";
+        form.appendChild(input);
+        */
         // Search all input elements.
         angular.forEach(form.elements, function(element) {
             var name = element.name || '';
@@ -631,6 +654,9 @@ angular.module('mm.core.question')
         });
 
         question.html = form.innerHTML;
+        //var PTCAnswers4 = self.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+        //$log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() PTCAnswers4:' + JSON.stringify(PTCAnswers4,null,4) );
+
     };
 
     /**
@@ -828,6 +854,7 @@ angular.module('mm.core.question')
      * @return {Promise}             Promise resolved when all the files have been downloaded.
      */
     self.prefetchQuestionFiles = function(question, siteId, component, componentId) {
+        $log.debug("PTC: core/components/question/services/helper.js Prefetch()");
         var urls = $mmUtil.extractDownloadableFilesFromHtml(question.html);
 
         if (!component) {

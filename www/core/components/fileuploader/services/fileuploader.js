@@ -14,7 +14,7 @@
 
 angular.module('mm.core.fileuploader')
 
-.factory('$mmFileUploader', function($mmSite, $mmFS, $q, $timeout, $log, $mmSitesManager) {
+.factory('$mmFileUploader', function($mmSite, $mmFS, $mmUtil, $q, $timeout, $log, $mmSitesManager) {
 
     $log = $log.getInstance('$mmFileUploader');
 
@@ -72,6 +72,7 @@ angular.module('mm.core.fileuploader')
     self.uploadImage = function(uri, isFromAlbum) {
         $log.debug('Uploading an image');
         var options = {};
+       //var itemId = 12345;
 		$log.debug('PTC fileuploader.js uri: ' + uri);
 		$log.debug('PTC fileuploader.js isFromAlbum: ' + isFromAlbum);
         if (typeof uri == 'undefined' || uri === ''){
@@ -85,6 +86,7 @@ angular.module('mm.core.fileuploader')
         options.fileKey = 'file';
         options.fileName = 'image_' + new Date().getTime() + '.jpg';
         options.mimeType = 'image/jpeg';
+        options.itemId = 12345;//$mmUtil.getItemId();
 
         return self.uploadFile(uri, options);
     };

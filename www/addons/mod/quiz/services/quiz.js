@@ -2293,5 +2293,19 @@ angular.module('mm.addons.mod_quiz')
         });
     };
 
+    // Get the input answers.
+    /*self.insertInForm = function(itemId) {
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js insertInForm()");
+        var form = document.forms['mma-mod_quiz-player-form'];
+        if(form){
+            var input = document.createElement("input");
+                input.type = "text";
+                input.name = "q180:1_attachments";
+                input.value = "12345";
+            form.appendChild(input);
+        }
+    }
+    */
+
     return self;
 });

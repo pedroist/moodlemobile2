@@ -43,6 +43,8 @@ angular.module('mm.addons.mod_quiz')
      */
     self.processAttempt = function(attemptId, data, preflightData, finish, timeup, siteId) {
         $log.debug("PTC: addons/mod/quiz/services/quiz_online.js processAttempt() line 45");
+         $log.debug("PTC: quiz_online.js processAttempt() data: "
+                + JSON.stringify(data, null, 4));
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
@@ -53,6 +55,8 @@ angular.module('mm.addons.mod_quiz')
                 timeup: timeup ? 1 : 0,
                 preflightdata: $mmUtil.objectToArrayOfObjects(preflightData, 'name', 'value')
             };
+            $log.debug("PTC: addons/mod/quiz/services/quiz_online.js processAttempt() params: "
+                    + JSON.stringify(params, null, 4));
 
             return site.write('mod_quiz_process_attempt', params).then(function(response) {
                 if (response && response.warnings && response.warnings.length) {

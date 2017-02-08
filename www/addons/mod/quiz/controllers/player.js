@@ -40,7 +40,7 @@ angular.module('mm.addons.mod_quiz')
         timeUpCalled = false,
         scrollView = $ionicScrollDelegate.$getByHandle('mmaModQuizPlayerScroll'),
         offline;
-	$log.debug("PTC: addons/mod/quiz/controllers/player.js after vars definition");
+	/*$log.debug("PTC: addons/mod/quiz/controllers/player.js after vars definition");
 	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.backView: "
 			+ JSON.stringify($ionicHistory.backView(),null,4));
 	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.currentView: "
@@ -48,6 +48,7 @@ angular.module('mm.addons.mod_quiz')
 	$log.debug("PTC: addons/mod/quiz/controllers/player.js $ionicHistory.forwardView: "
 			+ JSON.stringify($ionicHistory.forwardView(),null,4));
 	$log.debug("PTC: addons/mod/quiz/controllers/player.js $stateParams: "+JSON.stringify($stateParams,null,4));
+    */
     // Block the quiz so it cannot be synced.
     $mmSyncBlock.blockOperation(mmaModQuizComponent, quizId);
 
@@ -237,12 +238,21 @@ angular.module('mm.addons.mod_quiz')
 
     // Get the input answers.
     function getAnswers() {
-        return $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js getAnswers()");
+        var form = document.forms['mma-mod_quiz-player-form'];
+        if(form){
+            var input = document.createElement("input");
+                input.type = "text";
+                input.name = "q182:1_attachments";
+                input.value = "12345";
+            form.appendChild(input);
+        }
+        return $mmQuestionHelper.getAnswersFromForm(form/*document.forms['mma-mod_quiz-player-form']*/);
     }
 
     // Process attempt.
     function processAttempt(finish, timeup) {
-        $log.debug("PTC: addons/mod/quiz/controllers/player.js processAttempt()");
+        $log.debug("PTC: addons/mod/quiz/controllers/player.js processAttempt() + call to processAttempt()");
         return $mmaModQuiz.processAttempt(quiz, attempt, getAnswers(), $scope.preflightData, finish, timeup, offline)
                 .then(function() {
             // Answers saved, cancel auto save.

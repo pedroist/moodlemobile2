@@ -33,7 +33,7 @@ angular.module('mm.core.fileuploader')
             audio: $mmFileUploaderHelper.uploadAudioOrVideo,
             video: $mmFileUploaderHelper.uploadAudioOrVideo
         };
-    $log.debug("PTC: core/components/fileuploader/controllers/picker.js after vars definition");
+    /*$log.debug("PTC: core/components/fileuploader/controllers/picker.js after vars definition");
     $log.debug("PTC: core/components/fileuploader/controllers/picker.js object $stateParams: "
             +JSON.stringify($stateParams,null,4));
     $log.debug("PTC: core/components/fileuploader/controllers/picker.js object $state.params: "
@@ -46,6 +46,7 @@ angular.module('mm.core.fileuploader')
             + JSON.stringify($ionicHistory.currentView(),null,4));
     $log.debug("PTC: core/components/fileuploader/controllers/picker.js $ionicHistory.forwardView: "
             + JSON.stringify($ionicHistory.forwardView(),null,4));
+    */
     $scope.isAndroid = ionic.Platform.isAndroid();
     $scope.handlers = $mmFileUploaderDelegate.getHandlers();
     $scope.title = $translate.instant(upload ? 'mm.fileuploader.uploadafile' : 'mm.fileuploader.selectafile');
@@ -54,9 +55,10 @@ angular.module('mm.core.fileuploader')
     function successUploading(result) {
         $log.debug("PTC: core/components/fileuploader/controllers/picker.js successUploading()");
         $mmFileUploaderHelper.fileUploaded(result);
-        $log.debug("PTC: core/components/fileuploader/controllers/picker.js successUploading() viewHistory(): "
+        /*$log.debug("PTC: core/components/fileuploader/controllers/picker.js successUploading() viewHistory(): "
                 +JSON.stringify($ionicHistory.viewHistory(),null,4));
-        $ionicHistory.goBack();
+        */
+        //$ionicHistory.goBack();
     }
 
     // Function called when a file upload fails.
