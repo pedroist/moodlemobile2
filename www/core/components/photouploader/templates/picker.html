@@ -1,0 +1,28 @@
+<ion-view view-title="{{title}}">
+    <ion-content mm-state-class>
+        <div class="list">
+            <a class="item" ng-click="upload('album', true)">
+                {{ 'mm.photouploader.photoalbums' | translate }}
+            </a>
+            <a class="item" ng-click="upload('camera', false)">
+                {{ 'mm.photouploader.camera' | translate }}
+            </a>
+            <a class="item" ng-click="upload('audio', true)">
+                {{ 'mm.photouploader.audio' | translate }}
+            </a>
+            <a class="item" ng-click="upload('video', false)">
+                {{ 'mm.photouploader.video' | translate }}
+            </a>
+            <div class="item" ng-if="isAndroid">
+                {{ 'mm.photouploader.file' | translate }}
+                <input class="mm-photouploader-picker" type="file" mm-photo-uploader-on-change="uploadFile"> <!-- Hidden input, intercepts clicks on button-->
+            </div>
+            <a ng-repeat="handler in handlers | orderBy:'-priority'" ng-controller="handler.controller" class="item mm-photo-uploader-handler {{class}}" ng-click="handlerClicked($event, action)" ng-class='{"item-icon-left": icon}' title="{{title}}">
+                <i class="icon {{icon}}" ng-if="icon"></i>
+                {{title | translate}}
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
+
+

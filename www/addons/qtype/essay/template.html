@@ -19,10 +19,10 @@
         <p><mm-format-text watch="true" class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{textarea.text}}</mm-format-text></p>
     </div>
     <div class="item" ng-if="allowsAttachments" style="height: 70px">
-		<ion-view view-title="{{title}}" ng-controller="mmFileUploaderPickerCtrl">
+		<ion-view view-title="{{title}}" ng-controller="mmPhotoUploaderPickerCtrl">
 			<ion-pane mm-state-class>
 				<div class="button button-block button-positive" ng-click="upload('camera', false)">
-					{{ 'mm.fileuploader.camera' | translate }}
+					{{ 'mm.photouploader.camera' | translate }}
 				</div>
 			</ion-pane>
 		</ion-view>
