@@ -239,15 +239,15 @@ angular.module('mm.addons.mod_quiz')
     // Get the input answers.
     function getAnswers() {
         $log.debug("PTC: addons/mod/quiz/controllers/player.js getAnswers()");
-        var form = document.forms['mma-mod_quiz-player-form'];
+        /*var form = document.forms['mma-mod_quiz-player-form'];
         if(form){
             var input = document.createElement("input");
                 input.type = "text";
                 input.name = "q186:1_attachments";
                 input.value = "12345";
             form.appendChild(input);
-        }
-        return $mmQuestionHelper.getAnswersFromForm(form/*document.forms['mma-mod_quiz-player-form']*/);
+        }*/
+        return $mmQuestionHelper.getAnswersFromForm(/*form*/document.forms['mma-mod_quiz-player-form']);
     }
 
     // Process attempt.

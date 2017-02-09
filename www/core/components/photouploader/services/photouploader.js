@@ -14,7 +14,7 @@
 
 angular.module('mm.core.photouploader')
 
-.factory('$mmPhotoUploader', function($mmSite, $mmFS, $mmUtil, $q, $timeout, $log, $mmSitesManager) {
+.factory('$mmPhotoUploader', function($mmSite, $mmFS, $mmUtil, $q, $timeout, $log, $mmSitesManager, $mmaModQuiz) {
 
     $log = $log.getInstance('$mmPhotoUploader');
 
@@ -88,9 +88,9 @@ angular.module('mm.core.photouploader')
         options.mimeType = 'image/jpeg';
         options.itemId = itemId;
 
-        return self.uploadFile(uri, options)/*.then(function(itemId) {
-            insertInForm();
-        });*/;
+        return self.uploadFile(uri, options).then(function(/*itemId*/) {
+            $mmaModQuiz.insertInForm();
+        });/*;*/
     };
 
     /**
