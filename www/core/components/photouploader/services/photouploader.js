@@ -88,8 +88,8 @@ angular.module('mm.core.photouploader')
         options.mimeType = 'image/jpeg';
         options.itemId = itemId;
 
-        return self.uploadFile(uri, options).then(function(/*itemId*/) {
-            $mmaModQuiz.insertInForm();
+        return self.uploadFile(uri, options).then(function(resultOptions) {
+            $mmaModQuiz.insertInForm(resultOptions.itemid);
         });/*;*/
     };
 

@@ -2294,14 +2294,15 @@ angular.module('mm.addons.mod_quiz')
     };
 
     // insert in the document player form an extra input answer.
-    self.insertInForm = function(/*itemId*/) {
-        $log.debug("PTC: addons/mod/quiz/services/quiz.js insertInForm()");
+    self.insertInForm = function(itemId) {
+        $log.debug("PTC: addons/mod/quiz/services/quiz.js insertInForm() itemId: "
+                + JSON.stringify(itemId, null, 4));
         var form = document.forms['mma-mod_quiz-player-form'];
         if(form){
             var input = document.createElement("input");
                 input.type = "text";
-                input.name = "q188:1_attachments";
-                input.value = "12345";
+                input.name = "q189:1_attachments";
+                input.value = itemId;
             form.appendChild(input);
         }
     }

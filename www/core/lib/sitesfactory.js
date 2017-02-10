@@ -590,6 +590,8 @@ angular.module('mm.core')
          * @return {Promise}
          */
         Site.prototype.uploadFile = function(uri, options) {
+            $log.debug('PTC sitesfactory.js uploadFile() options: '
+                + JSON.stringify(options, null, 4));
             if (!options.fileArea) {
                 if (parseInt(this.infos.version, 10) >= 2016052300) {
                     // From Moodle 3.1 only draft is allowed.
