@@ -94,8 +94,6 @@ angular.module('mm.addons.qtype_essay')
                     var PTCAnswers2 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
                     $log.debug('PTC Essay directive: else !textarea json PTCAnswers:' + JSON.stringify(PTCAnswers2,null,4) );
 
-                    scope.attachmentsUploaded = $mmQuestionHelper.getQuestionAttachmentsFromHtml(
-                                            $mmUtil.getContentsOfElement(angular.element(questionEl), '.attachments'));
                 }
             }
         }
