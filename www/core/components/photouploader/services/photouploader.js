@@ -14,7 +14,7 @@
 
 angular.module('mm.core.photouploader')
 
-.factory('$mmPhotoUploader', function($mmSite, $mmFS, $mmUtil, $q, $timeout, $log, $mmSitesManager, $mmaModQuiz) {
+.factory('$mmPhotoUploader', function($mmSite, $mmFS, $mmUtil, $q, $timeout, $log, $mmSitesManager, $mmQuestionHelper) {
 
     $log = $log.getInstance('$mmPhotoUploader');
 
@@ -72,7 +72,6 @@ angular.module('mm.core.photouploader')
     self.uploadImage = function(uri, isFromAlbum) {
         $log.debug('Uploading an image');
         var options = {};
-        var itemId = 12345;//$mmUtil.getItemId();
 		$log.debug('PTC photouploader.js uri: ' + uri);
 		$log.debug('PTC photouploader.js isFromAlbum: ' + isFromAlbum);
         if (typeof uri == 'undefined' || uri === ''){
@@ -86,11 +85,16 @@ angular.module('mm.core.photouploader')
         options.fileKey = 'file';
         options.fileName = 'image_' + new Date().getTime() + '.jpg';
         options.mimeType = 'image/jpeg';
-        options.itemId = itemId;
+        options.itemId = self.getAttachmentsItemId();
 
-        return self.uploadFile(uri, options).then(function(resultOptions) {
-            $mmaModQuiz.insertInForm(resultOptions.itemid);
-        });/*;*/
+        $log.debug('PTC photouploader.js PTCAnswers:' + JSON.stringify(options,null,4) );
+
+
+        var PTCAnswers2 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+        $log.debug('PTC photouploader.js PTCAnswers:' + JSON.stringify(PTCAnswers2,null,4) );
+
+
+        return self.uploadFile(uri, options);
     };
 
     /**
@@ -148,6 +152,25 @@ angular.module('mm.core.photouploader')
         options.fileArea = fileArea;
 
         return self.uploadFile(uri, options, siteId);
+    };
+
+    self.getAttachmentsItemId = function(){
+        var answers = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
+        var i = 0;
+        var idValue = '';
+        angular.forEach(answers, function(value, key) {
+             $log.debug('PTC photouploader.js getAttachmentsItemId():' 
+                    + 'key: '+ key
+                    + 'value: '+ value);
+            if(key.includes("attachments")){
+                 $log.debug('PTC photouploader.js getAttachmentsItemId() inside if'
+                    + 'value: '+value+'index: ' + i);
+                 idValue = value;
+                return idValue;
+            }
+            i++;   
+        });
+        return idValue;
     };
 
     return self;

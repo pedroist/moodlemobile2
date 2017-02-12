@@ -11,11 +11,9 @@
         <mm-rich-text-editor ng-if="!isPlainText" model="textarea" placeholder="{{ 'mm.question.answer' | translate }}" name="{{textarea.name}}" scroll-handle="{{scrollHandle}}" component="{{component}}" component-id="{{componentId}}"></mm-rich-text-editor>
     </ion-input>
     <div ng-if="textarea && hasDraftFiles" class="item item-text-wrap">
-    	not happen (!hasDraftFiles)
         <p class="mm-question-warning">{{ 'mm.question.errorinlinefilesnotsupported' | translate }}</p>
     </div>
     <div ng-if="textarea && hasDraftFiles" class="item item-text-wrap">
-    	not happen (!hasDraftFiles)
         <p><mm-format-text watch="true" class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{textarea.text}}</mm-format-text></p>
     </div>
     <div class="item" ng-if="allowsAttachments" style="height: 70px">
@@ -26,11 +24,17 @@
 				</div>
 			</ion-pane>
 		</ion-view>
+        <!-- show attachment files already uploaded-->
+        <div class="item" ng-if="attachmentsUploaded && attachmentsUploaded.length">
+            <mm-file ng-repeat="attachment in attachmentsUploaded" file="attachment" component="{{component}}" component-id="{{componentId}}"></mm-file>
+         </div>
+        <!-- "attachments id" hidden input -->
+        <input ng-if="attachments" type="hidden" name="{{attachments.name}}" value="{{attachments.value}}" >
     </div>
     <div class="item item-text-wrap" ng-if="!textarea && (answer || (!attachments.length && !allowsAttachments))">
-    	not happen (textarea allowsAttachments)
     	<p><mm-format-text watch="true" ng-class='{"mm-monospaced": isMonospaced}' class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{answer}}</mm-format-text></p>
     </div>
+    <!-- show attachment files -->
     <div class="item" ng-if="!textarea && attachments && attachments.length">
     	<mm-file ng-repeat="attachment in attachments" file="attachment" component="{{component}}" component-id="{{componentId}}"></mm-file>
     </div>

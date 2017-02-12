@@ -617,6 +617,10 @@ angular.module('mm.core.question')
         var form = document.createElement('form');
         form.innerHTML = question.html;
 
+        $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ' 
+                + JSON.stringify(question,null,4) );
+
+
         /*var input = document.createElement("input");
                 input.type = "text";
                 input.name = "q_179:1_attachments";
@@ -626,15 +630,30 @@ angular.module('mm.core.question')
         // Search all input elements.
         angular.forEach(form.elements, function(element) {
             var name = element.name || '';
+            var value = element.value || '';
+            $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ' 
+                + 'name: ' + JSON.stringify(name,null,4) 
+                + 'value: ' + JSON.stringify(value,null,4));
             // Ignore flag and submit inputs.
             if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON') {
+                $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ignore flag' 
+                + JSON.stringify(name,null,4) );
+
                 return;
             }
 
             // Search if there's a local answer.
             name = $mmQuestion.removeQuestionPrefix(name);
+
+            $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() without prefix' 
+                + JSON.stringify(name,null,4) );
+
             if (question.localAnswers && typeof question.localAnswers[name] != 'undefined') {
                 var selected;
+
+                $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() main if' 
+                + JSON.stringify(name,null,4) );
+
                 if (element.tagName == 'TEXTAREA') {
                     element.innerHTML = question.localAnswers[name];
                 } else if (element.tagName == 'SELECT') {

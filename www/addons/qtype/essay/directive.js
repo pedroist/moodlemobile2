@@ -36,11 +36,14 @@ angular.module('mm.addons.qtype_essay')
 
             if (questionEl) {
 				
-				$log.debug('PTC Essay directive: if questionEL');
+				$log.debug('PTC Essay directive: if questionEL '
+                    + JSON.stringify(questionEl, null, 4));
                 questionEl = questionEl[0] || questionEl; // Convert from jqLite to plain JS if needed.
 
                 // First search the textarea.
                 textarea = questionEl.querySelector('textarea[name*=_answer]');
+                $log.debug('PTC Essay directive: textarea '
+                    + JSON.stringify(textarea, null, 4));
                 scope.allowsAttachments = !!questionEl.querySelector('div[id*=filemanager]');
                 scope.isMonospaced = !!questionEl.querySelector('.qtype_essay_monospaced');
                 scope.isPlainText = scope.isMonospaced || !!questionEl.querySelector('.qtype_essay_plain');
@@ -62,8 +65,8 @@ angular.module('mm.addons.qtype_essay')
                     // Textarea found.
                     var input = questionEl.querySelector('input[type="hidden"][name*=answerformat]'),
                         content = textarea.innerHTML;
-
-                    $log.debug('PTC Essay directive: else !textarea content:' + JSON.stringify(content,null,4) );
+                        
+                    var attachments = questionEl.querySelector('input[type="hidden"][name*=attachments]');
 
                     scope.textarea = {
                         id: textarea.id,
@@ -79,9 +82,20 @@ angular.module('mm.addons.qtype_essay')
                             value: input.value
                         };
                     }
+
+                    if (attachments) {
+                        $log.debug('PTC Essay directive: if attachments');
+                        $log.debug('PTC Essay directive:  json attachments:' + JSON.stringify(attachments,null,4) );
+                        scope.attachments = {
+                            name: attachments.name,
+                            value: attachments.value
+                        };
+                    }
                     var PTCAnswers2 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);
                     $log.debug('PTC Essay directive: else !textarea json PTCAnswers:' + JSON.stringify(PTCAnswers2,null,4) );
 
+                    scope.attachmentsUploaded = $mmQuestionHelper.getQuestionAttachmentsFromHtml(
+                                            $mmUtil.getContentsOfElement(angular.element(questionEl), '.attachments'));
                 }
             }
         }

@@ -23,7 +23,7 @@ angular.module('mm.addons.mod_quiz')
  */
 .factory('$mmaModQuiz', function($log, $mmSite, $mmSitesManager, $q, $translate, $mmUtil, $mmText, $mmQuestionDelegate,
             $mmaModQuizAccessRulesDelegate, $mmFilepool, $mmaModQuizOnline, $mmaModQuizOffline, $mmSyncBlock, mmaModQuizComponent,
-            $ionicModal, $timeout) {
+            $ionicModal, $timeout, $mmQuestion) {
 
     $log = $log.getInstance('$mmaModQuiz');
 
@@ -319,6 +319,8 @@ angular.module('mm.addons.mod_quiz')
                 preSets = {
                     cacheKey: getAttemptDataCacheKey(attemptId, page)
                 };
+            $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptData() params: "
+                    + JSON.stringify(params, null, 4));
 
             if (offline) {
                 preSets.omitExpires = true;
@@ -2292,20 +2294,6 @@ angular.module('mm.addons.mod_quiz')
             });
         });
     };
-
-    // insert in the document player form an extra input answer.
-    self.insertInForm = function(itemId) {
-        $log.debug("PTC: addons/mod/quiz/services/quiz.js insertInForm() itemId: "
-                + JSON.stringify(itemId, null, 4));
-        var form = document.forms['mma-mod_quiz-player-form'];
-        if(form){
-            var input = document.createElement("input");
-                input.type = "text";
-                input.name = "q189:1_attachments";
-                input.value = itemId;
-            form.appendChild(input);
-        }
-    }
 
     return self;
 });

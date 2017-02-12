@@ -110,7 +110,7 @@ angular.module('mm.core.question')
                                         question, question.preferredBehaviour);
                         $mmQuestionHelper.extractQbehaviourRedoButton(question);
                         question.html = $mmUtil.removeElementFromHtml(question.html, '.im-controls');
-
+                        
                         // Extract the validation error of the question.
                         question.validationError = $mmQuestionHelper.getValidationErrorFromHtml(question.html);
 
