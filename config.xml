@@ -3,7 +3,7 @@
   <name>Moodle Mobile</name>
   <description>Official Moodle Mobile app</description>
   <author href="http://moodle.com" email="juan@moodle.com">Juan Leyva</author>
-  <content src="index.html"/>
+  <content src="http://undefined:8100" original-src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="cdvfile:*"/>
   <allow-navigation href="content:*"/>

@@ -252,7 +252,7 @@ angular.module('mm.addons.mod_quiz')
 
     // Process attempt.
     function processAttempt(finish, timeup) {
-        $log.debug("PTC: addons/mod/quiz/controllers/player.js processAttempt() + call to processAttempt()");
+        //$log.debug("PTC: addons/mod/quiz/controllers/player.js processAttempt() + call to processAttempt()");
         return $mmaModQuiz.processAttempt(quiz, attempt, getAnswers(), $scope.preflightData, finish, timeup, offline)
                 .then(function() {
             // Answers saved, cancel auto save.

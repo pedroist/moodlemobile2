@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"load",
+				"loadLocal"
+			],
+			[
+				"getAttempT",
+				"getAttemptSummaryCacheKey"
+			],
+			[
 				"itemI",
 				"itemId"
 			],
@@ -38,10 +46,6 @@
 			[
 				"check",
 				"checkChanges"
-			],
-			[
-				"load",
-				"loadLocalAnswersInHtml"
 			],
 			[
 				"attach",
@@ -273,10 +277,15 @@
 			}
 		},
 		{
-			"contents": "// (C) Copyright 2015 Martin Dougiamas\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//     http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\nangular.module('mm.core.question')\n\n/**\n * Helper to gather some common functions for question directives.\n *\n * @module mm.core.question\n * @ngdoc service\n * @name $mmQuestionHelper\n */\n.factory('$mmQuestionHelper', function($log, $mmUtil, $mmText, $ionicModal, mmQuestionComponent, $mmSitesManager, $mmFilepool, $q,\n            $mmQuestion, $mmSite) {\n\n    var self = {},\n        lastErrorShown = 0;\n\n    /**\n     * Add a behaviour button to the question's \"behaviourButtons\" property.\n     *\n     * @param {Object} question Question.\n     * @param {Object} button   Button (DOM element).\n     */\n    function addBehaviourButton(question, button) {\n        if (!button || !question) {\n            return;\n        }\n\n        if (!question.behaviourButtons) {\n            question.behaviourButtons = [];\n        }\n\n        // Extract the data we want.\n        question.behaviourButtons.push({\n            id: button.id,\n            name: button.name,\n            value: button.value,\n            disabled: button.disabled\n        });\n    }\n\n    /**\n     * Convenience function to initialize a question directive.\n     * Performs some common checks and extracts the question's text.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#directiveInit\n     * @param  {Object} scope Directive's scope.\n     * @param  {Object} log   $log instance to log messages.\n     * @return {Object}       Angular DOM element of the question's HTML. Undefined if an error happens.\n     */\n    self.directiveInit = function(scope, log) {\n        var question = scope.question,\n            questionEl;\n\n        if (!question) {\n            log.warn('Aborting because of no question received.');\n            return self.showDirectiveError(scope);\n        }\n\n        questionEl = angular.element(question.html);\n\n        // Extract question text.\n        question.text = $mmUtil.getContentsOfElement(questionEl, '.qtext');\n        if (typeof question.text == 'undefined') {\n            log.warn('Aborting because of an error parsing question.', question.name);\n            return self.showDirectiveError(scope);\n        }\n\n        return questionEl;\n    };\n\n    /**\n     * Extract question behaviour submit buttons from the question's HTML and add them to \"behaviourButtons\" property.\n     * The buttons aren't deleted from the content because all the im-controls block will be removed afterwards.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQbehaviourButtons\n     * @param  {Object} question   Question to treat.\n     * @param  {String} [selector] Selector to search the buttons. By default, '.im-controls input[type=\"submit\"]'.\n     * @return {Void}\n     */\n    self.extractQbehaviourButtons = function(question, selector) {\n        selector = selector || '.im-controls input[type=\"submit\"]';\n\n        // Create a fake div element so we can search using querySelector.\n        var div = document.createElement('div'),\n            buttons;\n\n        div.innerHTML = question.html;\n\n        // Search the buttons.\n        buttons = div.querySelectorAll(selector);\n        angular.forEach(buttons, function(button) {\n            addBehaviourButton(question, button);\n        });\n\n        question.html = div.innerHTML;\n    };\n\n    /**\n     * Check if the question has CBM and, if so, extract the certainty options and add them to a new\n     * \"behaviourCertaintyOptions\" property.\n     * The value of the selected option is stored in question.behaviourCertaintySelected.\n     * We don't remove them from HTML because all the im-controls block will be removed afterwards.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQbehaviourCBM\n     * @param  {Object} question Question to treat.\n     * @return {Boolean}         True if the seen input is found, false otherwise.\n     */\n    self.extractQbehaviourCBM = function(question) {\n        // Create a fake div element so we can search using querySelector.\n        var div = document.createElement('div'),\n            labels;\n\n        div.innerHTML = question.html;\n\n        labels = div.querySelectorAll('.im-controls .certaintychoices label[for*=\"certainty\"]');\n        question.behaviourCertaintyOptions = [];\n\n        angular.forEach(labels, function(label) {\n            var input = label.querySelector('input[type=\"radio\"]');\n            if (input) {\n                question.behaviourCertaintyOptions.push({\n                    id: input.id,\n                    name: input.name,\n                    value: input.value,\n                    text: $mmText.cleanTags(label.innerHTML),\n                    disabled: input.disabled\n                });\n\n                if (input.checked) {\n                    question.behaviourCertaintySelected = input.value;\n                }\n            }\n        });\n\n        // If we have a certainty value stored in local we'll use that one.\n        if (question.localAnswers && typeof question.localAnswers['-certainty'] != 'undefined') {\n            question.behaviourCertaintySelected = question.localAnswers['-certainty'];\n        }\n\n        return labels && labels.length;\n    };\n\n    /**\n     * Check if the question has a redo button and, if so, add it to \"behaviourButtons\" property\n     * and remove it from the HTML.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQbehaviourRedoButton\n     * @param  {Object} question Question to treat.\n     * @return {Void}\n     */\n    self.extractQbehaviourRedoButton = function(question) {\n        // Create a fake div element so we can search using querySelector.\n        var div = document.createElement('div'),\n            redoSelector = 'input[type=\"submit\"][name*=redoslot], input[type=\"submit\"][name*=tryagain]';\n\n        // Search redo button in feedback (Moodle 3.1+).\n        if (!searchButton('html', '.outcome ' + redoSelector)) {\n            // Not found in question HTML.\n            if (question.feedbackHtml) {\n                // We extracted the feedback already, search it in there.\n                if (searchButton('feedbackHtml', redoSelector)) {\n                    // Button found, stop.\n                    return;\n                }\n            }\n\n            // Button still not found. Now search in the info box if it exists.\n            if (question.infoHtml) {\n                searchButton('infoHtml', redoSelector);\n            }\n        }\n\n        // Search the button in a certain question property containing HTML.\n        function searchButton(htmlProperty, selector) {\n            var button;\n\n            div.innerHTML = question[htmlProperty];\n\n            button = div.querySelector(selector);\n            if (button) {\n                addBehaviourButton(question, button);\n                angular.element(button).remove();\n                question[htmlProperty] = div.innerHTML;\n                return true;\n            }\n            return false;\n        }\n    };\n\n    /**\n     * Check if the question contains a \"seen\" input.\n     * If so, add the name and value to a \"behaviourSeenInput\" property and remove the input.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQbehaviourSeenInput\n     * @param  {Object} question Question to treat.\n     * @return {Boolean}         True if the seen input is found, false otherwise.\n     */\n    self.extractQbehaviourSeenInput = function(question) {\n        // Create a fake div element so we can search using querySelector.\n        var div = document.createElement('div'),\n            seenInput;\n\n        div.innerHTML = question.html;\n\n        // Search the \"seen\" input.\n        seenInput = div.querySelector('input[type=\"hidden\"][name*=seen]');\n        if (seenInput) {\n            // Get the data and remove the input.\n            question.behaviourSeenInput = {\n                name: seenInput.name,\n                value: seenInput.value\n            };\n            angular.element(seenInput).remove();\n            question.html = div.innerHTML;\n\n            // Return the directive to render this input.\n            return true;\n        }\n        return false;\n    };\n\n    /**\n     * Removes the comment from the question HTML code and adds it in a new \"commentHtml\" property.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQuestionComment\n     * @param  {Object} question Question.\n     * @return {Void}\n     */\n    self.extractQuestionComment = function(question) {\n        extractQuestionLastElementNotInContent(question, '.comment', 'commentHtml');\n    };\n\n    /**\n     * Removes the feedback from the question HTML code and adds it in a new \"feedbackHtml\" property.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQuestionFeedback\n     * @param  {Object} question Question.\n     * @return {Void}\n     */\n    self.extractQuestionFeedback = function(question) {\n        extractQuestionLastElementNotInContent(question, '.outcome', 'feedbackHtml');\n    };\n\n    /**\n     * Extracts the info box from a question and add it to an \"infoHtml\" property.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQuestionInfoBox\n     * @param  {Object} question Question.\n     * @param  {String} selector Selector to search the element.\n     * @return {Void}\n     */\n    self.extractQuestionInfoBox = function(question, selector) {\n        extractQuestionLastElementNotInContent(question, selector, 'infoHtml');\n    };\n\n    /**\n     * Searches the last occurrence of a certain element and check it's not in the question contents.\n     * If found, removes it from the question HTML and adds it to a new property inside question.\n     *\n     *\n     * @param  {Object} question Question.\n     * @param  {String} selector Selector to search the element.\n     * @param  {String} attrName Name of the attribute to store the HTML in.\n     * @return {Void}\n     */\n    function extractQuestionLastElementNotInContent(question, selector, attrName) {\n        // Create a fake div element so we can search using querySelector.\n        var div = document.createElement('div'),\n            matches,\n            last,\n            position;\n\n        div.innerHTML = question.html;\n\n        matches = div.querySelectorAll(selector);\n\n        // Get the last element and check it's not in the question contents.\n        // We don't use .pop() because the result of querySelectorAll doesn't support it.\n        position = matches.length -1;\n        last = matches[position];\n        while (last) {\n            if (!$mmUtil.closest(last, '.formulation')) {\n                question[attrName] = last.innerHTML;\n                angular.element(last).remove();\n                question.html = div.innerHTML;\n                return;\n            }\n\n            // It's inside the question content, treat next element.\n            position--;\n            last = matches[position];\n        }\n    }\n\n    /**\n     * Removes the scripts from a question's HTML and adds it in a new 'scriptsCode' property.\n     * It will also search for init_question functions of the question type and add the object to an 'initObjects' property.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#extractQuestionScripts\n     * @param  {Object} question Question.\n     * @return {Void}\n     */\n    self.extractQuestionScripts = function(question) {\n        var matches;\n\n        question.scriptsCode = '';\n        question.initObjects = [];\n\n        if (question.html) {\n            // Search the scripts.\n            matches = question.html.match(/<script[^>]*>[\\s\\S]*?<\\/script>/mg);\n            angular.forEach(matches, function(match) {\n                // Add the script to scriptsCode and remove it from html.\n                question.scriptsCode += match;\n                question.html = question.html.replace(match, '');\n\n                // Search init_question functions for this type.\n                var initMatches = match.match(new RegExp('M\\.qtype_' + question.type + '\\.init_question\\\\(.*?}\\\\);', 'mg'));\n                if (initMatches) {\n                    var initMatch = initMatches.pop();\n\n                    // Remove start and end of the match, we only want the object.\n                    initMatch = initMatch.replace('M.qtype_' + question.type + '.init_question(', '');\n                    initMatch = initMatch.substr(0, initMatch.length - 2);\n\n                    // Try to convert it to an object and add it to the question.\n                    try {\n                        question.initObjects = JSON.parse(initMatch);\n                    } catch(ex) {}\n                }\n            });\n        }\n    };\n\n    /**\n     * Get the names of all the inputs inside an HTML code.\n     * This function will return an object where the keys are the input names. The values will always be true.\n     * This is in order to make this function compatible with other functions like $mmQuestion#getBasicAnswers.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getAllInputNamesFromHtml\n     * @param  {String} html HTML code.\n     * @return {Object}      Object where the keys are the names.\n     */\n    self.getAllInputNamesFromHtml = function(html) {\n        $log.debug(\"PTC: core/components/question/services/helper.js getAllInputNamesFromHtml()\");\n        var form = document.createElement('form'),\n            answers = {};\n\n        form.innerHTML = html;\n\n        // Search all input elements.\n        angular.forEach(form.elements, function(element) {\n            var name = element.name || '';\n            // Ignore flag and submit inputs.\n            if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON') {\n                return;\n            }\n\n            answers[$mmQuestion.removeQuestionPrefix(name)] = true;\n        });\n        $log.debug(\"PTC: core/components/question/services/helper.js inside getAllInputNamesFromHtml() answers: \"\n                + JSON.stringify(answers, null, 4));\n        return answers;\n    };\n\n    /**\n     * Retrieve the answers entered in a form.\n     * We don't use ng-model because it doesn't detect changes done by JavaScript and some questions might do that.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getAnswersFromForm\n     * @param  {Object} form Form (DOM element).\n     * @return {Object}      Object with the answers.\n     */\n    self.getAnswersFromForm = function(form) {\n        $log.debug(\"PTC: core/components/question/services/helper.js getAnswersFromForm()\");\n        if (!form || !form.elements) {\n            return {};\n        }\n\n        var answers = {};\n\n        angular.forEach(form.elements, function(element) {\n            var name = element.name || '';\n            \n            // Ignore flag and submit inputs.\n            if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON') {\n                return;\n            }\n\n            // Get the value.\n            if (element.type == 'checkbox') {\n                answers[name] = !!element.checked;\n            } else if (element.type == 'radio') {\n                if (element.checked) {\n                    answers[name] = element.value;\n                }\n            } else {\n                answers[name] = element.value;\n                $log.debug(\"PTC: inside getAnswersFromForm() var name: \"\n                    + JSON.stringify(name, null, 4) \n                    + \"   value: \"\n                    + JSON.stringify(element.value, null, 4));\n                \n            }\n        });\n\n        return answers;\n    };\n\n    /**\n     * Given an HTML code with list of attachments, returns the list of attached files (filename and fileurl).\n     * Please take into account that this function will treat all the anchors in the HTML, you should provide\n     * an HTML containing only the attachments anchors.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getQuestionAttachmentsFromHtml\n     * @param  {String} html HTML code to search in.\n     * @return {Object[]}    Attachments.\n     */\n    self.getQuestionAttachmentsFromHtml = function(html) {\n        $log.debug(\"PTC: core/components/question/services/helper.js getQuestionAttachmentsFromHtml()\");\n        var el = angular.element('<div></div>'),\n            anchors,\n            attachments = [];\n\n        // Add the HTML and get the plain JS element.\n        el.html(html);\n        el = el[0];\n\n        // Remove the filemanager (area to attach files to a question).\n        $mmUtil.removeElement(el, 'div[id*=filemanager]');\n\n        // Search the anchors.\n        anchors = el.querySelectorAll('a');\n        angular.forEach(anchors, function(anchor) {\n            var content = anchor.innerHTML;\n            // Check anchor is valid.\n            if (anchor.href && content) {\n                content = $mmText.cleanTags(content, true).trim();\n                attachments.push({\n                    filename: content,\n                    fileurl: anchor.href\n                });\n            }\n        });\n        $log.debug(\"PTC: core/components/question/services/helper.js inside getQuestionAttachmentsFromHtml() attachments: \"\n                + JSON.stringify(attachments, null, 4));\n        return attachments;\n    };\n\n    /**\n     * Get the sequence check from a question HTML.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getQuestionSequenceCheckFromHtml\n     * @param  {String} html Question's HTML.\n     * @return {Object}      Object with the sequencecheck name and value.\n     */\n    self.getQuestionSequenceCheckFromHtml = function(html) {\n        var el,\n            input;\n\n        if (html) {\n            el = angular.element(html)[0];\n\n            // Search the input holding the sequencecheck.\n            input = el.querySelector('input[name*=sequencecheck]');\n            if (input && typeof input.name != 'undefined' && typeof input.value != 'undefined') {\n                return {\n                    name: input.name,\n                    value: input.value\n                };\n            }\n        }\n    };\n\n    /**\n     * Get the CSS class for a question based on its state.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getQuestionStateClass\n     * @param  {String} name Question's state name.\n     * @return {String}      State class.\n     */\n    self.getQuestionStateClass = function(name) {\n        var state = $mmQuestion.getState(name);\n        return state ? state.class : '';\n    };\n\n    /**\n     * Get the validation error message from a question HTML if it's there.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#getValidationErrorFromHtml\n     * @param  {String} html Question's HTML.\n     * @return {Object}      Validation error message if present.\n     */\n    self.getValidationErrorFromHtml = function(html) {\n        return $mmUtil.getContentsOfElement(angular.element(html), '.validationerror');\n    };\n\n    /**\n     * Check if some HTML contains draft file URLs for the current site.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#hasDraftFileUrls\n     * @param  {String} html Question's HTML.\n     * @return {Boolean}     True if contains draft files URLs, false otherwise.\n     */\n    self.hasDraftFileUrls = function(html) {\n        var url = $mmSite.getURL();\n        if (url.slice(-1) != '/') {\n            url = url += '/';\n        }\n        url += 'draftfile.php';\n\n        return html.indexOf(url) != -1;\n    };\n\n    /**\n     * Generic link function for question directives with an input of type \"text\".\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#inputTextDirective\n     * @param  {Object} scope Directive's scope.\n     * @param  {Object} log   $log instance to log messages.\n     * @return {Void}\n     */\n    self.inputTextDirective = function(scope, log) {\n        var questionEl = self.directiveInit(scope, log);\n        if (questionEl) {\n            questionEl = questionEl[0] || questionEl; // Convert from jqLite to plain JS if needed.\n\n            // Get the input element.\n            input = questionEl.querySelector('input[type=\"text\"][name*=answer]');\n            if (!input) {\n                log.warn('Aborting because couldn\\'t find input.', question.name);\n                return self.showDirectiveError(scope);\n            }\n\n            scope.input = {\n                id: input.id,\n                name: input.name,\n                value: input.value,\n                readOnly: input.readOnly\n            };\n\n            // Check if question is marked as correct.\n            if (input.className.indexOf('incorrect') >= 0) {\n                scope.input.isCorrect = 0;\n            } else if (input.className.indexOf('correct') >= 0) {\n                scope.input.isCorrect = 1;\n            }\n        }\n    };\n\n    /**\n     * For each input element found in the HTML, search if there's a local answer stored and\n     * override the HTML's value with the local one.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#loadLocalAnswersInHtml\n     * @param  {String} component Component the answers belong to.\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {Object} question  Question.\n     * @return {Void}\n     */\n    self.loadLocalAnswersInHtml = function(question) {\n        $log.debug(\"PTC: core/components/question/services/helper.js loadLocalAnswersInHtml()\");\n        \n        //var PTCAnswers3 = $mmQuestionHelper.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);\n        //$log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() PTCAnswers3:' + JSON.stringify(PTCAnswers3,null,4) );\n\n\n        var form = document.createElement('form');\n        form.innerHTML = question.html;\n\n        $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ' \n                + JSON.stringify(question,null,4) );\n\n\n        /*var input = document.createElement(\"input\");\n                input.type = \"text\";\n                input.name = \"q_179:1_attachments\";\n                input.value = \"12345\";\n        form.appendChild(input);\n        */\n        // Search all input elements.\n        angular.forEach(form.elements, function(element) {\n            var name = element.name || '';\n            var value = element.value || '';\n            $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ' \n                + 'name: ' + JSON.stringify(name,null,4) \n                + 'value: ' + JSON.stringify(value,null,4));\n            // Ignore flag and submit inputs.\n            if (!name || name.match(/_:flagged$/) || element.type == 'submit' || element.tagName == 'BUTTON') {\n                $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() ignore flag' \n                + JSON.stringify(name,null,4) );\n\n                return;\n            }\n\n            // Search if there's a local answer.\n            name = $mmQuestion.removeQuestionPrefix(name);\n\n            $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() without prefix' \n                + JSON.stringify(name,null,4) );\n\n            if (question.localAnswers && typeof question.localAnswers[name] != 'undefined') {\n                var selected;\n\n                $log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() main if' \n                + JSON.stringify(name,null,4) );\n\n                if (element.tagName == 'TEXTAREA') {\n                    element.innerHTML = question.localAnswers[name];\n                } else if (element.tagName == 'SELECT') {\n                    // Search the selected option and select it.\n                    selected = element.querySelector('option[value=\"' + question.localAnswers[name] + '\"]');\n                    if (selected) {\n                        selected.setAttribute('selected', 'selected');\n                    }\n                } else if (element.type == 'radio' || element.type == 'checkbox') {\n                    if (element.value == question.localAnswers[name]) {\n                        element.setAttribute('checked', 'checked');\n                    }\n                } else {\n                    element.setAttribute('value', question.localAnswers[name]);\n                }\n            }\n        });\n\n        question.html = form.innerHTML;\n        //var PTCAnswers4 = self.getAnswersFromForm(document.forms['mma-mod_quiz-player-form']);\n        //$log.debug('PTC: core/components/question/services/helper.js loadLocalAnswersInHtml() PTCAnswers4:' + JSON.stringify(PTCAnswers4,null,4) );\n\n    };\n\n    /**\n     * Generic link function for question directives with a \"matching\" (selects).\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#matchingDirective\n     * @param  {Object} scope Directive's scope.\n     * @param  {Object} log   $log instance to log messages.\n     * @return {Void}\n     */\n    self.matchingDirective = function(scope, log) {\n        var questionEl = self.directiveInit(scope, log),\n            question = scope.question,\n            rows;\n\n        if (questionEl) {\n            questionEl = questionEl[0] || questionEl; // Convert from jqLite to plain JS if needed.\n\n            // Find rows.\n            rows = questionEl.querySelectorAll('tr');\n            if (!rows || !rows.length) {\n                log.warn('Aborting because couldn\\'t find any row.', question.name);\n                return self.showDirectiveError(scope);\n            }\n\n            question.rows = [];\n\n            angular.forEach(rows, function(row) {\n                var rowModel = {},\n                    select,\n                    options,\n                    accessibilityLabel,\n                    columns = row.querySelectorAll('td');\n\n                if (!columns || columns.length < 2) {\n                    log.warn('Aborting because couldn\\'t find the right columns.', question.name);\n                    return self.showDirectiveError(scope);\n                }\n\n                // Get the row's text. It should be in the first column.\n                rowModel.text = columns[0].innerHTML;\n\n                // Get the select and the options.\n                select = columns[1].querySelector('select');\n                options = columns[1].querySelectorAll('option');\n\n                if (!select || !options || !options.length) {\n                    log.warn('Aborting because couldn\\'t find select or options.', question.name);\n                    return self.showDirectiveError(scope);\n                }\n\n                rowModel.id = select.id;\n                rowModel.name = select.name;\n                rowModel.disabled = select.disabled;\n                rowModel.options = [];\n\n                // Check if answer is correct.\n                if (columns[1].className.indexOf('incorrect') >= 0) {\n                    rowModel.isCorrect = 0;\n                } else if (columns[1].className.indexOf('correct') >= 0) {\n                    rowModel.isCorrect = 1;\n                }\n\n                // Treat each option.\n                angular.forEach(options, function(option) {\n                    if (typeof option.value == 'undefined') {\n                        log.warn('Aborting because couldn\\'t find option value.', question.name);\n                        return self.showDirectiveError(scope);\n                    }\n\n                    rowModel.options.push({\n                        value: option.value,\n                        label: option.innerHTML,\n                        selected: option.selected\n                    });\n                });\n\n                // Get the accessibility label.\n                accessibilityLabel = columns[1].querySelector('label.accesshide');\n                rowModel.accessibilityLabel = accessibilityLabel.innerHTML;\n\n                question.rows.push(rowModel);\n            });\n\n            question.loaded = true;\n        }\n    };\n\n    /**\n     * Generic link function for question directives with a multi choice input.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#multiChoiceDirective\n     * @param  {Object} scope Directive's scope.\n     * @param  {Object} log   $log instance to log messages.\n     * @return {Void}\n     */\n    self.multiChoiceDirective = function(scope, log) {\n        var questionEl = self.directiveInit(scope, log),\n            question = scope.question;\n\n        // We need a model to store the answers for radio buttons since ng-checked isn't available for ion-radio.\n        scope.mcAnswers = {};\n\n        if (questionEl) {\n            questionEl = questionEl[0] || questionEl; // Convert from jqLite to plain JS if needed.\n\n            // Get the prompt.\n            question.prompt = $mmUtil.getContentsOfElement(questionEl, '.prompt');\n\n            // Search radio buttons first (single choice).\n            var options = questionEl.querySelectorAll('input[type=\"radio\"]');\n            if (!options || !options.length) {\n                // Radio buttons not found, it should be a multi answer. Search for checkbox.\n                question.multi = true;\n                options = questionEl.querySelectorAll('input[type=\"checkbox\"]');\n\n                if (!options || !options.length) {\n                    // No checkbox found either. Abort.\n                    log.warn('Aborting because of no radio and checkbox found.', question.name);\n                    return self.showDirectiveError(scope);\n                }\n            }\n\n            question.options = [];\n\n            angular.forEach(options, function(element) {\n\n                var option = {\n                        id: element.id,\n                        name: element.name,\n                        value: element.value,\n                        checked: element.checked,\n                        disabled: element.disabled\n                    },\n                    label,\n                    parent = element.parentNode,\n                    feedback;\n\n                // Get the label with the question text.\n                label = questionEl.querySelector('label[for=\"' + option.id + '\"]');\n                if (label) {\n                    option.text = label.innerHTML;\n\n                    // Check that we were able to successfully extract options required data.\n                    if (typeof option.name != 'undefined' && typeof option.value != 'undefined' &&\n                                typeof option.text != 'undefined') {\n\n                        if (element.checked) {\n                            // If the option is checked and it's a single choice we use the model to select the one.\n                            if (!question.multi) {\n                                scope.mcAnswers[option.name] = option.value;\n                            }\n\n                            if (parent) {\n                                // Check if answer is correct.\n                                if (parent && parent.className.indexOf('incorrect') >= 0) {\n                                    option.isCorrect = 0;\n                                } else if (parent && parent.className.indexOf('correct') >= 0) {\n                                    option.isCorrect = 1;\n                                }\n\n                                // Search the feedback.\n                                feedback = parent.querySelector('.specificfeedback');\n                                if (feedback) {\n                                    option.feedback = feedback.innerHTML;\n                                }\n                            }\n                        }\n                        question.options.push(option);\n                        return;\n                    }\n                }\n\n                // Something went wrong when extracting the questions data. Abort.\n                log.warn('Aborting because of an error parsing options.', question.name, option.name);\n                return self.showDirectiveError(scope);\n            });\n        }\n    };\n\n    /**\n     * Prefetch the files in a question HTML.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#prefetchQuestionFiles\n     * @param  {Object} question     Question.\n     * @param  {String} [siteId]     Site ID. If not defined, current site.\n     * @param  {String} component    The component to link the files to. If not defined, question component.\n     * @param  {Mixed} [componentId] An ID to use in conjunction with the component. If not defined, question ID.\n     * @return {Promise}             Promise resolved when all the files have been downloaded.\n     */\n    self.prefetchQuestionFiles = function(question, siteId, component, componentId) {\n        $log.debug(\"PTC: core/components/question/services/helper.js Prefetch()\");\n        var urls = $mmUtil.extractDownloadableFilesFromHtml(question.html);\n\n        if (!component) {\n            component = mmQuestionComponent;\n            componentId = question.id;\n        }\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            var promises = [];\n\n            angular.forEach(urls, function(url) {\n                if (!site.canDownloadFiles() && $mmUtil.isPluginFileUrl(url)) {\n                    return;\n                }\n                if (url.indexOf('theme/image.php') > -1 && url.indexOf('flagged') > -1) {\n                    // Ignore flag images.\n                    return;\n                }\n\n                promises.push($mmFilepool.addToQueueByUrl(siteId, url, component, componentId));\n            });\n\n            return $q.all(promises);\n        });\n    };\n\n    /**\n     * Replace Moodle's correct/incorrect classes with the Mobile ones.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#replaceCorrectnessClasses\n     * @param  {Object} element DOM element.\n     * @return {Void}\n     */\n    self.replaceCorrectnessClasses = function(element) {\n        $mmUtil.replaceClassesInElement(element, {\n            correct: 'mm-question-answer-correct',\n            incorrect: 'mm-question-answer-incorrect'\n        });\n    };\n\n    /**\n     * Replace Moodle's feedback classes with the Mobile ones.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#replaceFeedbackClasses\n     * @param  {Object} element DOM element.\n     * @return {Void}\n     */\n    self.replaceFeedbackClasses = function(element) {\n        $mmUtil.replaceClassesInElement(element, {\n            outcome: 'mm-question-feedback-container mm-question-feedback-padding',\n            specificfeedback: 'mm-question-feedback-container mm-question-feedback-inline'\n        });\n    };\n\n    /**\n     * Convenience function to show a parsing error and abort.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#showDirectiveError\n     * @param  {Object} scope   Directive scope.\n     * @param  {String} [error] Error to show.\n     * @return {Void}\n     */\n    self.showDirectiveError = function(scope, error) {\n        error = error || 'Error processing the question. This could be caused by custom modifications in your site.';\n\n        // Prevent consecutive errors.\n        var now = new Date().getTime();\n        if (now - lastErrorShown > 500) {\n            lastErrorShown = now;\n            $mmUtil.showErrorModal(error);\n        }\n        scope.abort();\n    };\n\n    /**\n     * Treat correctness icons, replacing them with local icons and setting click events to show the feedback if needed.\n     *\n     * @module mm.core.question\n     * @ngdoc method\n     * @name $mmQuestionHelper#treatCorrectnessIcons\n     * @param  {Object} scope   Directive scope.\n     * @param  {Object} element DOM element.\n     * @return {Void}\n     */\n    self.treatCorrectnessIcons = function(scope, element) {\n        element = element[0] || element; // Convert from jqLite to plain JS if needed.\n\n        var icons = element.querySelectorAll('.questioncorrectnessicon');\n        angular.forEach(icons, function(icon) {\n            var parent;\n\n            // Replace the icon with the local version.\n            if (icon.src && icon.src.indexOf('incorrect') > -1) {\n                icon.src = 'img/icons/grade_incorrect.svg';\n            } else if (icon.src && icon.src.indexOf('correct') > -1) {\n                icon.src = 'img/icons/grade_correct.svg';\n            }\n\n            // Search if there's a hidden feedback for this element.\n            parent = icon.parentNode;\n            if (!parent) {\n                return;\n            }\n            if (!parent.querySelector('.feedbackspan.accesshide')) {\n                return;\n            }\n\n            // There's a hidden feedback, set up ngClick to show the feedback.\n            icon.setAttribute('ng-click', 'questionCorrectnessIconClicked($event)');\n        });\n\n        // Set icon click function.\n        scope.questionCorrectnessIconClicked = function(event) {\n            var parent = event.target.parentNode,\n                feedback;\n            if (parent) {\n                feedback = parent.querySelector('.feedbackspan.accesshide');\n                if (feedback && feedback.innerHTML) {\n                    scope.currentFeedback = feedback.innerHTML;\n                    scope.feedbackModal.show();\n                }\n            }\n        };\n\n        // Feedback modal.\n        $ionicModal.fromTemplateUrl('core/components/question/templates/feedbackmodal.html', {\n            scope: scope\n        }).then(function(modal) {\n            scope.feedbackModal = modal;\n\n            scope.closeModal = function() {\n                modal.hide();\n            };\n        });\n    };\n\n    return self;\n});\n",
+			"file": "www/addons/qtype/essay/handlers.js",
+			"settings":
+			{
+				"buffer_size": 4767,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "platforms/android/assets/www/core/components/question/services/helper.js",
-			"file_size": 39751,
-			"file_write_time": 131313537781280530,
 			"settings":
 			{
 				"buffer_size": 38727,
@@ -288,7 +297,7 @@
 			"file": "www/addons/qtype/essay/template.html",
 			"settings":
 			{
-				"buffer_size": 2766,
+				"buffer_size": 3007,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -313,7 +322,7 @@
 			"file": "www/core/components/photouploader/services/photouploader.js",
 			"settings":
 			{
-				"buffer_size": 6994,
+				"buffer_size": 7083,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -337,10 +346,7 @@
 			}
 		},
 		{
-			"contents": "// (C) Copyright 2015 Martin Dougiamas\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//     http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\nangular.module('mm.core')\n\n// 30s timeout for $http requests and promises.\n.constant('mmWSTimeout', 30000)\n\n/**\n * Web service module.\n *\n * @module mm.core\n * @ngdoc service\n * @name $mmWS\n */\n.factory('$mmWS', function($http, $q, $log, $mmLang, $cordovaFileTransfer, $mmApp, $mmFS, mmCoreSessionExpired,\n            mmCoreUserDeleted, $translate, $window, md5, $timeout, mmWSTimeout, mmCoreUserPasswordChangeForced) {\n\n    $log = $log.getInstance('$mmWS');\n\n    var self = {},\n        mimeTypeCache = {}, // A \"cache\" to store file mimetypes to prevent performing too many HEAD requests.\n        ongoingCalls = {},\n        retryCalls = [],\n        retryTimeout = 0;\n\n    /**\n     * A wrapper function for a moodle WebService call.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#call\n     * @param {string} method The WebService method to be called.\n     * @param {Object} data Arguments to pass to the method.\n     * @param {Object} preSets Extra settings and information.\n     *                    - siteurl string The site URL.\n     *                    - wstoken string The Webservice token.\n     *                    - responseExpected boolean Defaults to true. Set to false when the expected response is null.\n     *                    - typeExpected string Defaults to 'object'. Use it when you expect a type that's not an object|array.\n     * @return {Promise} Promise resolved with the response data in success and rejected with the error message if it fails.\n     */\n    self.call = function(method, data, preSets) {\n\n        var siteurl;\n\n        data = convertValuesToString(data);\n\n        if (typeof preSets == 'undefined' || preSets === null ||\n                typeof preSets.wstoken == 'undefined' || typeof preSets.siteurl == 'undefined') {\n            return $mmLang.translateAndReject('mm.core.unexpectederror');\n        } else if (!$mmApp.isOnline()) {\n            return $mmLang.translateAndReject('mm.core.networkerrormsg');\n        }\n\n        preSets.typeExpected = preSets.typeExpected || 'object';\n        if (typeof preSets.responseExpected == 'undefined') {\n            preSets.responseExpected = true;\n        }\n\n        data.wsfunction = method;\n        data.wstoken = preSets.wstoken;\n        siteurl = preSets.siteurl + '/webservice/rest/server.php?moodlewsrestformat=json';\n\n        var ajaxData = data;\n\n        var promise = getPromiseHttp('post', preSets.siteurl, ajaxData);\n\n        if (!promise) {\n            // There are some ongoing retry calls, wait for timeout.\n            if (retryCalls.length > 0) {\n                $log.warn('Calls locked, trying later...');\n                promise = addToRetryQueue(method, siteurl, ajaxData, preSets);\n            } else {\n                promise = performPost(method, siteurl, ajaxData, preSets);\n            }\n        }\n\n        return promise;\n    };\n\n    /**\n     * Perform the post call and save the promise while waiting to be resolved.\n     *\n     * @param {string} method   The WebService method to be called.\n     * @param {string} siteurl  Complete site url to perform the call.\n     * @param {Object} ajaxData Arguments to pass to the method.\n     * @param {Object} preSets  Extra settings and information. See $mmWS#call.\n     * @return {Promise} Promise resolved with the response data in success and rejected with the error message if it fails.\n     */\n    function performPost(method, siteurl, ajaxData, preSets) {\n        var promise = $http.post(siteurl, ajaxData, {timeout: mmWSTimeout}).then(function(data) {\n\n            // Some moodle web services return null.\n            // If the responseExpected value is set then so long as no data\n            // is returned, we create a blank object.\n            if ((!data || !data.data) && !preSets.responseExpected) {\n                data = {};\n            } else {\n                data = data.data;\n            }\n\n            if (!data) {\n                return $mmLang.translateAndReject('mm.core.serverconnection');\n            } else if (typeof data != preSets.typeExpected) {\n                $log.warn('Response of type \"' + typeof data + '\" received, expecting \"' + preSets.typeExpected + '\"');\n                return $mmLang.translateAndReject('mm.core.errorinvalidresponse');\n            }\n\n            if (typeof(data.exception) !== 'undefined') {\n                if (data.errorcode == 'invalidtoken' ||\n                        (data.errorcode == 'accessexception' && data.message.indexOf('Invalid token - token expired') > -1)) {\n                    $log.error(\"Critical error: \" + JSON.stringify(data));\n                    return $q.reject(mmCoreSessionExpired);\n                } else if (data.errorcode === 'userdeleted') {\n                    return $q.reject(mmCoreUserDeleted);\n                } else if (data.errorcode === 'sitemaintenance' || data.errorcode === 'upgraderunning') {\n                    return $mmLang.translateAndReject('mm.core.' + data.errorcode);\n                } else if (data.errorcode === 'nopasswordchangeforced') {\n                    return $q.reject(mmCoreUserPasswordChangeForced);\n                } else {\n                    return $q.reject(data.message);\n                }\n            }\n\n            if (typeof(data.debuginfo) != 'undefined') {\n                return $q.reject('Error. ' + data.message);\n            }\n\n            $log.info('WS: Data received from WS ' + typeof(data));\n\n            if (typeof(data) == 'object' && typeof(data.length) != 'undefined') {\n                $log.info('WS: Data number of elements '+ data.length);\n            }\n\n            return data;\n        }, function(data) {\n            // If server has heavy load, retry after some seconds.\n            if (data.status == 429) {\n                var retryPromise = addToRetryQueue(method, siteurl, ajaxData, preSets);\n\n                // Only process the queue one time.\n                if (retryTimeout == 0) {\n                    retryTimeout = parseInt(data.headers('Retry-After'), 10) || 5;\n                    $log.warn(data.statusText + '. Retrying in ' + retryTimeout + ' seconds. ' + retryCalls.length + ' calls left.');\n\n                    $timeout(function() {\n                        $log.warn('Retrying now with ' + retryCalls.length + ' calls to process.');\n                        // Finish timeout.\n                        retryTimeout = 0;\n                        processRetryQueue();\n                    }, retryTimeout * 1000);\n                } else {\n                    $log.warn('Calls locked, trying later...');\n                }\n\n                return retryPromise;\n            }\n\n            return $mmLang.translateAndReject('mm.core.serverconnection');\n        });\n\n        setPromiseHttp(promise, 'post', preSets.siteurl, ajaxData);\n\n        return promise;\n    }\n\n    /**\n     * Retry all requests in the queue.\n     * This function uses recursion in order to add a delay between requests to reduce stress.\n     */\n    function processRetryQueue() {\n        if (retryCalls.length > 0 && retryTimeout == 0) {\n            var call = retryCalls.shift();\n            // Add a delay between calls.\n            $timeout(function() {\n                call.deferred.resolve(performPost(call.method, call.siteurl, call.ajaxData, call.preSets));\n                processRetryQueue();\n            }, 200);\n        } else {\n            $log.warn('Retry queue has stopped with ' + retryCalls.length + ' calls and ' + retryTimeout + ' timeout seconds.');\n        }\n    }\n\n    /**\n     * Adds the call data to an special queue to be processed when retrying.\n     *\n     * @param {string} method   The WebService method to be called.\n     * @param {string} siteurl  Complete site url to perform the call.\n     * @param {Object} ajaxData Arguments to pass to the method.\n     * @param {Object} preSets  Extra settings and information. See $mmWS#call.\n     * @return {Promise} Deferrend promise resolved with the response data in success and rejected with the error message if it fails.\n     */\n    function addToRetryQueue(method, siteurl, ajaxData, preSets) {\n        var call = {\n            method: method,\n            siteurl: siteurl,\n            ajaxData: ajaxData,\n            preSets: preSets,\n            deferred: $q.defer()\n        };\n\n        retryCalls.push(call);\n        return call.deferred.promise;\n    }\n\n    /**\n     * Save promise on the cache.\n     *\n     * @param {Promise} promise     to be saved\n     * @param {String}  method      Method of the HTTP request.\n     * @param {String}  url         Base URL of the HTTP request.\n     * @param {Object}  [params]    Params of the HTTP request.\n     */\n    function setPromiseHttp(promise, method, url, params) {\n        var deletePromise,\n            queueItemId = getQueueItemId(method, url, params);\n\n        ongoingCalls[queueItemId] = promise;\n\n        // HTTP not finished, but we should delete the promise after timeout.\n        deletePromise = $timeout(function() {\n            delete ongoingCalls[queueItemId];\n        }, mmWSTimeout);\n\n        // HTTP finished, delete from ongoing.\n        ongoingCalls[queueItemId].finally(function() {\n            delete ongoingCalls[queueItemId];\n\n            $timeout.cancel(deletePromise);\n        });\n    }\n\n    /**\n     * Get a promise from the cache.\n     *\n     * @param {String}  method      Method of the HTTP request.\n     * @param {String}  url         Base URL of the HTTP request.\n     * @param {Object}  [params]    Params of the HTTP request.\n     */\n    function getPromiseHttp(method, url, params) {\n        var queueItemId = getQueueItemId(method, url, params);\n        if (typeof ongoingCalls[queueItemId] != 'undefined') {\n            return ongoingCalls[queueItemId];\n        }\n\n        return false;\n    }\n\n    /**\n     * Get the unique queue item id of the cache for a HTTP request.\n     *\n     * @param {String}  method      Method of the HTTP request.\n     * @param {String}  url         Base URL of the HTTP request.\n     * @param {Object}  [params]    Params of the HTTP request.\n     */\n    function getQueueItemId(method, url, params) {\n        if (params) {\n            url += '###' + serializeParams(params);\n        }\n        return method + '#' + md5.createHash(url);\n    }\n\n    /**\n     * Converts an objects values to strings where appropriate.\n     * Arrays (associative or otherwise) will be maintained.\n     *\n     * @param {Object} data The data that needs all the non-object values set to strings.\n     * @return {Object} The cleaned object, with multilevel array and objects preserved.\n     */\n    function convertValuesToString(data) {\n        var result = [];\n        if (!angular.isArray(data) && angular.isObject(data)) {\n            result = {};\n        }\n        for (var el in data) {\n            if (angular.isObject(data[el])) {\n                result[el] = convertValuesToString(data[el]);\n            } else {\n                result[el] = data[el] + '';\n            }\n        }\n        return result;\n    }\n\n    /**\n     * Downloads a file from Moodle using Cordova File API.\n     * @todo Use Web Workers.\n     *\n     * @param {String}   url            Download url.\n     * @param {String}   path           Local path to store the file.\n     * @param {Boolean}  addExtension   True if extension need to be added to the final path.\n     * @return {Promise}                The success returns the fileEntry, the reject will contain the error object.\n     */\n    self.downloadFile = function(url, path, addExtension) {\n        $log.debug('Downloading file ' + url);\n\n        // Use a tmp path to download the file and then move it to final location.This is because if the download fails,\n        // the local file is deleted.\n        var tmpPath = path + '.tmp';\n\n        // Create the tmp file as an empty file.\n        return $mmFS.createFile(tmpPath).then(function(fileEntry) {\n            return $cordovaFileTransfer.download(url, fileEntry.toURL(), { encodeURI: false }, true).then(function() {\n                var promise;\n\n                if (addExtension) {\n                    ext = $mmFS.getFileExtension(path);\n\n                    if (!ext) {\n                        promise = self.getRemoteFileMimeType(url).then(function(mime) {\n                            var ext;\n                            if (mime) {\n                                ext = $mmFS.getExtension(mime, url);\n                                if (ext) {\n                                    path += '.' + ext;\n                                }\n                                return ext;\n                            }\n                            return false;\n                        });\n                    } else {\n                        promise = $q.when(ext);\n                    }\n                } else {\n                    promise = $q.when(\"\");\n                }\n\n                return promise.then(function(extension) {\n                    return $mmFS.moveFile(tmpPath, path).then(function(movedEntry) {\n                        // Save the extension.\n                        movedEntry.extension = extension;\n                        movedEntry.path = path;\n                        $log.debug('Success downloading file ' + url + ' to ' + path + ' with extension ' + extension);\n                        return movedEntry;\n                    });\n                });\n            });\n        }).catch(function(err) {\n            $log.error('Error downloading ' + url + ' to ' + path);\n            $log.error(JSON.stringify(err));\n            return $q.reject(err);\n        });\n    };\n\n    /*\n     * Uploads a file using Cordova File API.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#uploadFile\n     * @param {Object} uri File URI.\n     * @param {Object} options File settings: fileKey, fileName, mimeType, fileArea and itemId.\n     * @param {Object} preSets Contains siteurl and token.\n     * @return {Promise}\n     */\n    self.uploadFile = function(uri, options, preSets) {\n        $log.debug('Trying to upload file: ' + uri);\n\n        if (!uri || !options || !preSets) {\n            return $q.reject();\n        }\n\n        var ftOptions = {},\n            uploadUrl = preSets.siteurl + '/webservice/upload.php';\n\n        ftOptions.fileKey = options.fileKey;\n        ftOptions.fileName = options.fileName;\n        ftOptions.httpMethod = 'POST';\n        ftOptions.mimeType = options.mimeType;\n        ftOptions.params = {\n            token: preSets.token,\n            filearea: options.fileArea || 'draft',\n            itemid: options.itemId || 0\n        };\n        ftOptions.chunkedMode = false;\n        ftOptions.headers = {\n            Connection: \"close\"\n        };\n\n        $log.debug('Initializing upload');\n        return $cordovaFileTransfer.upload(uploadUrl, uri, ftOptions, true).then(function(success) {\n            var data = success.response;\n            try {\n                data = JSON.parse(data);\n            } catch(err) {\n                $log.error('Error parsing response:', err, data);\n                return $mmLang.translateAndReject('mm.core.errorinvalidresponse');\n            }\n\n            if (!data) {\n                return $mmLang.translateAndReject('mm.core.serverconnection');\n            } else if (typeof data != 'object') {\n                $log.warn('Upload file: Response of type \"' + typeof data + '\" received, expecting \"object\"');\n                return $mmLang.translateAndReject('mm.core.errorinvalidresponse');\n            }\n\n            if (typeof data.exception !== 'undefined') {\n                return $q.reject(data.message);\n            } else if (data && typeof data.error !== 'undefined') {\n                return $q.reject(data.error);\n            } else if (data[0] && typeof data[0].error !== 'undefined') {\n                return $q.reject(data[0].error);\n            }\n\n            // We uploaded only 1 file, so we only return the first file returned.\n            $log.debug('Successfully uploaded file');\n            return data[0];\n        }, function(error) {\n            $log.error('Error while uploading file', error.exception);\n            return $mmLang.translateAndReject('mm.core.serverconnection');\n        });\n    };\n\n    /**\n     * Perform a HEAD request to get the size of a remote file.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#getRemoteFileSize\n     * @param {Object} url File URL.\n     * @return {Promise}   Promise resolved with the size or -1 if failure.\n     */\n    self.getRemoteFileSize = function(url) {\n        var promise = getPromiseHttp('head', url);\n\n        if (!promise) {\n            promise = $http.head(url, {timeout: mmWSTimeout}).then(function(data) {\n                var size = parseInt(data.headers('Content-Length'), 10);\n\n                if (size) {\n                    return size;\n                }\n                return -1;\n            }).catch(function() {\n                return -1;\n            });\n\n            setPromiseHttp(promise, 'head', url);\n        }\n\n        return promise;\n    };\n\n    /**\n     * Perform a HEAD request to get the mimetype of a remote file.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#getRemoteFileMimeType\n     * @param  {Object} url          File URL.\n     * @param  {Boolean} ignoreCache True to ignore cache, false otherwise.\n     * @return {Promise}             Promise resolved with the mimetype or '' if failure.\n     */\n    self.getRemoteFileMimeType = function(url, ignoreCache) {\n        if (mimeTypeCache[url] && !ignoreCache) {\n            return $q.when(mimeTypeCache[url]);\n        }\n\n        var promise = getPromiseHttp('head', url);\n\n        if (!promise) {\n            promise = $http.head(url, {timeout: mmWSTimeout}).then(function(data) {\n                var mimeType = data.headers('Content-Type');\n                mimeTypeCache[url] = mimeType;\n\n                return mimeType || '';\n            }).catch(function() {\n                return '';\n            });\n\n            setPromiseHttp(promise, 'head', url);\n        }\n\n        return promise;\n    };\n\n    /**\n     * A wrapper function for a synchronous Moodle WebService call.\n     * Warning: This function should only be used if synchronous is a must. It's recommended to use $mmWS#call.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#syncCall\n     * @param {string} method The WebService method to be called.\n     * @param {Object} data Arguments to pass to the method.\n     * @param {Object} preSets Extra settings and information.\n     *                    - siteurl string The site URL.\n     *                    - wstoken string The Webservice token.\n     *                    - responseExpected boolean Defaults to true. Set to false when the expected response is null.\n     *                    - typeExpected string Defaults to 'object'. Use it when you expect a type that's not an object|array.\n     * @return {Mixed} Request response. If the request fails, returns an object with 'error'=true and 'message' properties.\n     */\n    self.syncCall = function(method, data, preSets) {\n        var siteurl,\n            xhr,\n            errorResponse = {\n                error: true,\n                message: ''\n            };\n\n        data = convertValuesToString(data);\n\n        if (typeof preSets == 'undefined' || preSets === null ||\n                typeof preSets.wstoken == 'undefined' || typeof preSets.siteurl == 'undefined') {\n            errorResponse.message = $translate.instant('mm.core.unexpectederror');\n            return errorResponse;\n        } else if (!$mmApp.isOnline()) {\n            errorResponse.message = $translate.instant('mm.core.networkerrormsg');\n            return errorResponse;\n        }\n\n        preSets.typeExpected = preSets.typeExpected || 'object';\n        if (typeof preSets.responseExpected == 'undefined') {\n            preSets.responseExpected = true;\n        }\n\n        data.wsfunction = method;\n        data.wstoken = preSets.wstoken;\n        siteurl = preSets.siteurl + '/webservice/rest/server.php?moodlewsrestformat=json';\n\n        // Serialize data.\n        data = serializeParams(data);\n\n        // Perform sync request using XMLHttpRequest.\n        xhr = new $window.XMLHttpRequest();\n        xhr.open('post', siteurl, false);\n        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');\n\n        xhr.send(data);\n\n        // Get response.\n        data = ('response' in xhr) ? xhr.response : xhr.responseText;\n\n        // Check status.\n        xhr.status = Math.max(xhr.status === 1223 ? 204 : xhr.status, 0);\n        if (xhr.status < 200 || xhr.status >= 300) {\n            // Request failed.\n            errorResponse.message = data;\n            return errorResponse;\n        }\n\n        // Treat response.\n        try {\n            data = JSON.parse(data);\n        } catch(ex) {}\n\n        // Some moodle web services return null.\n        // If the responseExpected value is set then so long as no data is returned, we create a blank object.\n        if ((!data || !data.data) && !preSets.responseExpected) {\n            data = {};\n        }\n\n        if (!data) {\n            errorResponse.message = $translate.instant('mm.core.serverconnection');\n        } else if (typeof data != preSets.typeExpected) {\n            $log.warn('Response of type \"' + typeof data + '\" received, expecting \"' + preSets.typeExpected + '\"');\n            errorResponse.message = $translate.instant('mm.core.errorinvalidresponse');\n        }\n\n        if (typeof data.exception != 'undefined' || typeof data.debuginfo != 'undefined') {\n            errorResponse.message = data.message;\n        }\n\n        if (errorResponse.message !== '') {\n            return errorResponse;\n        }\n\n        $log.info('Synchronous: Data received from WS ' + typeof data);\n\n        if (typeof(data) == 'object' && typeof(data.length) != 'undefined') {\n            $log.info('Synchronous: Data number of elements '+ data.length);\n        }\n\n        return data;\n    };\n\n    /**\n     * Serialize an object to be used in a request.\n     *\n     * @param  {Object} obj Object to serialize.\n     * @return {String}     Serialization of the object.\n     */\n    function serializeParams(obj) {\n        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;\n\n        for (name in obj) {\n            value = obj[name];\n\n            if (value instanceof Array) {\n                for (i = 0; i < value.length; ++i) {\n                    subValue = value[i];\n                    fullSubName = name + '[' + i + ']';\n                    innerObj = {};\n                    innerObj[fullSubName] = subValue;\n                    query += serializeParams(innerObj) + '&';\n                }\n            }\n            else if (value instanceof Object) {\n                for (subName in value) {\n                    subValue = value[subName];\n                    fullSubName = name + '[' + subName + ']';\n                    innerObj = {};\n                    innerObj[fullSubName] = subValue;\n                    query += serializeParams(innerObj) + '&';\n                }\n            }\n            else if (value !== undefined && value !== null) query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';\n        }\n\n        return query.length ? query.substr(0, query.length - 1) : query;\n    }\n\n    /**\n     * Call a Moodle WS using the AJAX API. Please use it if the WS layer is not an option.\n     *\n     * @module mm.core\n     * @ngdoc method\n     * @name $mmWS#callAjax\n     * @param {String} method  The WebService method to be called.\n     * @param {Object} data    Arguments to pass to the method.\n     * @param {Object} preSets Extra settings and information.\n     *                             - siteurl string The site URL.\n     *                             - responseExpected boolean Defaults to true. Set to false when the expected response is null.\n     * @return {Promise}       Promise resolved with the response data in success and rejected with an object containing:\n     *                                 - error: Error message.\n     *                                 - errorcode: Error code returned by the site (if any).\n     *                                 - available: 0 if unknown, 1 if available, -1 if not available.\n     */\n    self.callAjax = function(method, data, preSets) {\n        var siteurl,\n            ajaxData;\n\n        if (typeof preSets.siteurl == 'undefined') {\n            return rejectWithError($translate.instant('mm.core.unexpectederror'));\n        } else if (!$mmApp.isOnline()) {\n            return rejectWithError($translate.instant('mm.core.networkerrormsg'));\n        }\n\n        if (typeof preSets.responseExpected == 'undefined') {\n            preSets.responseExpected = true;\n        }\n\n        ajaxData = [{\n            index: 0,\n            methodname: method,\n            args: convertValuesToString(data)\n        }];\n\n        siteurl = preSets.siteurl + '/lib/ajax/service.php';\n\n        return $http.post(siteurl, JSON.stringify(ajaxData), {timeout: mmWSTimeout}).then(function(data) {\n            // Some moodle web services return null. If the responseExpected value is set then so long as no data\n            // is returned, we create a blank object.\n            if ((!data || !data.data) && !preSets.responseExpected) {\n                data = [{}];\n            } else {\n                data = data.data;\n            }\n\n            // Check if error. Ajax layer should always return an object (if error) or an array (if success).\n            if (!data || typeof data != 'object') {\n                return rejectWithError($translate.instant('mm.core.serverconnection'));\n            } else if (data.error) {\n                return rejectWithError(data.error, data.errorcode);\n            }\n\n            // Get the first response since only one request was done.\n            data = data[0];\n\n            if (data.error) {\n                return rejectWithError(data.exception.message, data.exception.errorcode);\n            }\n\n            return data.data;\n        }, function(data) {\n            var available = data.status == 404 ? -1 : 0;\n            return rejectWithError($translate.instant('mm.core.serverconnection'), '', available);\n        });\n\n        // Convenience function to return an error.\n        function rejectWithError(message, code, available) {\n            if (typeof available == 'undefined') {\n                if (code) {\n                    available = code == 'invalidrecord' ? -1 : 1;\n                } else {\n                    available = 0;\n                }\n            }\n\n            return $q.reject({\n                error: message,\n                errorcode: code,\n                available: available\n            });\n        }\n    };\n\n    return self;\n\n});\n",
 			"file": "platforms/android/assets/www/core/lib/ws.js",
-			"file_size": 28110,
-			"file_write_time": 131313537791721245,
 			"settings":
 			{
 				"buffer_size": 27395,
@@ -360,7 +366,16 @@
 			"file": "www/addons/mod/quiz/controllers/player.js",
 			"settings":
 			{
-				"buffer_size": 20519,
+				"buffer_size": 20521,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz.js",
+			"settings":
+			{
+				"buffer_size": 92890,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -375,10 +390,45 @@
 			}
 		},
 		{
-			"file": "www/addons/mod/quiz/services/quiz.js",
+			"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz.js",
 			"settings":
 			{
-				"buffer_size": 93344,
+				"buffer_size": 92890,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz_online.js",
+			"settings":
+			{
+				"buffer_size": 4465,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
+			"settings":
+			{
+				"buffer_size": 3287,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/accessrules/offlineattempts/directive.js",
+			"settings":
+			{
+				"buffer_size": 1010,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "// (C) Copyright 2015 Martin Dougiamas\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//     http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\nangular.module('mm.addons.mod_quiz')\n.constant('mmaModQuizAttemptsStore', 'mod_quiz_attempts')\n\n.config(function($mmSitesFactoryProvider, mmaModQuizAttemptsStore) {\n    var stores = [\n        {\n            name: mmaModQuizAttemptsStore,\n            keyPath: 'id',\n            indexes: [\n                {\n                    name: 'attempt' // Attempt number.\n                },\n                {\n                    name: 'userid'\n                },\n                {\n                    name: 'quizid'\n                },\n                {\n                    name: 'courseid'\n                },\n                {\n                    name: 'timemodified'\n                },\n                {\n                    name: 'finished'\n                },\n                {\n                    // Not using compound indexes because they seem to have issues with where().\n                    name: 'quizAndUser',\n                    generator: function(obj) {\n                        return [obj.quizid, obj.userid];\n                    }\n                }\n            ]\n        }\n    ];\n    $mmSitesFactoryProvider.registerStores(stores);\n})\n\n/**\n * Quiz offline service.\n *\n * @module mm.addons.mod_quiz\n * @ngdoc service\n * @name $mmaModQuizOffline\n */\n.factory('$mmaModQuizOffline', function($log, $mmSite, $mmSitesManager, $mmUtil, $q, $mmQuestion, $mmQuestionBehaviourDelegate,\n            $translate, mmaModQuizAttemptsStore, mmaModQuizComponent) {\n\n    $log = $log.getInstance('$mmaModQuizOffline');\n\n    var self = {};\n\n    /**\n     * Classify the answers in questions.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#classifyAnswersInQuestions\n     * @param  {Object} answers List of answers.\n     * @return {Object}         List of questions with answers.\n     */\n    self.classifyAnswersInQuestions = function(answers) {\n        var questionsWithAnswers = {};\n\n        // Classify the answers in each question.\n        angular.forEach(answers, function(value, name) {\n            var slot = $mmQuestion.getQuestionSlotFromName(name),\n                nameWithoutPrefix = $mmQuestion.removeQuestionPrefix(name);\n\n            if (!questionsWithAnswers[slot]) {\n                questionsWithAnswers[slot] = {\n                    answers: {},\n                    prefix: name.substr(0, name.indexOf(nameWithoutPrefix))\n                };\n            }\n            questionsWithAnswers[slot].answers[nameWithoutPrefix] = value;\n        });\n\n        return questionsWithAnswers;\n    };\n\n    /**\n     * Given a list of questions with answers classified in it (@see $mmaModQuizOffline#classifyAnswersInQuestions),\n     * returns a list of answers (including prefix in the name).\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#extractAnswersFromQuestions\n     * @param  {Object} questions Questions.\n     * @return {Object}           Answers.\n     */\n    self.extractAnswersFromQuestions = function(questions) {\n        var answers = {};\n        angular.forEach(questions, function(question) {\n            angular.forEach(question.answers, function(value, name) {\n                answers[question.prefix + name] = value;\n            });\n        });\n        return answers;\n    };\n\n    /**\n     * Get all the offline attempts in a certain site.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAllAttempts\n     * @param {String} [siteId] Site ID. If not set, use current site.\n     * @return {Promise}        Promise resolved when the offline attempts are retrieved.\n     */\n    self.getAllAttempts = function(siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSiteDb(siteId).then(function(db) {\n            if (!db) {\n                return $q.reject();\n            }\n\n            return db.getAll(mmaModQuizAttemptsStore);\n        });\n    };\n\n    /**\n     * Retrieve an attempt answers from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAttemptAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved with the answers.\n     */\n    self.getAttemptAnswers = function(attemptId, siteId) {\n        return $mmQuestion.getAttemptAnswers(mmaModQuizComponent, attemptId, siteId);\n    };\n\n    /**\n     * Retrieve an attempt from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAttemptById\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved with the attempt.\n     */\n    self.getAttemptById = function(attemptId, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            return site.getDb().get(mmaModQuizAttemptsStore, attemptId);\n        });\n    };\n\n    /**\n     * Retrieve an attempt from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getQuizAttempts\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @param  {Number} [userId]  User ID. If not defined, user current site's user.\n     * @return {Promise}          Promise resolved with the attempt.\n     */\n    self.getQuizAttempts = function(quizId, siteId, userId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            userId = userId || site.getUserId();\n            return site.getDb().whereEqual(mmaModQuizAttemptsStore, 'quizAndUser', [quizId, userId]);\n        });\n    };\n\n    /**\n     * Load local state in the questions.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#loadQuestionsLocalStates\n     * @param  {Number} attemptId   Attempt ID.\n     * @param  {Object[]} questions Questions.\n     * @param  {String} [siteId]    Site ID. If not defined, current site.\n     * @return {Promise}            Promise resolved when done.\n     */\n    self.loadQuestionsLocalStates = function(attemptId, questions, siteId) {\n        var promises = [];\n        angular.forEach(questions, function(question) {\n            promises.push($mmQuestion.getQuestion(mmaModQuizComponent, attemptId, question.slot, siteId).then(function(q) {\n                var state = $mmQuestion.getState(q.state);\n                question.state = q.state;\n                question.status = $translate.instant('mm.question.' + state.status);\n            }).catch(function() {\n                // Question not found.\n            }));\n        });\n        return $q.all(promises).then(function() {\n            return questions;\n        });\n    };\n\n    /**\n     * Process an attempt, saving its data.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#processAttempt\n     * @param  {Object} quiz          Quiz.\n     * @param  {Object} attempt       Attempt.\n     * @param  {Object} questions     Questions of the quiz. Keys should be question numbers.\n     * @param  {Object} data          Data to save.\n     * @param  {Boolean} finish       True to finish the quiz, false otherwise.\n     * @param  {String} [siteId]      Site ID. If not defined, current site.\n     * @return {Promise}              Promise resolved in success, rejected otherwise.\n     */\n    self.processAttempt = function(quiz, attempt, questions, data, finish, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var now = $mmUtil.timestamp(),\n            db;\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            db = site.getDb();\n\n            // Check if an attempt already exists.\n            return self.getAttemptById(attempt.id, siteId).catch(function() {\n                // Attempt doesn't exist, create a new entry.\n                return {\n                    quizid: quiz.id,\n                    userid: attempt.userid,\n                    id: attempt.id,\n                    courseid: quiz.course,\n                    timecreated: now,\n                    attempt: attempt.attempt,\n                    currentpage: attempt.currentpage\n                };\n            });\n        }).then(function(entry) {\n            // Save attempt in DB.\n            entry.timemodified = now;\n            entry.finished = !!finish;\n\n            return db.insert(mmaModQuizAttemptsStore, entry);\n        }).then(function() {\n            // Attempt has been saved, now we need to save the answers.\n            return self.saveAnswers(quiz, attempt, questions, data, now, siteId);\n        });\n    };\n\n    /**\n     * Remove an attempt and its answers from local DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#removeAttemptAndAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when finished.\n     */\n    self.removeAttemptAndAnswers = function(attemptId, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var promises = [];\n\n        // Remove stored answers and questions.\n        promises.push($mmQuestion.removeAttemptAnswers(mmaModQuizComponent, attemptId, siteId));\n        promises.push($mmQuestion.removeAttemptQuestions(mmaModQuizComponent, attemptId, siteId));\n\n        // Remove the attempt.\n        promises.push($mmSitesManager.getSite(siteId).then(function(site) {\n            return site.getDb().remove(mmaModQuizAttemptsStore, attemptId);\n        }));\n\n        return $q.all(promises);\n    };\n\n    /**\n     * Remove a question and its answers from local DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#removeQuestionAndAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {Number} slot      Question slot.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when finished.\n     */\n    self.removeQuestionAndAnswers = function(attemptId, slot, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var promises = [];\n\n        promises.push($mmQuestion.removeQuestion(mmaModQuizComponent, attemptId, slot, siteId));\n        promises.push($mmQuestion.removeQuestionAnswers(mmaModQuizComponent, attemptId, slot, siteId));\n\n        return $q.all(promises);\n    };\n\n    /**\n     * Save an attempt's answers and calculate state for questions modified.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#saveAnswers\n     * @param  {Object} quiz      Quiz.\n     * @param  {Object} attempt   Attempt.\n     * @param  {Object} questions Questions of the quiz. Keys should be question slots.\n     * @param  {Object} answers   Answers to save.\n     * @param  {Number} [timemod] Time modified to set in the answers. If not defined, current time.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when done.\n     */\n    self.saveAnswers = function(quiz, attempt, questions, answers, timemod, siteId) {\n        siteId = siteId || $mmSite.getId();\n        timemod = timemod || $mmUtil.timestamp();\n\n        var promises = [],\n            questionsWithAnswers = {},\n            newStates = {};\n\n        // Classify the answers in each question.\n        angular.forEach(answers, function(value, name) {\n            var slot = $mmQuestion.getQuestionSlotFromName(name),\n                nameWithoutPrefix = $mmQuestion.removeQuestionPrefix(name);\n\n            if (questions[slot]) {\n                if (!questionsWithAnswers[slot]) {\n                    questionsWithAnswers[slot] = questions[slot];\n                    questionsWithAnswers[slot].answers = {};\n                }\n                questionsWithAnswers[slot].answers[nameWithoutPrefix] = value;\n            }\n        });\n\n        // First determine the new status of each question. We won't save the new state yet.\n        angular.forEach(questionsWithAnswers, function(question) {\n            promises.push($mmQuestionBehaviourDelegate.determineQuestionState(\n                        quiz.preferredbehaviour, mmaModQuizComponent, attempt.id, question, siteId).then(function(state) {\n                if (state) {\n                    newStates[question.slot] = state.name;\n                }\n            }));\n        });\n\n        return $q.all(promises).then(function() {\n            // Now save the answers.\n            return $mmQuestion.saveAnswers(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, answers, timemod, siteId);\n        }).then(function() {\n            // Answers have been saved, now we can save the questions with the states.\n            promises = [];\n            angular.forEach(newStates, function(state, slot) {\n                var question = questionsWithAnswers[slot];\n                promises.push(\n                    $mmQuestion.saveQuestion(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, question, state, siteId)\n                );\n            });\n            return $mmUtil.allPromises(promises).catch(function() {\n                // Ignore errors when saving question state.\n                $log.error('Error saveQuestion');\n            });\n        });\n    };\n\n    /**\n     * Set attempt's current page.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#setAttemptCurrentPage\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {Number} page      Page to set.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved in success, rejected otherwise.\n     */\n    self.setAttemptCurrentPage = function(attemptId, page, siteId) {\n        siteId = siteId || $mmSite.getId();\n        var entry;\n\n        // Check if an attempt already exists.\n        return self.getAttemptById(attemptId, siteId).then(function(e) {\n            entry = e;\n            return $mmSitesManager.getSite(siteId);\n        }).then(function(site) {\n            // Save attempt in DB.\n            entry.currentpage = page;\n            return site.getDb().insert(mmaModQuizAttemptsStore, entry);\n        });\n    };\n\n    return self;\n});\n",
+			"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz_offline.js",
+			"file_size": 15504,
+			"file_write_time": 131318244909785745,
+			"settings":
+			{
+				"buffer_size": 15096,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -406,14 +456,6 @@
 			"settings":
 			{
 				"buffer_size": 1601,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "www/addons/qtype/essay/handlers.js",
-			"settings":
-			{
-				"buffer_size": 4767,
 				"line_ending": "Windows"
 			}
 		},
@@ -451,10 +493,10 @@
 			}
 		},
 		{
-			"contents": "=> C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons\\qtype\\essay\\directive.js\n\t|+| 32\n=> C:\\xampp2\\htdocs\\moodle\\lib\\filelib.php\n\t|+| 734\n\t|+| 736\n\t|+| 739\n\t|+| 742\n\t|+| 746\n=> C:\\xampp2\\htdocs\\moodle\\lib\\filestorage\\file_storage.php\n\t|+| 1456\n\t|+| 1461\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\attempt.php\n\t|+| 29\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\attemptlib.php\n\t|+| 110\n\t|+| 1810\n=> C:\\xampp2\\htdocs\\moodle\\mod\\quiz\\classes\\external.php\n\t|+| 1213\n=> C:\\xampp2\\htdocs\\moodle\\question\\engine\\datalib.php\n\t|+| 1578\n=> C:\\xampp2\\htdocs\\moodle\\question\\engine\\questionattempt.php\n\t|+| 1091\n\t|+| 1094\n\t|+| 1151\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\question.php\n\t|+| 74\n\t|+| 101\n=> C:\\xampp2\\htdocs\\moodle\\question\\type\\essay\\renderer.php\n\t|+| 40\n\t|+| 67\n\t|+| 119\n\t|+| 240\n\t|+| 361\n=> C:\\xampp2\\htdocs\\moodle\\repository\\repository_ajax.php\n\t|+| 1\n",
+			"contents": "=> C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons\\qtype\\essay\\directive.js\n\t|+| 32\n=> C:\\xampp\\htdocs\\moodle\\mod\\quiz\\accessrule\\gps\\rule.php\n\t|+| 65\n=> C:\\xampp\\htdocs\\moodle\\mod\\quiz\\accessrule\\offlineattempts\\rule.php\n\t|+| 109\n",
 			"settings":
 			{
-				"buffer_size": 856,
+				"buffer_size": 239,
 				"line_ending": "Windows",
 				"name": "Xdebug Breakpoint",
 				"read_only": true,
@@ -533,6 +575,10 @@
 	],
 	"file_history":
 	[
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/lib/util.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/lib/sitesmanager.js",
+		"/C/xampp2/htdocs/moodle/mod/quiz/accessrule/offlineattempts/rule.php",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/autosave.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/delegate.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/photouploader/controllers/picker.js",
@@ -547,7 +593,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz_online.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/db.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/helper.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/review.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/question.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/templates/player.html",
@@ -672,6 +717,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getAttemptSummaryCacheKey",
+			"showError(",
+			"showError",
+			"process",
+			"log is not defined",
+			"offline",
+			"process",
 			"mmaModQuizAutoSave",
 			"formName",
 			"getA",
@@ -792,14 +844,7 @@
 			"upload",
 			"fileUploaded",
 			"filePickerDeferred",
-			"camera",
-			"$log.",
-			"filePickerDeferred",
-			"fileUploaded",
-			"log",
-			"successUploading",
-			"uploadImage",
-			"log.de"
+			"camera"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -818,7 +863,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 14,
 			"sheets":
 			[
 				{
@@ -834,8 +879,8 @@
 						"selection":
 						[
 							[
-								4476,
-								4702
+								4703,
+								4703
 							]
 						],
 						"settings":
@@ -845,14 +890,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1959.0,
+						"translation.y": 1584.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "www/addons/qtype/essay/handlers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2660,
+								2678
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2191.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "platforms/android/assets/www/core/components/question/services/helper.js",
 					"semi_transient": false,
 					"settings":
@@ -864,8 +939,8 @@
 						"selection":
 						[
 							[
-								15445,
-								15453
+								15495,
+								15495
 							]
 						],
 						"settings":
@@ -875,27 +950,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10071.0,
+						"translation.y": 9927.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
 					"file": "www/addons/qtype/essay/template.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2766,
+						"buffer_size": 3007,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2037,
-								2037
+								2138,
+								2138
 							]
 						],
 						"settings":
@@ -905,14 +980,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 437.0,
+						"translation.y": 648.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "www/core/components/photouploader/directives/onchange.js",
 					"semi_transient": false,
 					"settings":
@@ -936,11 +1011,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "www/core/components/photouploader/services/helper.js",
 					"semi_transient": false,
 					"settings":
@@ -962,28 +1037,28 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 72.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "www/core/components/photouploader/services/photouploader.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6994,
+						"buffer_size": 7083,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6776,
-								6776
+								2966,
+								2966
 							]
 						],
 						"settings":
@@ -993,14 +1068,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3503.0,
+						"translation.y": 936.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "www/core/lib/sitesmanager.js",
 					"semi_transient": false,
 					"settings":
@@ -1026,11 +1101,11 @@
 						"translation.y": 14054.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "www/core/lib/sitesfactory.js",
 					"semi_transient": false,
 					"settings":
@@ -1042,8 +1117,8 @@
 						"selection":
 						[
 							[
-								23322,
-								23322
+								23164,
+								23164
 							]
 						],
 						"settings":
@@ -1053,14 +1128,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 14.0,
-						"translation.y": 14112.0,
+						"translation.y": 14159.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "platforms/android/assets/www/core/lib/ws.js",
 					"semi_transient": false,
 					"settings":
@@ -1072,8 +1147,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								6448,
+								6455
 							]
 						],
 						"settings":
@@ -1083,14 +1158,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9278.0,
+						"translation.y": 3398.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "www/core/components/fileuploader/controllers/picker.js",
 					"semi_transient": false,
 					"settings":
@@ -1116,24 +1191,24 @@
 						"translation.y": 2318.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 11,
 					"file": "www/addons/mod/quiz/controllers/player.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20519,
+						"buffer_size": 20521,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3142,
-								3146
+								11065,
+								11065
 							]
 						],
 						"settings":
@@ -1143,14 +1218,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1598.0,
+						"translation.y": 5894.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 12,
+					"file": "www/addons/mod/quiz/services/quiz.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 92890,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6671,
+								6680
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 47.0,
+						"translation.y": 2774.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
 					"file": "www/core/components/question/services/helper.js",
 					"semi_transient": false,
 					"settings":
@@ -1176,24 +1281,24 @@
 						"translation.y": 14894.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "www/addons/mod/quiz/services/quiz.js",
+					"buffer": 14,
+					"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 93344,
+						"buffer_size": 92890,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								92836,
-								92836
+								24537,
+								24537
 							]
 						],
 						"settings":
@@ -1203,14 +1308,132 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 54999.0,
+						"translation.y": 13694.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 15,
+					"file": "www/addons/mod/quiz/services/quiz_online.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4465,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1080.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3287,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1800.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "www/addons/mod/quiz/accessrules/offlineattempts/directive.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1010,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 360.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz_offline.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8179,
+								8179
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7694.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
 					"file": "www/core/components/question/services/question.js",
 					"semi_transient": false,
 					"settings":
@@ -1236,11 +1459,11 @@
 						"translation.y": 8991.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 20,
 					"file": "www/core/components/question/directives/question.js",
 					"semi_transient": false,
 					"settings":
@@ -1266,11 +1489,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 21,
 					"file": "www/core/components/question/templates/question.html",
 					"semi_transient": false,
 					"settings":
@@ -1294,34 +1517,66 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 11,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
 				{
-					"buffer": 16,
-					"file": "www/addons/qtype/essay/handlers.js",
+					"buffer": 22,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4767,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2660,
-								2678
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1615.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 21,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 12,
@@ -1330,11 +1585,11 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 17,
+					"buffer": 24,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1358,85 +1613,23 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 25,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 239,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 19,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Xdebug Client/Xdebug.tmLanguage",
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 20,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 856,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								856,
-								856
+								239,
+								239
 							]
 						],
 						"settings":
@@ -1449,7 +1642,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 20,
 					"type": "text"
 				}
 			]
@@ -1495,7 +1688,7 @@
 		"rows":
 		[
 			0.0,
-			0.698708010336,
+			0.7,
 			1.0
 		]
 	},
@@ -1550,15 +1743,10 @@
 			"hide_conflict": false,
 			"restore_index":
 			{
-				"16":
-				{
-					"group": 0,
-					"index": 0
-				},
 				"17":
 				{
 					"group": 0,
-					"index": 1
+					"index": 0
 				},
 				"18":
 				{
@@ -1575,24 +1763,94 @@
 					"group": 0,
 					"index": 4
 				},
+				"21":
+				{
+					"group": 0,
+					"index": 5
+				},
+				"22":
+				{
+					"group": 0,
+					"index": 6
+				},
 				"23":
+				{
+					"group": 0,
+					"index": 7
+				},
+				"24":
+				{
+					"group": 0,
+					"index": 8
+				},
+				"25":
+				{
+					"group": 0,
+					"index": 9
+				},
+				"26":
+				{
+					"group": 0,
+					"index": 10
+				},
+				"27":
+				{
+					"group": 0,
+					"index": 11
+				},
+				"28":
+				{
+					"group": 0,
+					"index": 12
+				},
+				"29":
+				{
+					"group": 0,
+					"index": 13
+				},
+				"30":
+				{
+					"group": 0,
+					"index": 14
+				},
+				"31":
+				{
+					"group": 0,
+					"index": 15
+				},
+				"32":
+				{
+					"group": 0,
+					"index": 16
+				},
+				"33":
+				{
+					"group": 0,
+					"index": 17
+				},
+				"34":
+				{
+					"group": 1,
+					"index": 0
+				},
+				"35":
+				{
+					"group": 1,
+					"index": 1
+				},
+				"36":
+				{
+					"group": 2,
+					"index": 0
+				},
+				"37":
 				{
 					"group": 2,
 					"index": 1
 				},
-				"24":
+				"38":
 				{
-					"group": 1,
-					"index": 0
-				},
-				"25":
-				{
-					"group": 2,
-					"index": 0
-				},
-				"26":
-				{
-					"group": 1,
+					"group": 0,
 					"index": 1
 				}
 			},
@@ -1628,7 +1886,7 @@
 				"rows":
 				[
 					0.0,
-					0.867686658507,
+					0.698708010336,
 					1.0
 				]
 			}

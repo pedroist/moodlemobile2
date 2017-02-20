@@ -230,16 +230,19 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}              Promise resolved in success, rejected otherwise.
      */
     self.processAttempt = function(quiz, attempt, questions, data, finish, siteId) {
+        $log.debug("PTC quiz_offline.js processAttempt()");
         siteId = siteId || $mmSite.getId();
 
         var now = $mmUtil.timestamp(),
             db;
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
+            $log.debug("PTC quiz_offline.js processAttempt() after mmSitesManager.getSite");
             db = site.getDb();
 
             // Check if an attempt already exists.
             return self.getAttemptById(attempt.id, siteId).catch(function() {
+                $log.debug("PTC quiz_offline.js processAttempt() after getAttemptById");
                 // Attempt doesn't exist, create a new entry.
                 return {
                     quizid: quiz.id,
@@ -255,9 +258,11 @@ angular.module('mm.addons.mod_quiz')
             // Save attempt in DB.
             entry.timemodified = now;
             entry.finished = !!finish;
+            $log.debug("PTC quiz_offline.js processAttempt() before db.insert");
 
             return db.insert(mmaModQuizAttemptsStore, entry);
         }).then(function() {
+            $log.debug("PTC quiz_offline.js processAttempt() before saveAnswers");
             // Attempt has been saved, now we need to save the answers.
             return self.saveAnswers(quiz, attempt, questions, data, now, siteId);
         });
@@ -327,6 +332,7 @@ angular.module('mm.addons.mod_quiz')
      * @return {Promise}          Promise resolved when done.
      */
     self.saveAnswers = function(quiz, attempt, questions, answers, timemod, siteId) {
+        $log.debug("PTC quiz_offline.js saveAnswers()");
         siteId = siteId || $mmSite.getId();
         timemod = timemod || $mmUtil.timestamp();
 
@@ -336,9 +342,10 @@ angular.module('mm.addons.mod_quiz')
 
         // Classify the answers in each question.
         angular.forEach(answers, function(value, name) {
+            $log.debug("PTC quiz_offline.js saveAnswers() before getQuestionSlotFromName");
             var slot = $mmQuestion.getQuestionSlotFromName(name),
                 nameWithoutPrefix = $mmQuestion.removeQuestionPrefix(name);
-
+            $log.debug("PTC quiz_offline.js saveAnswers() after removeQuestionPrefix");
             if (questions[slot]) {
                 if (!questionsWithAnswers[slot]) {
                     questionsWithAnswers[slot] = questions[slot];
@@ -350,9 +357,12 @@ angular.module('mm.addons.mod_quiz')
 
         // First determine the new status of each question. We won't save the new state yet.
         angular.forEach(questionsWithAnswers, function(question) {
+            $log.debug("PTC quiz_offline.js saveAnswers() before promises.push");
             promises.push($mmQuestionBehaviourDelegate.determineQuestionState(
                         quiz.preferredbehaviour, mmaModQuizComponent, attempt.id, question, siteId).then(function(state) {
+                $log.debug("PTC quiz_offline.js saveAnswers() after promises.push");
                 if (state) {
+                    $log.debug("PTC quiz_offline.js saveAnswers() if state");
                     newStates[question.slot] = state.name;
                 }
             }));
@@ -360,16 +370,19 @@ angular.module('mm.addons.mod_quiz')
 
         return $q.all(promises).then(function() {
             // Now save the answers.
+            $log.debug("PTC quiz_offline.js saveAnswers() before mmQuestion.saveAnswers");
             return $mmQuestion.saveAnswers(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, answers, timemod, siteId);
         }).then(function() {
             // Answers have been saved, now we can save the questions with the states.
             promises = [];
             angular.forEach(newStates, function(state, slot) {
                 var question = questionsWithAnswers[slot];
+                $log.debug("PTC quiz_offline.js saveAnswers() before mmQuestion.saveQuestion");
                 promises.push(
                     $mmQuestion.saveQuestion(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, question, state, siteId)
                 );
             });
+            $log.debug("PTC quiz_offline.js saveAnswers() before mmUtil.allPromises");
             return $mmUtil.allPromises(promises).catch(function() {
                 // Ignore errors when saving question state.
                 $log.error('Error saveQuestion');

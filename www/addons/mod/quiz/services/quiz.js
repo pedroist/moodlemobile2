@@ -557,6 +557,7 @@ angular.module('mm.addons.mod_quiz')
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
+            $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary() after return sites manager");
             var params = {
                     attemptid: attemptId,
                     preflightdata: $mmUtil.objectToArrayOfObjects(preflightData, 'name', 'value', true)
@@ -564,7 +565,7 @@ angular.module('mm.addons.mod_quiz')
                 preSets = {
                     cacheKey: getAttemptSummaryCacheKey(attemptId)
                 };
-
+            $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary() after getAttemptSummaryCacheKey");
             if (offline) {
                 preSets.omitExpires = true;
             } else if (ignoreCache) {
@@ -573,8 +574,11 @@ angular.module('mm.addons.mod_quiz')
             }
 
             return site.read('mod_quiz_get_attempt_summary', params, preSets).then(function(response) {
+                $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary() after return site.read");
                 if (response && response.questions) {
+                    $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary() if response && response.questions");
                     if (offline && loadLocal) {
+                        $log.debug("PTC: addons/mod/quiz/services/quiz.js getAttemptSummary() if offline && loadlocal");
                         return $mmaModQuizOffline.loadQuestionsLocalStates(attemptId, response.questions, siteId);
                     }
                     return response.questions;
@@ -2128,6 +2132,7 @@ angular.module('mm.addons.mod_quiz')
         $log.debug("PTC: addons/mod/quiz/services/quiz.js processAttempt() line 2126");
         try {
             if (offline) {
+                $log.debug("PTC: addons/mod/quiz/services/quiz.js processAttempt() line 2126 if offline");
                 return processOfflineAttempt(quiz, attempt, data, preflightData, finish, siteId);
             }
 
@@ -2158,6 +2163,7 @@ angular.module('mm.addons.mod_quiz')
             questionArray.forEach(function(question) {
                 questions[question.slot] = question;
             });
+            $log.debug("PTC: addons/mod/quiz/services/quiz.js processOfflineAttempt() before $mmaModQuizOffline.processAttempt");
             return $mmaModQuizOffline.processAttempt(quiz, attempt, questions, data, finish, siteId);
         });
     }

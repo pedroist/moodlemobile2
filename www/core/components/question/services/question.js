@@ -632,7 +632,7 @@ angular.module('mm.core.question')
      */
     self.saveAnswers = function(component, componentId, attemptId, userId, answers, timemod, siteId) {
         
-        log.debug("PTC: question/services/question.js saveAnswers()");
+        $log.debug("PTC: question/services/question.js saveAnswers()");
         siteId = siteId || $mmSite.getId();
         timemod = timemod || $mmUtil.timestamp();
 
@@ -675,7 +675,7 @@ angular.module('mm.core.question')
      */
     self.saveQuestion = function(component, componentId, attemptId, userId, question, state, siteId) {
         
-        log.debug("PTC: question/services/question.js saveQuestion()");
+        $log.debug("PTC: question/services/question.js saveQuestion()");
         siteId = siteId || $mmSite.getId();
 
         return $mmSitesManager.getSite(siteId).then(function(site) {
