@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"all",
+				"allPromises"
+			],
+			[
+				"remov",
+				"removeQuestionPrefix"
+			],
+			[
+				"getQuestion",
+				"getQuestionSlotFromName"
+			],
+			[
+				"getq",
+				"getQuestionSlotFromName"
+			],
+			[
+				"getAtte",
+				"getAttemptById"
+			],
+			[
 				"load",
 				"loadLocal"
 			],
@@ -285,20 +305,70 @@
 			}
 		},
 		{
-			"file": "platforms/android/assets/www/core/components/question/services/helper.js",
-			"settings":
-			{
-				"buffer_size": 38727,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "www/addons/qtype/essay/template.html",
 			"settings":
 			{
 				"buffer_size": 3007,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/photouploader/controllers/picker.js",
+			"settings":
+			{
+				"buffer_size": 7118,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/numerical/directive.js",
+			"settings":
+			{
+				"buffer_size": 1137,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/numerical/handlers.js",
+			"settings":
+			{
+				"buffer_size": 4207,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/numerical/main.js",
+			"settings":
+			{
+				"buffer_size": 826,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/shortanswer/template.html",
+			"settings":
+			{
+				"buffer_size": 649,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/photouploader/services/helper.js",
+			"settings":
+			{
+				"buffer_size": 23906,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/core/components/photouploader/main.js",
+			"settings":
+			{
+				"buffer_size": 1742,
 				"line_ending": "Windows"
 			}
 		},
@@ -311,10 +381,11 @@
 			}
 		},
 		{
-			"file": "www/core/components/photouploader/services/helper.js",
+			"file": "www/core/lib/fs.js",
 			"settings":
 			{
-				"buffer_size": 23905,
+				"buffer_size": 45710,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -355,14 +426,6 @@
 			}
 		},
 		{
-			"file": "www/core/components/fileuploader/controllers/picker.js",
-			"settings":
-			{
-				"buffer_size": 7070,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "www/addons/mod/quiz/controllers/player.js",
 			"settings":
 			{
@@ -375,7 +438,7 @@
 			"file": "www/addons/mod/quiz/services/quiz.js",
 			"settings":
 			{
-				"buffer_size": 92890,
+				"buffer_size": 93608,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -390,10 +453,29 @@
 			}
 		},
 		{
-			"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz.js",
+			"file": "www/addons/qtype/angle/directive.js",
 			"settings":
 			{
-				"buffer_size": 92890,
+				"buffer_size": 1113,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/angle/handlers.js",
+			"settings":
+			{
+				"buffer_size": 2705,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/qtype/angle/main.js",
+			"settings":
+			{
+				"buffer_size": 810,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -406,10 +488,10 @@
 			}
 		},
 		{
-			"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
+			"file": "www/addons/mod/quiz/services/quiz_sync.js",
 			"settings":
 			{
-				"buffer_size": 3287,
+				"buffer_size": 17332,
 				"line_ending": "Windows"
 			}
 		},
@@ -422,13 +504,28 @@
 			}
 		},
 		{
-			"contents": "// (C) Copyright 2015 Martin Dougiamas\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n//\n//     http://www.apache.org/licenses/LICENSE-2.0\n//\n// Unless required by applicable law or agreed to in writing, software\n// distributed under the License is distributed on an \"AS IS\" BASIS,\n// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n// See the License for the specific language governing permissions and\n// limitations under the License.\n\nangular.module('mm.addons.mod_quiz')\n.constant('mmaModQuizAttemptsStore', 'mod_quiz_attempts')\n\n.config(function($mmSitesFactoryProvider, mmaModQuizAttemptsStore) {\n    var stores = [\n        {\n            name: mmaModQuizAttemptsStore,\n            keyPath: 'id',\n            indexes: [\n                {\n                    name: 'attempt' // Attempt number.\n                },\n                {\n                    name: 'userid'\n                },\n                {\n                    name: 'quizid'\n                },\n                {\n                    name: 'courseid'\n                },\n                {\n                    name: 'timemodified'\n                },\n                {\n                    name: 'finished'\n                },\n                {\n                    // Not using compound indexes because they seem to have issues with where().\n                    name: 'quizAndUser',\n                    generator: function(obj) {\n                        return [obj.quizid, obj.userid];\n                    }\n                }\n            ]\n        }\n    ];\n    $mmSitesFactoryProvider.registerStores(stores);\n})\n\n/**\n * Quiz offline service.\n *\n * @module mm.addons.mod_quiz\n * @ngdoc service\n * @name $mmaModQuizOffline\n */\n.factory('$mmaModQuizOffline', function($log, $mmSite, $mmSitesManager, $mmUtil, $q, $mmQuestion, $mmQuestionBehaviourDelegate,\n            $translate, mmaModQuizAttemptsStore, mmaModQuizComponent) {\n\n    $log = $log.getInstance('$mmaModQuizOffline');\n\n    var self = {};\n\n    /**\n     * Classify the answers in questions.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#classifyAnswersInQuestions\n     * @param  {Object} answers List of answers.\n     * @return {Object}         List of questions with answers.\n     */\n    self.classifyAnswersInQuestions = function(answers) {\n        var questionsWithAnswers = {};\n\n        // Classify the answers in each question.\n        angular.forEach(answers, function(value, name) {\n            var slot = $mmQuestion.getQuestionSlotFromName(name),\n                nameWithoutPrefix = $mmQuestion.removeQuestionPrefix(name);\n\n            if (!questionsWithAnswers[slot]) {\n                questionsWithAnswers[slot] = {\n                    answers: {},\n                    prefix: name.substr(0, name.indexOf(nameWithoutPrefix))\n                };\n            }\n            questionsWithAnswers[slot].answers[nameWithoutPrefix] = value;\n        });\n\n        return questionsWithAnswers;\n    };\n\n    /**\n     * Given a list of questions with answers classified in it (@see $mmaModQuizOffline#classifyAnswersInQuestions),\n     * returns a list of answers (including prefix in the name).\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#extractAnswersFromQuestions\n     * @param  {Object} questions Questions.\n     * @return {Object}           Answers.\n     */\n    self.extractAnswersFromQuestions = function(questions) {\n        var answers = {};\n        angular.forEach(questions, function(question) {\n            angular.forEach(question.answers, function(value, name) {\n                answers[question.prefix + name] = value;\n            });\n        });\n        return answers;\n    };\n\n    /**\n     * Get all the offline attempts in a certain site.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAllAttempts\n     * @param {String} [siteId] Site ID. If not set, use current site.\n     * @return {Promise}        Promise resolved when the offline attempts are retrieved.\n     */\n    self.getAllAttempts = function(siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSiteDb(siteId).then(function(db) {\n            if (!db) {\n                return $q.reject();\n            }\n\n            return db.getAll(mmaModQuizAttemptsStore);\n        });\n    };\n\n    /**\n     * Retrieve an attempt answers from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAttemptAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved with the answers.\n     */\n    self.getAttemptAnswers = function(attemptId, siteId) {\n        return $mmQuestion.getAttemptAnswers(mmaModQuizComponent, attemptId, siteId);\n    };\n\n    /**\n     * Retrieve an attempt from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getAttemptById\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved with the attempt.\n     */\n    self.getAttemptById = function(attemptId, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            return site.getDb().get(mmaModQuizAttemptsStore, attemptId);\n        });\n    };\n\n    /**\n     * Retrieve an attempt from site DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#getQuizAttempts\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @param  {Number} [userId]  User ID. If not defined, user current site's user.\n     * @return {Promise}          Promise resolved with the attempt.\n     */\n    self.getQuizAttempts = function(quizId, siteId, userId) {\n        siteId = siteId || $mmSite.getId();\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            userId = userId || site.getUserId();\n            return site.getDb().whereEqual(mmaModQuizAttemptsStore, 'quizAndUser', [quizId, userId]);\n        });\n    };\n\n    /**\n     * Load local state in the questions.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#loadQuestionsLocalStates\n     * @param  {Number} attemptId   Attempt ID.\n     * @param  {Object[]} questions Questions.\n     * @param  {String} [siteId]    Site ID. If not defined, current site.\n     * @return {Promise}            Promise resolved when done.\n     */\n    self.loadQuestionsLocalStates = function(attemptId, questions, siteId) {\n        var promises = [];\n        angular.forEach(questions, function(question) {\n            promises.push($mmQuestion.getQuestion(mmaModQuizComponent, attemptId, question.slot, siteId).then(function(q) {\n                var state = $mmQuestion.getState(q.state);\n                question.state = q.state;\n                question.status = $translate.instant('mm.question.' + state.status);\n            }).catch(function() {\n                // Question not found.\n            }));\n        });\n        return $q.all(promises).then(function() {\n            return questions;\n        });\n    };\n\n    /**\n     * Process an attempt, saving its data.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#processAttempt\n     * @param  {Object} quiz          Quiz.\n     * @param  {Object} attempt       Attempt.\n     * @param  {Object} questions     Questions of the quiz. Keys should be question numbers.\n     * @param  {Object} data          Data to save.\n     * @param  {Boolean} finish       True to finish the quiz, false otherwise.\n     * @param  {String} [siteId]      Site ID. If not defined, current site.\n     * @return {Promise}              Promise resolved in success, rejected otherwise.\n     */\n    self.processAttempt = function(quiz, attempt, questions, data, finish, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var now = $mmUtil.timestamp(),\n            db;\n\n        return $mmSitesManager.getSite(siteId).then(function(site) {\n            db = site.getDb();\n\n            // Check if an attempt already exists.\n            return self.getAttemptById(attempt.id, siteId).catch(function() {\n                // Attempt doesn't exist, create a new entry.\n                return {\n                    quizid: quiz.id,\n                    userid: attempt.userid,\n                    id: attempt.id,\n                    courseid: quiz.course,\n                    timecreated: now,\n                    attempt: attempt.attempt,\n                    currentpage: attempt.currentpage\n                };\n            });\n        }).then(function(entry) {\n            // Save attempt in DB.\n            entry.timemodified = now;\n            entry.finished = !!finish;\n\n            return db.insert(mmaModQuizAttemptsStore, entry);\n        }).then(function() {\n            // Attempt has been saved, now we need to save the answers.\n            return self.saveAnswers(quiz, attempt, questions, data, now, siteId);\n        });\n    };\n\n    /**\n     * Remove an attempt and its answers from local DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#removeAttemptAndAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when finished.\n     */\n    self.removeAttemptAndAnswers = function(attemptId, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var promises = [];\n\n        // Remove stored answers and questions.\n        promises.push($mmQuestion.removeAttemptAnswers(mmaModQuizComponent, attemptId, siteId));\n        promises.push($mmQuestion.removeAttemptQuestions(mmaModQuizComponent, attemptId, siteId));\n\n        // Remove the attempt.\n        promises.push($mmSitesManager.getSite(siteId).then(function(site) {\n            return site.getDb().remove(mmaModQuizAttemptsStore, attemptId);\n        }));\n\n        return $q.all(promises);\n    };\n\n    /**\n     * Remove a question and its answers from local DB.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#removeQuestionAndAnswers\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {Number} slot      Question slot.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when finished.\n     */\n    self.removeQuestionAndAnswers = function(attemptId, slot, siteId) {\n        siteId = siteId || $mmSite.getId();\n\n        var promises = [];\n\n        promises.push($mmQuestion.removeQuestion(mmaModQuizComponent, attemptId, slot, siteId));\n        promises.push($mmQuestion.removeQuestionAnswers(mmaModQuizComponent, attemptId, slot, siteId));\n\n        return $q.all(promises);\n    };\n\n    /**\n     * Save an attempt's answers and calculate state for questions modified.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#saveAnswers\n     * @param  {Object} quiz      Quiz.\n     * @param  {Object} attempt   Attempt.\n     * @param  {Object} questions Questions of the quiz. Keys should be question slots.\n     * @param  {Object} answers   Answers to save.\n     * @param  {Number} [timemod] Time modified to set in the answers. If not defined, current time.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved when done.\n     */\n    self.saveAnswers = function(quiz, attempt, questions, answers, timemod, siteId) {\n        siteId = siteId || $mmSite.getId();\n        timemod = timemod || $mmUtil.timestamp();\n\n        var promises = [],\n            questionsWithAnswers = {},\n            newStates = {};\n\n        // Classify the answers in each question.\n        angular.forEach(answers, function(value, name) {\n            var slot = $mmQuestion.getQuestionSlotFromName(name),\n                nameWithoutPrefix = $mmQuestion.removeQuestionPrefix(name);\n\n            if (questions[slot]) {\n                if (!questionsWithAnswers[slot]) {\n                    questionsWithAnswers[slot] = questions[slot];\n                    questionsWithAnswers[slot].answers = {};\n                }\n                questionsWithAnswers[slot].answers[nameWithoutPrefix] = value;\n            }\n        });\n\n        // First determine the new status of each question. We won't save the new state yet.\n        angular.forEach(questionsWithAnswers, function(question) {\n            promises.push($mmQuestionBehaviourDelegate.determineQuestionState(\n                        quiz.preferredbehaviour, mmaModQuizComponent, attempt.id, question, siteId).then(function(state) {\n                if (state) {\n                    newStates[question.slot] = state.name;\n                }\n            }));\n        });\n\n        return $q.all(promises).then(function() {\n            // Now save the answers.\n            return $mmQuestion.saveAnswers(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, answers, timemod, siteId);\n        }).then(function() {\n            // Answers have been saved, now we can save the questions with the states.\n            promises = [];\n            angular.forEach(newStates, function(state, slot) {\n                var question = questionsWithAnswers[slot];\n                promises.push(\n                    $mmQuestion.saveQuestion(mmaModQuizComponent, quiz.id, attempt.id, attempt.userid, question, state, siteId)\n                );\n            });\n            return $mmUtil.allPromises(promises).catch(function() {\n                // Ignore errors when saving question state.\n                $log.error('Error saveQuestion');\n            });\n        });\n    };\n\n    /**\n     * Set attempt's current page.\n     *\n     * @module mm.addons.mod_quiz\n     * @ngdoc method\n     * @name $mmaModQuizOffline#setAttemptCurrentPage\n     * @param  {Number} attemptId Attempt ID.\n     * @param  {Number} page      Page to set.\n     * @param  {String} [siteId]  Site ID. If not defined, current site.\n     * @return {Promise}          Promise resolved in success, rejected otherwise.\n     */\n    self.setAttemptCurrentPage = function(attemptId, page, siteId) {\n        siteId = siteId || $mmSite.getId();\n        var entry;\n\n        // Check if an attempt already exists.\n        return self.getAttemptById(attemptId, siteId).then(function(e) {\n            entry = e;\n            return $mmSitesManager.getSite(siteId);\n        }).then(function(site) {\n            // Save attempt in DB.\n            entry.currentpage = page;\n            return site.getDb().insert(mmaModQuizAttemptsStore, entry);\n        });\n    };\n\n    return self;\n});\n",
-			"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz_offline.js",
-			"file_size": 15504,
-			"file_write_time": 131318244909785745,
+			"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
 			"settings":
 			{
-				"buffer_size": 15096,
+				"buffer_size": 3747,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/prefetch_handler.js",
+			"settings":
+			{
+				"buffer_size": 25644,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "www/addons/mod/quiz/services/quiz_offline.js",
+			"settings":
+			{
+				"buffer_size": 16257,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -437,7 +534,7 @@
 			"file": "www/core/components/question/services/question.js",
 			"settings":
 			{
-				"buffer_size": 24774,
+				"buffer_size": 24776,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -558,9 +655,16 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/accessrules",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/accessrules/offlineattempts",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/angle",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/coordinates",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/gapselect",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/numerical",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/shortanswer",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/contentlinks",
@@ -575,6 +679,24 @@
 	],
 	"file_history":
 	[
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/coordinates/main.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/coordinates/handlers.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/coordinates/directive.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/sync.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/index.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/attempt.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/accessrulesdelegate.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/build/mm.bundle.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/components/photouploader/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/components/question/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/components/photouploader/controllers/picker.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/photouploader/services/helper.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers/picker.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/photouploader/lang/pt.json",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lang/pt.json",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/addons/mod/quiz/services/quiz_offline.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz_offline.js",
+		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/addons/mod/quiz/services/quiz.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/lib/util.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/helper.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/lib/sitesmanager.js",
@@ -583,8 +705,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/services/delegate.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/photouploader/controllers/picker.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/template.html",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/build/mm.bundle.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/services/quiz_offline.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/ios/www/core/lib/sitesmanager.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/contentlinks/main.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/question/directives/question.js",
@@ -598,8 +718,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/templates/player.html",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/player.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/sitesfactory.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/attempt.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/mod/quiz/controllers/index.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/lib/init.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/platforms/android/assets/www/core/lib/init.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/main.js",
@@ -607,7 +725,6 @@
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/addons/qtype/essay/handlers.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/helper.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/fileuploader.js",
-		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/controllers/picker.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/directives/onchange.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/services/delegate.js",
 		"/C/Users/ASUS/Documents/GitHub/moodlemobile2/www/core/components/fileuploader/main.js",
@@ -689,14 +806,7 @@
 		"/C/xampp/htdocs/moodle/lib/setuplib.php",
 		"/C/xampp/htdocs/moodle/index.php",
 		"/C/xampp/htdocs/moodle/config.php",
-		"/C/xampp/htdocs/moodle/question/engine/bank.php",
-		"/C/xampp/htdocs/moodle/question/engine/renderer.php",
-		"/C/xampp/htdocs/rascunho/distancia.php",
-		"/C/xampp/htdocs/rascunho/rascunho.sublime-project",
-		"/C/xampp/htdocs/rascunho/rascunho.html",
-		"/C/Users/ASUS/AppData/Roaming/Sublime Text 3/Packages/Xdebug Client/Xdebug.sublime-settings",
-		"/C/xampp/htdocs/rascunho/teste2.php",
-		"/C/xampp/htdocs/rascunho/teste3.php"
+		"/C/xampp/htdocs/moodle/question/engine/bank.php"
 	],
 	"find":
 	{
@@ -707,6 +817,8 @@
 		"height": 117.0,
 		"where_history":
 		[
+			"<current file>",
+			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www\\addons",
 			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www",
 			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2",
 			"C:\\Users\\ASUS\\Documents\\GitHub\\moodlemobile2\\www"
@@ -714,9 +826,46 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"angle",
+			"Angle",
+			"angle",
+			"Angle",
+			"angle",
+			"numerical",
+			"Numerical",
+			"angle",
+			"Angle",
+			"Numerical",
+			"numerical",
+			"input.name",
+			"successUploading(",
+			"preflightData",
+			"gatherPreflightData",
+			"scope.preflightData =",
+			"scope.preflightData",
+			"quizSyncTime",
+			"quizAccessInfo",
+			"checkPreflightData",
+			"check",
+			"preflightData",
+			"getFixedPreflightData",
+			"mmaModQuizAccessRulesDelegate",
+			"$cordovaCamera.getPicture(options).then(function(path)",
+			"quizSyncTime",
+			"attempt",
+			"uploadIm",
+			"allowOffline",
+			"uploadMethods",
+			"errormustbeonlinetoupload",
+			"online",
+			"log",
+			"saveAnswers",
+			"processOff",
+			"getAttemptSummaryCacheKey",
+			"offlin",
 			"getAttemptSummaryCacheKey",
 			"showError(",
 			"showError",
@@ -807,44 +956,7 @@
 			"checkCh",
 			"History",
 			"getAnswers",
-			"getAnser",
-			"document.createElement",
-			"getAttemptDa",
-			"log",
-			"formName",
-			"mmaModQuizAutoSave",
-			"mma-mod_quiz-player-form",
-			"History",
-			"PTC",
-			"form",
-			"item-text-wrap",
-			"handler.controller",
-			"cache",
-			"sav",
-			"save",
-			"log",
-			"$log",
-			"mmFileUploaderPickerCtrl",
-			"loadPage",
-			"getAnswers",
-			"mma-qtype-essay",
-			"require(",
-			"require",
-			"ionicHistory",
-			"stateP",
-			"$ionicHistory",
-			"$state.go",
-			"mmFileUploaderPickerCtrl",
-			"file",
-			"$stateProvider.state",
-			"mmFileUploaderPickerCtrl",
-			"$stateProvider",
-			"$stateParams",
-			"tryin",
-			"upload",
-			"fileUploaded",
-			"filePickerDeferred",
-			"camera"
+			"getAnser"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -852,6 +964,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			"coordinates",
+			"Coordinates",
+			"coordinates",
+			"Coordinates",
+			"angle",
+			"Angle",
+			"angle",
 			" $log"
 		],
 		"reverse": false,
@@ -863,7 +982,7 @@
 	"groups":
 	[
 		{
-			"selected": 14,
+			"selected": 20,
 			"sheets":
 			[
 				{
@@ -893,7 +1012,7 @@
 						"translation.y": 1584.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 30,
 					"type": "text"
 				},
 				{
@@ -923,41 +1042,11 @@
 						"translation.y": 2191.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "platforms/android/assets/www/core/components/question/services/helper.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 38727,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15495,
-								15495
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 9927.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "www/addons/qtype/essay/template.html",
 					"semi_transient": false,
 					"settings":
@@ -980,14 +1069,218 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 648.0,
+						"translation.y": 360.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "www/core/components/photouploader/controllers/picker.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7118,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5921,
+								5938
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2894.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "www/addons/qtype/numerical/directive.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1137,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 414.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "www/addons/qtype/numerical/handlers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4207,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1199,
+								1199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 708.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "www/addons/qtype/numerical/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 826,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "www/addons/qtype/shortanswer/template.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 649,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								534,
+								544
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "www/core/components/photouploader/services/helper.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23906,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14106,
+								14106
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7214.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "www/core/components/photouploader/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1742,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 288.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 10,
 					"file": "www/core/components/photouploader/directives/onchange.js",
 					"semi_transient": false,
 					"settings":
@@ -1008,27 +1301,27 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 267.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "www/core/components/photouploader/services/helper.js",
+					"buffer": 11,
+					"file": "www/core/lib/fs.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23905,
+						"buffer_size": 45710,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								41597,
+								41597
 							]
 						],
 						"settings":
@@ -1037,15 +1330,15 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 72.0,
+						"translation.x": 0.0,
+						"translation.y": 28910.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 12,
 					"file": "www/core/components/photouploader/services/photouploader.js",
 					"semi_transient": false,
 					"settings":
@@ -1068,14 +1361,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 936.0,
+						"translation.y": 1944.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 13,
 					"file": "www/core/lib/sitesmanager.js",
 					"semi_transient": false,
 					"settings":
@@ -1101,11 +1394,11 @@
 						"translation.y": 14054.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 25,
+					"stack_index": 34,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 14,
 					"file": "www/core/lib/sitesfactory.js",
 					"semi_transient": false,
 					"settings":
@@ -1131,11 +1424,11 @@
 						"translation.y": 14159.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 15,
 					"file": "platforms/android/assets/www/core/lib/ws.js",
 					"semi_transient": false,
 					"settings":
@@ -1158,44 +1451,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3398.0,
+						"translation.y": 6278.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "www/core/components/fileuploader/controllers/picker.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7070,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4694,
-								4694
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2318.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
+					"buffer": 16,
 					"file": "www/addons/mod/quiz/controllers/player.js",
 					"semi_transient": false,
 					"settings":
@@ -1207,8 +1470,8 @@
 						"selection":
 						[
 							[
-								11065,
-								11065
+								11129,
+								11148
 							]
 						],
 						"settings":
@@ -1221,24 +1484,24 @@
 						"translation.y": 5894.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 17,
 					"file": "www/addons/mod/quiz/services/quiz.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 92890,
+						"buffer_size": 93608,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6671,
-								6680
+								4006,
+								4025
 							]
 						],
 						"settings":
@@ -1247,15 +1510,15 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 47.0,
-						"translation.y": 2774.0,
+						"translation.x": 157.0,
+						"translation.y": 1958.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 18,
 					"file": "www/core/components/question/services/helper.js",
 					"semi_transient": false,
 					"settings":
@@ -1267,8 +1530,8 @@
 						"selection":
 						[
 							[
-								22246,
-								22268
+								20770,
+								20770
 							]
 						],
 						"settings":
@@ -1278,27 +1541,55 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 14894.0,
+						"translation.y": 13609.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
-					"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz.js",
+					"buffer": 19,
+					"file": "www/addons/qtype/angle/directive.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 92890,
+						"buffer_size": 1113,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24537,
-								24537
+								630,
+								635
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 456.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "www/addons/qtype/angle/handlers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2705,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2682,
+								2682
 							]
 						],
 						"settings":
@@ -1308,14 +1599,42 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 13694.0,
+						"translation.y": 1942.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 21,
+					"file": "www/addons/qtype/angle/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 810,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								762,
+								762
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 20.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
 					"file": "www/addons/mod/quiz/services/quiz_online.js",
 					"semi_transient": false,
 					"settings":
@@ -1341,24 +1660,24 @@
 						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
+					"buffer": 23,
+					"file": "www/addons/mod/quiz/services/quiz_sync.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3287,
+						"buffer_size": 17332,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								12350,
+								12363
 							]
 						],
 						"settings":
@@ -1367,15 +1686,15 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 1800.0,
+						"translation.x": 76.0,
+						"translation.y": 5702.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
+					"buffer": 24,
 					"file": "www/addons/mod/quiz/accessrules/offlineattempts/directive.js",
 					"semi_transient": false,
 					"settings":
@@ -1396,27 +1715,27 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 360.0,
+						"translation.y": 51.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
-					"file": "platforms/android/assets/www/addons/mod/quiz/services/quiz_offline.js",
+					"buffer": 25,
+					"file": "www/addons/mod/quiz/accessrules/offlineattempts/handlers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15096,
+						"buffer_size": 3747,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8179,
-								8179
+								2070,
+								2070
 							]
 						],
 						"settings":
@@ -1426,27 +1745,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7694.0,
+						"translation.y": 1085.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
-					"file": "www/core/components/question/services/question.js",
+					"buffer": 26,
+					"file": "www/addons/mod/quiz/services/prefetch_handler.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24774,
+						"buffer_size": 25644,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23085,
-								23089
+								24198,
+								24211
 							]
 						],
 						"settings":
@@ -1455,15 +1774,75 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 14.0,
-						"translation.y": 8991.0,
+						"translation.x": 0.0,
+						"translation.y": 13031.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
+					"buffer": 27,
+					"file": "www/addons/mod/quiz/services/quiz_offline.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16257,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15078,
+								15078
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8856.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 26,
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"file": "www/core/components/question/services/question.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24776,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22506,
+								22507
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 15033.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 25,
+					"type": "text"
+				},
+				{
+					"buffer": 29,
 					"file": "www/core/components/question/directives/question.js",
 					"semi_transient": false,
 					"settings":
@@ -1489,11 +1868,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 33,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 30,
 					"file": "www/core/components/question/templates/question.html",
 					"semi_transient": false,
 					"settings":
@@ -1517,7 +1896,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 27,
 					"type": "text"
 				}
 			]
@@ -1527,7 +1906,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 22,
+					"buffer": 31,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1551,11 +1930,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 32,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
+					"buffer": 32,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1579,7 +1958,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 28,
 					"type": "text"
 				}
 			]
@@ -1589,7 +1968,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 24,
+					"buffer": 33,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1613,11 +1992,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 29,
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 34,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1642,7 +2021,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 31,
 					"type": "text"
 				}
 			]

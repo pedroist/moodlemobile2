@@ -99,14 +99,15 @@ angular.module('mm.core.photouploader')
 
     // Upload media.
     $scope.upload = function(type, param) {
-        if (!allowOffline && !$mmApp.isOnline()) {
+        /*if (!allowOffline && !$mmApp.isOnline()) {
             $mmUtil.showErrorModal('mm.photouploader.errormustbeonlinetoupload', true);
         } else {
+        */
             if (typeof(uploadMethods[type]) !== 'undefined') {
                 $log.debug("PTC: core/components/photouploader/controllers/picker.js upload() line 88");
                 uploadMethods[type](param, maxSize, upload).then(successUploading, errorUploading);
             }
-        }
+        /*}*/
     };
 
     // Upload a file selected with input type="file".

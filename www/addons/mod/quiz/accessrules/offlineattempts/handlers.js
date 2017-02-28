@@ -21,7 +21,7 @@ angular.module('mm.addons.mod_quiz')
  * @ngdoc service
  * @name $mmaQuizAccessOfflineAttemptsHandler
  */
-.factory('$mmaQuizAccessOfflineAttemptsHandler', function(mmaModQuizSyncTime) {
+.factory('$mmaQuizAccessOfflineAttemptsHandler', function(mmaModQuizSyncTime, $log) {
 
     var self = {};
 
@@ -51,6 +51,12 @@ angular.module('mm.addons.mod_quiz')
         if (!attempt) {
             return true;
         }
+
+        $log.debug("PTC mod/quiz/accessrules/offlineattempts/handlers.js isPreflightCheckRequired() prefetch: "
+                + JSON.stringify(prefetch, null , 4));
+        $log.debug("PTC mod/quiz/accessrules/offlineattempts/handlers.js isPreflightCheckRequired() "
+                + "Date().getTime() - mmaModQuizSyncTime > attempt.quizSyncTime: "
+                + new Date().getTime() + " - " + mmaModQuizSyncTime + " > " + attempt.quizSyncTime);
 
         // Show warning if last sync was a while ago.
         return new Date().getTime() - mmaModQuizSyncTime > attempt.quizSyncTime;
