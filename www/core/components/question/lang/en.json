@@ -12,6 +12,8 @@
 	"incorrect": "Incorrect",
 	"information": "Information",
 	"invalidanswer": "Incomplete answer",
+	"latitude": "Latitude",
+	"longitude": "Longitude",
 	"notanswered": "Not answered",
 	"notyetanswered": "Not yet answered",
 	"partiallycorrect": "Partially correct",

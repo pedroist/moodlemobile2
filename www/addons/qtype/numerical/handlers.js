@@ -21,7 +21,7 @@ angular.module('mm.addons.qtype_numerical')
  * @ngdoc service
  * @name $mmaQtypeNumericalHandler
  */
-.factory('$mmaQtypeNumericalHandler', function($mmUtil) {
+.factory('$mmaQtypeNumericalHandler', function($mmUtil, $log) {
 
     var self = {};
 
@@ -33,6 +33,7 @@ angular.module('mm.addons.qtype_numerical')
      * @return {Mixed}           True if complete, false if not complete, -1 if cannot determine.
      */
     self.isCompleteResponse = function(question, answers) {
+         $log.debug("PTC: numerical handlers isCompleteResponse()");
         if (!self.isGradableResponse(question, answers) || !self.validateUnits(answers['answer'])) {
             return false;
         }
@@ -58,6 +59,7 @@ angular.module('mm.addons.qtype_numerical')
      * @return {Mixed}           True if gradable, false if not gradable, -1 if cannot determine.
      */
     self.isGradableResponse = function(question, answers) {
+        $log.debug("PTC: numerical handlers isGradableResponse()");
         return answers['answer'] || answers['answer'] === '0' || answers['answer'] === 0;
     };
 

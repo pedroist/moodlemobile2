@@ -1,0 +1,11 @@
+<section class="list" ng-if="question.text || question.text === ''">
+    <div class="item item-text-wrap">
+        <p><mm-format-text watch="true" class="mm-content-with-float" component="{{component}}" component-id="{{componentId}}">{{ question.text }}</mm-format-text></p>
+    </div>
+    <ion-input class="item item-input" ng-class='{"mm-question-answer-correct": inputLat.isCorrect === 1, "mm-question-answer-incorrect": inputLat.isCorrect === 0}'>
+        <input type="text" placeholder="{{ 'mm.question.latitude' | translate }}" name="{{inputLat.name}}" value="{{inputLat.value}}" autocorrect="off" ng-disabled="inputLat.readOnly" >
+    </ion-input>
+    <ion-input class="item item-input" ng-class='{"mm-question-answer-correct": inputLon.isCorrect === 1, "mm-question-answer-incorrect": inputLon.isCorrect === 0}'>
+        <input type="text" placeholder="{{ 'mm.question.longitude' | translate }}" name="{{inputLon.name}}" value="{{inputLon.value}}" autocorrect="off" ng-disabled="inputLon.readOnly" >
+    </ion-input>
+</section>

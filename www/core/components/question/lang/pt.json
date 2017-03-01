@@ -1,10 +1,25 @@
 {
     "answer": "Resposta",
+    "answersaved": "Resposta guardada",
+	"certainty": "Certeza",
     "complete": "Completo",
     "correct": "Correto",
+    "errorattachmentsnotsupported": "A aplicação ainda não suporta anexos às respostas.",
+	"errorinlinefilesnotsupported": "A aplicação ainda não suporta ficheiros.",
+	"errorquestionnotsupported": "Este tipo de questão não é ainda suportado pela aplicação: {{$a}}.",
     "feedback": "Comentários",
+    "howtodraganddrop": "Clique para selecionar e arraste.",
+    "information": "Informação",
+	"invalidanswer": "Resposta incompleta",
     "incorrect": "Incorreto",
+    "latitude": "Latitude",
+	"longitude": "Longitude",
     "notanswered": "Ainda não respondeu",
     "notyetanswered": "Ainda não respondeu",
-    "partiallycorrect": "Parcialmente correto"
+    "partiallycorrect": "Parcialmente correto",
+    "partiallycorrect": "Partially correct",
+	"questionmessage": "Questão {{$a}}: {{$b}}",
+	"questionno": "Questão {{$a}}",
+	"requiresgrading": "Necessita de avaliação.",
+	"unknown": "Impossível determinar o estado."
 }

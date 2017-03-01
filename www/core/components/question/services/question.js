@@ -441,6 +441,7 @@ angular.module('mm.core.question')
      * @return {Mixed}          True if complete, false if not complete, -1 if cannot determine.
      */
     self.isCompleteResponse = function(question, answers) {
+        $log.debug("PTC: question/services/question.js isCompleteResponse()");
         return $mmQuestionDelegate.isCompleteResponse(question, answers);
     };
 
