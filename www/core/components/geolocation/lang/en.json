@@ -1,5 +1,4 @@
 {
-    "angle": "Angle in degrees",
-    "measureangle": "Measure angle",
+    "getcoordinates": "Get location",
     "ok": "Ok"
 }

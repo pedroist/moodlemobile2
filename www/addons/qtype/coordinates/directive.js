@@ -67,6 +67,13 @@ angular.module('mm.addons.qtype_coordinates')
 	            } else if (inputLon.className.indexOf('correct') >= 0) {
 	                scope.inputLon.isCorrect = 1;
 	            }
+
+	            scope.review = false;
+	            status = scope.question.status;
+	            if(status === "Not answered" || status === "Correct" 
+	            	|| status === "Incorrect"){
+	            		scope.review = true;
+	            }
 	        }
         }
     };

@@ -8,4 +8,22 @@
     <ion-input class="item item-input" ng-class='{"mm-question-answer-correct": inputLon.isCorrect === 1, "mm-question-answer-incorrect": inputLon.isCorrect === 0}'>
         <input type="text" placeholder="{{ 'mm.question.longitude' | translate }}" name="{{inputLon.name}}" value="{{inputLon.value}}" autocorrect="off" ng-disabled="inputLon.readOnly" >
     </ion-input>
+    <div class="item" ng-if="!review" style="height: 70px">
+	    <ion-view view-title="{{title}}" ng-controller="mmOrientationMeasurerCtrl">
+				<ion-pane mm-state-class>
+					<div class="button button-block button-positive" ng-click="measure()">
+						{{ 'mm.geolocation.getcoordinates' | translate }}
+					</div>
+				</ion-pane>
+		</ion-view>
+	</div>
+	<div class="item" ng-if="!review" style="height: 70px">
+	    <ion-view view-title="{{title}}" ng-controller="mmOrientationMeasurerCtrl">
+				<ion-pane mm-state-class>
+					<div class="button button-block button-positive" ng-click="stop()">
+						{{ 'mm.geolocation.ok' | translate }}
+					</div>
+				</ion-pane>
+		</ion-view>
+	</div>
 </section>
