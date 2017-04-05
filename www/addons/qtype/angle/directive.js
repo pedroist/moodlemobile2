@@ -27,7 +27,7 @@ angular.module('mm.addons.qtype_angle')
     return {
         restrict: 'A',
         priority: 100,
-        templateUrl: 'addons/qtype/shortanswer/template.html',
+        templateUrl: 'addons/qtype/angle/template.html',
         link: function(scope) {
 	        var questionEl = $mmQuestionHelper.directiveInit(scope, $log);
 	        if (questionEl) {
@@ -35,6 +35,7 @@ angular.module('mm.addons.qtype_angle')
 
 	            // Get the input element.
 	            input = questionEl.querySelector('input[type="text"][name*=angle_resp]');
+
 	            if (!input) {
 	                $log.warn('Aborting because couldn\'t find input.', question.name);
 	                return $mmQuestionHelper.showDirectiveError(scope);
@@ -52,6 +53,13 @@ angular.module('mm.addons.qtype_angle')
 	                scope.input.isCorrect = 0;
 	            } else if (input.className.indexOf('correct') >= 0) {
 	                scope.input.isCorrect = 1;
+	            }
+
+	            scope.review = false;
+	            status = scope.question.status;
+	            if(status === "Not answered" || status === "Correct" 
+	            	|| status === "Incorrect"){
+	            		scope.review = true;
 	            }
 	        }
 	    }

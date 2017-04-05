@@ -65,7 +65,7 @@ angular.module('mm.core.question')
     self.directiveInit = function(scope, log) {
         var question = scope.question,
             questionEl;
-
+        log.debug("mmQuestionHelper.directiveInit() question: " +  JSON.stringify(question.status,null,4));
         if (!question) {
             log.warn('Aborting because of no question received.');
             return self.showDirectiveError(scope);

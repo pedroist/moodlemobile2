@@ -12,51 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-angular.module('mm.core.photouploader')
+angular.module('mm.core.orientationmeasurer')
 
 /**
- * Service to interact with addons to be shown in the file picker to upload a file.
+ * Service to interact with addons to be shown in the orientation measurer to measure an angle.
+ * Used in qtype angle.
  *
- * @module mm.core.photouploader
+ * @module mm.core.orientationmeasurer
  * @ngdoc provider
- * @name $mmPhotoUploaderDelegate
+ * @name $mmOrientationMeasurerDelegate
  */
-.provider('$mmPhotoUploaderDelegate', function() {
+.provider('$mmOrientationMeasurerDelegate', function() {
     var handlers = {},
         self = {};
 
     /**
-     * Register a photo picker handler.
+     * Register a orientation measurer handler.
      *
-     * @module mm.core.photouploader
+     * @module mm.core.orientationmeasurer
      * @ngdoc method
-     * @name $mmPhotoUploaderDelegate#registerHandler
+     * @name $mmOrientationMeasurerDelegate#registerHandler
      * @param {String} addon The addon's name (mmaFiles, mmaMessages, ...)
      * @param {String|Object|Function} handler Must be resolved to an object defining the following functions. Or to a function
      *                           returning an object defining these functions. See {@link $mmUtil#resolveObject}.
-     *                             - isEnabled (Boolean|Promise) Whether or not the handler is enabled on a site level.
-     *                                                           When using a promise, it should return a boolean.
-     *                             - getController (Object) Returns the object that will act as controller. This is the list of
-     *                                     expected scope variables:
-     *                                         * class Optional. Class to add to the handler's row.
-     *                                         * title Required. Title to show in the handler's row.
-     *                                         * icon Optional. Icon to show in the handler's row.
-     *                                         * action Required. A function called when the handler is clicked, receives maxSize
-     *                                             as parameter. It must return an object - or a promise resolved with an object -
-     *                                             containing these properties:
-     *                                                 - uploaded Boolean. Whether the handler uploaded the file.
-     *                                                 - path String. Ignored if uploaded=true. The path of the file to upload.
-     *                                                 - fileEntry Object. Ignored if uploaded=true. The fileEntry to upload.
-     *                                                 - delete Boolean. Ignored if uploaded=true. Whether the file should be
-     *                                                          deleted after upload.
-     *                                                 - result Object. Ignored if uploaded=false. The result of the upload.
+     *                             
      */
     self.registerHandler = function(addon, handler, priority) {
         if (typeof handlers[addon] !== 'undefined') {
-            console.log("$mmPhotoUploaderDelegate: Addon '" + handlers[addon].addon + "' already registered as handler");
+            console.log("$mmOrientationMeasurerDelegate: Addon '" + handlers[addon].addon + "' already registered as handler");
             return false;
         }
-        console.log("$mmPhotoUploaderDelegate: Registered addon '" + addon + "' as handler.");
+        console.log("$mmOrientationMeasurerDelegate: Registered addon '" + addon + "' as handler.");
         handlers[addon] = {
             addon: addon,
             handler: handler,
@@ -71,14 +57,14 @@ angular.module('mm.core.photouploader')
             self = {},
             lastUpdateHandlersStart;
 
-        $log = $log.getInstance('$mmPhotoUploaderDelegate');
+        $log = $log.getInstance('$mmOrientationMeasurerDelegate');
 
         /**
          * Clear current site handlers. Reserved for core use.
          *
-         * @module mm.core.photouploader
+         * @module mm.core.orientationmeasurer
          * @ngdoc method
-         * @name $mmPhotoUploaderDelegate#clearSiteHandlers
+         * @name $mmOrientationMeasurerDelegate#clearSiteHandlers
          * @return {Void}
          */
         self.clearSiteHandlers = function() {
@@ -88,9 +74,9 @@ angular.module('mm.core.photouploader')
         /**
          * Get the handlers for the current site.
          *
-         * @module mm.core.photouploader
+         * @module mm.core.orientationmeasurer
          * @ngdoc method
-         * @name $mmPhotoUploaderDelegate#getHandlers
+         * @name $mmOrientationMeasurerDelegate#getHandlers
          * @return {Promise} Resolved with an array of objects containing 'priority' and 'controller'.
          */
         self.getHandlers = function() {
@@ -110,9 +96,9 @@ angular.module('mm.core.photouploader')
          * Check if a time belongs to the last update handlers call.
          * This is to handle the cases where updateHandlers don't finish in the same order as they're called.
          *
-         * @module mm.core.photouploader
+         * @module mm.core.orientationmeasurer
          * @ngdoc method
-         * @name $mmPhotoUploaderDelegate#isLastUpdateCall
+         * @name $mmOrientationMeasurerDelegate#isLastUpdateCall
          * @param  {Number}  time Time to check.
          * @return {Boolean}      True if equal, false otherwise.
          */
@@ -126,9 +112,9 @@ angular.module('mm.core.photouploader')
         /**
          * Update the handler for the current site.
          *
-         * @module mm.core.photouploader
+         * @module mm.core.orientationmeasurer
          * @ngdoc method
-         * @name $mmPhotoUploaderDelegate#updateHandler
+         * @name $mmOrientationMeasurerDelegate#updateHandler
          * @param  {String} addon       The addon.
          * @param  {Object} handlerInfo The handler details.
          * @param  {Number} time        Time this update process started.
@@ -171,9 +157,9 @@ angular.module('mm.core.photouploader')
         /**
          * Update the handlers for the current site.
          *
-         * @module mm.core.photouploader
+         * @module mm.core.orientationmeasurer
          * @ngdoc method
-         * @name $mmPhotoUploaderDelegate#updateHandlers
+         * @name $mmOrientationMeasurerDelegate#updateHandlers
          * @return {Promise} Resolved when done.
          * @protected
          */

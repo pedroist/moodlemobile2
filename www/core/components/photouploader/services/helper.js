@@ -299,7 +299,7 @@ angular.module('mm.core.photouploader')
         return $cordovaCamera.getPicture(options).then(function(path) {
 			$log.debug('PTC photouploader helper: inside return $cordovaCamera.getPicture(options).then(function(path){}' );
 			$log.debug('PTC photouploader helper: path param: ' + path );
-            if (false/*upload*/) {
+            if (true/*upload*/) {
                 //GUARDAR APENAS NA DB. No process attempt aceder DB e fazer upload
 				$log.debug('PTC photouploader helper: if upload');
                 $log.debug('PTC photouploader helper: if upload2');

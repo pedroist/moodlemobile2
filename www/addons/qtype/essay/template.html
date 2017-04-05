@@ -27,7 +27,7 @@
         <!-- show attachment files already uploaded-->
         <div class="item" ng-if="attachmentsUploaded && attachmentsUploaded.length">
             <mm-file ng-repeat="attachment in attachmentsUploaded" file="attachment" component="{{component}}" component-id="{{componentId}}"></mm-file>
-         </div>
+        </div>
         <!-- "attachments id" hidden input -->
         <input ng-if="attachments" type="hidden" name="{{attachments.name}}" value="{{attachments.value}}" >
     </div>
